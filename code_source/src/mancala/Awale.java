@@ -1,4 +1,4 @@
-package mancala;
+package mancalo;
 
 //cette classe reconnait l'etat du jeu : nbr de graines, leur position dans le tableau
 public class Awale extends Jeu{
