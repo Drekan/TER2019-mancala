@@ -1,4 +1,4 @@
-package test_conflit;
+package mancala;
 
 //cette classe reconnait l'état du jeu : nbr de graines, leur position dans le tableau
 public class Awale extends Jeu{

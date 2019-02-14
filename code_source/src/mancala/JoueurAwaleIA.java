@@ -1,6 +1,6 @@
 package mancala;
 
-//les méthodes de décision seront utiliser(MiniMax, Evalution...)
+//les methodes de decision seront utiliser(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
 
 	//constructeurs :

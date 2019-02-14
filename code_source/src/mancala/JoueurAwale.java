@@ -75,7 +75,7 @@ public abstract class JoueurAwale extends Joueur{
 	}
 
 	@Override
-	public abstract int getJeu();//a redéfinir dans classe fille
+	public abstract int getJeu();//a redefinir dans classe fille
 		
 
 }

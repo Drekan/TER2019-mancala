@@ -18,21 +18,15 @@ public class Principale {
 		
 		System.out.println("nbrgraine init : " + ArbitreAwale.getPartie().getNbrGrainesEnJeu() );
 		
-		/*
-		Awale awale = new Awale("","",2);
-		awale.initialisationJeu();
-		 */
-		//int tabInt[] = {3,12,3,3,3,3,3,3,3,4,4,4};
-		/*
-		JoueurAwale joueur1 = new JoueurAwaleHumain("joueur1", 0, 1);
-		JoueurAwale joueur2 = new JoueurAwaleHumain("joueur2", 0, 2);
-		*/
-		
 		while( !ArbitreAwale.finPartie() ) {
-			
-			//System.out.println("Donner coup a jouer : ");
-			//int coupJouee = sc.nextInt();
 			int coupJoue;
+			
+			/*// Entree les coups manuellement a travers la console :
+			System.out.println(ArbitreAwale.gestionTour().getNomJoueur() +  " donner coup a jouer : ");
+			int coupJouee = sc.nextInt();
+			 */
+			
+			
 					
 			// gestion tour:
 			Random rand = new Random();
