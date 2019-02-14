@@ -12,7 +12,7 @@ public class Principale {
 		int choix = sc.nextInt();
 		GameManagerAwale ArbitreAwale = new GameManagerAwale(choix);
 		
-		System.out.println("Choisissez la difficulté ");
+		System.out.println("Choisissez la difficulte ");
 		int difficulte = sc.nextInt();
 		ArbitreAwale.lancerUneNouvellePartie(difficulte);
 		
@@ -38,14 +38,14 @@ public class Principale {
 			Random rand = new Random();
 			if( ArbitreAwale.gestionTour() == ArbitreAwale.getJoueur1()){
 				coupJoue = rand.nextInt(5 - 0 + 1) + 0;
-				System.out.println("coup joué par joueur 1 : " +  coupJoue);
+				System.out.println("coup jouee par joueur 1 : " +  coupJoue);
 				System.out.println();
 				if( ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue) )
 					ArbitreAwale.getJoueur1().jouerUnCoup(coupJoue,ArbitreAwale);
 			}
 			else {
 				coupJoue = rand.nextInt(11 - 6 + 1) + 6;
-				System.out.println("coup joué par joueur 2 : " + coupJoue);
+				System.out.println("coup jouee par joueur 2 : " + coupJoue);
 				System.out.println();
 				if( ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue) )
 					ArbitreAwale.getJoueur2().jouerUnCoup(coupJoue,ArbitreAwale);

@@ -59,6 +59,9 @@ public class GameManagerAwale extends GameManager{
 		else if(getNbrJoueursHumain() == 1) {
 			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1);
 		}
+		else if(getNbrJoueursHumain() == 2) {
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1);
+		}
 	}
 	
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
@@ -108,7 +111,7 @@ public class GameManagerAwale extends GameManager{
 		setJoueur1("joueur1");
 		setJoueur2("joueur2");
 		
-		setPartie("MonAwale","MesRègles",difficulte);
+		setPartie("MonAwale","MesRegles",difficulte);
 		this.getPartie().initialisationJeu();
 		
 	}
@@ -122,10 +125,10 @@ public class GameManagerAwale extends GameManager{
 		this.setI(getI()+1);
 	}
 	
-	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee) {//bonne case avec bonnes règles
+	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee) {//bonne case avec bonnes regles
 		//case non vide :
 		if(this.getPartie().getPlateau()[caseJouee] != 0) {
-			if(joueur.getNumeroJoueur() == 1) {
+			if( joueur.getNumeroJoueur() == 1) {
 				if( caseJouee >= 0 && caseJouee < 6 ) return true;
 			}
 			else {
@@ -136,21 +139,43 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	@Override
-	public JoueurAwale gestionTour() { //décide de qui va jouer
+	public JoueurAwale gestionTour() { //decide de qui va jouer
 		if( this.getI()%2 == 0) return this.joueur2;
 		return this.joueur1;
 	}
 	
+	public int calculSommeGrainesEnJeu(JoueurAwale joueur) {
+		int x = 0;
+		if(joueur.getNumeroJoueur() == 1) {
+			for(int i=0;i<6;i++) {
+				x+= this.getPartie().getPlateau()[i];
+			}
+		}
+		else {
+			for(int i=6;i<12;i++) {
+				x+= this.getPartie().getPlateau()[i];
+			}
+		}
+		return x;
+	}
+	
 	@Override
-	public boolean finPartie() {//dire si c'est une fin de partie et arrêter le jeu en fonction
-		if(this.getPartie().getNbrGrainesEnJeu() == 0) {
+	public boolean finPartie() {//dire si c'est une fin de partie et arreter le jeu en fonction
+		if( this.getPartie().getNbrGrainesEnJeu() <= 1 ) {
 			return true;
 		}
+		else if( gestionTour() == this.joueur1 && calculSommeGrainesEnJeu(this.joueur1) == 0 ) {
+			return true;
+		}
+		else if( gestionTour() == this.joueur2 && calculSommeGrainesEnJeu(this.joueur2) == 0 ) {
+			return true;
+		}
+		
 		return false;
 	}
 	
 	@Override
-	public void gestionTemps() {//gère le temps alloué a chaque joueur tour à tour
+	public void gestionTemps() {//gere le temps alloue a chaque joueur tour a� tour
 		
 	}
 	
@@ -158,9 +183,12 @@ public class GameManagerAwale extends GameManager{
 	public void getGagnant() {
 		int score1 = getJoueur1().getScore();
 		int score2 = getJoueur2().getScore();
-		if(score1 == score2)	System.out.println(" Score égaux ! ");
-		else if(score1 > score2)	System.out.println("  Gagnant : Joueur1 !!!");
-		else	System.out.println("  Gagnant : Joueur2 !!!");
+		if( score1 == score2 )	
+			System.out.println(" Score Egaux ! ");
+		else if( score1 > score2 )	
+			System.out.println("  Gagnant : Joueur1 !!!");
+		else	
+			System.out.println("  Gagnant : Joueur2 !!!");
 	}
 }
 
