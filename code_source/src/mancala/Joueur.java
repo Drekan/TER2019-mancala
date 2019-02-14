@@ -1,7 +1,7 @@
 package mancala;
 
 //Contient le nom du joueur, son score.
-//c'est ici que se feront les méthodes pour jouer un coup
+//c'est ici que se feront les methodes pour jouer un coup
 public abstract class Joueur {
 	private String nomJoueur;
 	private int score;
@@ -40,7 +40,7 @@ public abstract class Joueur {
 	}
 	
 	//methods :
-	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise à jour des valeurs du plateau
+	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a� jour des valeurs du plateau
 	public abstract int getJeu();// avoir le coup que le joueur a choisi
 		
 	
