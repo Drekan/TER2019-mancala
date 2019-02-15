@@ -1,6 +1,6 @@
 package mancala;
 
-//cette classe reconnait l'état du jeu : nbr de graines, leur position dans le tableau
+//cette classe reconnait l'etat du jeu : nbr de graines, leur position dans le tableau
 public class Awale extends Jeu{
 	private int nbrGrainesEnJeu;
 	private int plateau[] ;
