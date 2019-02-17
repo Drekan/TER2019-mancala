@@ -1,6 +1,7 @@
 package mancala;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 //gere le jeu en fonction des regles de l'awale
 //il enregistre aussi l'historique de la partie
@@ -22,6 +23,7 @@ public class GameManagerAwale extends GameManager{
 		super();
 		this.nbrJoueursHumain = nbrJoueursHumain;
 		this.i = 0 ;
+		this.historique = new ArrayList<int[]>();
 	}
 	//getters & setters :
 	public int getNbrJoueursHumain() {
@@ -40,6 +42,12 @@ public class GameManagerAwale extends GameManager{
 		this.historiquePlateau = historiquePlateau;
 	}
 	
+	public ArrayList<int[]> getHistorique() {
+		return this.historique;
+	}
+	public void setHistorique(ArrayList<int[]> historique) {
+		this.historique = historique;
+	}
 	public boolean isTour() {
 		return this.tour;
 	}
@@ -122,6 +130,7 @@ public class GameManagerAwale extends GameManager{
 			this.historiquePlateau[this.getI()][j] = etatActuel[j];
 		}
 		*/
+		this.historique.addAll(Arrays.asList(etatActuel));
 		this.setI(getI()+1);
 	}
 	

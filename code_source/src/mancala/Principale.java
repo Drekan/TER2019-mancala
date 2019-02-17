@@ -25,8 +25,6 @@ public class Principale {
 			System.out.println(ArbitreAwale.gestionTour().getNomJoueur() +  " donner coup a jouer : ");
 			int coupJouee = sc.nextInt();
 			 */
-			
-			
 					
 			// gestion tour:
 			Random rand = new Random();
@@ -52,6 +50,8 @@ public class Principale {
 		}
 		ArbitreAwale.getGagnant();
 		
+		//Afficher Historique :
+		System.out.println(ArbitreAwale.getHistorique());
 	}
 
 }
