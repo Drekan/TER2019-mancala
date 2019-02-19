@@ -23,8 +23,8 @@ public class JoueurAwaleIA extends JoueurAwale{
 	private double H1(int numeroJoueur,int[] plateau) {
 		int nbCasesVulnerables=0;
 		
-		int debut=(numeroJoueur==0?0:6);
-		int fin=(numeroJoueur==1?6:12);
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==2?6:12);
 		
 		for(int i=debut;i<fin;i++) {
 			if(plateau[i]==1 || plateau[i]==2) {
@@ -44,8 +44,8 @@ public class JoueurAwaleIA extends JoueurAwale{
 		double nombreGraine=0;
 		double nombreGraineJoueur=0;
 		//double nombreGraineAdversaire=0;
-		int debut=(numeroJoueur==0?0:6);
-		int fin=(numeroJoueur==1?6:12);
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==2?6:12);
 		
 		for(int i=0;i<12;i++) {
 			nombreGraine+=plateau[i];
@@ -68,8 +68,8 @@ public class JoueurAwaleIA extends JoueurAwale{
 	private double H3(int numeroJoueur,int[] plateau) {
 		int nbCasesVides=0;
 		
-		int debut=(numeroJoueur==0?0:6);
-		int fin=(numeroJoueur==1?6:12);
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==2?6:12);
 		
 		for(int i=debut;i<fin;i++) {
 			if(plateau[i]==0) {
