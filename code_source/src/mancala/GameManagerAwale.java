@@ -155,17 +155,24 @@ public class GameManagerAwale extends GameManager{
 	public boolean finPartie() {//dire si c'est une fin de partie et arreter le jeu en fonction
 		if( this.getPartie().getNbrGrainesEnJeu() <= 1 ) {
 			this.ajoutGains();
+			System.out.println(" !! plus qu'une graine !! ");
 			return true;
 		}
 		else if( gestionTour() == this.joueur1 && calculSommeGrainesEnJeu(this.joueur1) == 0 ) {
 			this.ajoutGains();
+			System.out.println(" !! plus de graines a jouer pour joueur 1 !! ");
 			return true;
 		}
 		else if( gestionTour() == this.joueur2 && calculSommeGrainesEnJeu(this.joueur2) == 0 ) {
 			this.ajoutGains();
+			System.out.println(" !! plus de graines a jouer pour joueur 2 !! ");
 			return true;
 		}
-		
+		else if ( InterdictionAffamer() ) {
+			this.ajoutGains();
+			System.out.println(" !! InterdictionAffamer !! ");
+			return true;
+		}
 		return false;
 	}
 	
@@ -212,6 +219,22 @@ public class GameManagerAwale extends GameManager{
 			}
 		}
 		return CoupPossible;
+	}
+	
+	public boolean InterdictionAffamer() {
+		if ( gestionTour() == this.joueur1 && calculSommeGrainesEnJeu(this.joueur2) == 0 ) {
+			int max = this.joueur1.getMax();
+			//int min = this.joueur2.getMin();
+			int compteur = 0;
+			for( int i=this.joueur1.getMax() ; i> this.joueur2.getMin() ; i--) {
+				if( this.getPartie().getPlateau()[max] <= compteur ) {
+					return true;
+				}
+				compteur++;
+				max--;
+			}
+		}
+		return false;
 	}
 }
 
