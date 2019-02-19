@@ -51,7 +51,10 @@ public class Principale {
 		ArbitreAwale.getGagnant();
 		
 		//Afficher Historique :
-		System.out.println(ArbitreAwale.getHistorique());
+		//System.out.println(ArbitreAwale.getHistorique());
+		ArbitreAwale.afficheHistorique();
+		sc.close();
 	}
+	
 
 }

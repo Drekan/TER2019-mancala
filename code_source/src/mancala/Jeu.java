@@ -42,7 +42,7 @@ public abstract class Jeu {
 	}
 
 	//methods :
-	public abstract void initialisationJeu();//permet de tout remettre a  0
+	public abstract void initialisationJeu();//permet de tout remettre aï¿½ 0
 		
 	
 }

@@ -40,7 +40,7 @@ public abstract class Joueur {
 	}
 	
 	//methods :
-	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a  jour des valeurs du plateau
+	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise aï¿½ jour des valeurs du plateau
 	public abstract int getJeu();// avoir le coup que le joueur a choisi
 		
 	

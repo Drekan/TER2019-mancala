@@ -34,7 +34,7 @@ public class GameManagerAwale extends GameManager{
 		this.nbrJoueursHumain = nbrJoueursHumain;
 	}
 	
-	public int[][] getHistoriquePlateau() {	
+	public int[][] get() {	
 		return this.historiquePlateau;
 	}
 	
@@ -130,7 +130,8 @@ public class GameManagerAwale extends GameManager{
 			this.historiquePlateau[this.getI()][j] = etatActuel[j];
 		}
 		*/
-		this.historique.addAll(Arrays.asList(etatActuel));
+		//this.historique.addAll(Arrays.asList(etatActuel));
+		this.historique.add(0,etatActuel.clone());
 		this.setI(getI()+1);
 	}
 	
@@ -187,7 +188,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	@Override
-	public void gestionTemps() {//gere le temps alloue a chaque joueur tour a  tour
+	public void gestionTemps() {//gere le temps alloue a chaque joueur tour aï¿½ tour
 		
 	}
 	
@@ -205,6 +206,22 @@ public class GameManagerAwale extends GameManager{
 	public void ajoutGains() {
 		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2) );
 		this.joueur1.setScore( this.joueur1.getScore() + calculSommeGrainesEnJeu(this.joueur1) );
+	}
+	
+	public void afficheHistorique() {
+		int taille=historique.size();
+		int[] current;
+		for(int i=0;i<taille;i++) {
+			current=historique.get(i);
+			for(int j=11;j>5;j--) {
+				System.out.print(current[j]+"|");
+			}
+			System.out.println();
+			for(int j=0;j<6;j++) {
+				System.out.print(current[j]+"|");
+			}
+			System.out.println();System.out.println();
+		}
 	}
 }
 
