@@ -4,8 +4,8 @@ package mancala;
 public class JoueurAwaleIA extends JoueurAwale{
 
 	//constructeurs :
-	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur) {
-		super(nomJoueur, score, numeroJoueur);
+	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max) {
+		super(nomJoueur, score, numeroJoueur,min,max);
 	}
 	
 	//methods:
