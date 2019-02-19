@@ -106,4 +106,13 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return valeurH4;
 		
 	}
+	
+	
+	/* Heuristique 5:
+	 * L'objectif de cet heuristique est de minimiser
+	 * le score de l'adversaire
+	 */
+	private double H3(int scoreJoueur,int scoreAdversaire) {
+		return (double)(scoreJoueur)/(double)(scoreJoueur+scoreAdversaire);
+	}
 }
