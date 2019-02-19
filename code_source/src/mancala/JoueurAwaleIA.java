@@ -35,4 +35,25 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return 1-((double)(nbCasesVulnerables)*1/6);
 		
 	}
+	
+	private double H2(int numeroJoueur,int[] plateau) {
+		double nombreGraine=0;
+		double nombreGraineJoueur=0;
+		//double nombreGraineAdversaire=0;
+		int debut=(numeroJoueur==0?0:6);
+		int fin=(numeroJoueur==1?6:12);
+		
+		for(int i=0;i<12;i++) {
+			nombreGraine+=plateau[i];
+			
+			if(i>=debut && i<fin) {
+				nombreGraineJoueur+=plateau[i];
+			}
+			/*else {
+				nombreGraineAdversaire+=plateau[i];
+			}*/
+		}
+		
+		return (double)(nombreGraineJoueur)/(double)(nombreGraine);
+	}
 }
