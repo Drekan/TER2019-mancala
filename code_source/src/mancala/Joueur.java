@@ -6,17 +6,21 @@ public abstract class Joueur {
 	private String nomJoueur;
 	private int score;
 	private int numeroJoueur;
+	private int min;
+	private int max;
 	
 	//constructeurs :
-	public Joueur(String nomJoueur, int score, int numeroJoueur){
+	public Joueur(String nomJoueur, int score, int numeroJoueur, int min, int max){
 		this.nomJoueur = nomJoueur;
 		this.score = score;
 		this.numeroJoueur = numeroJoueur;
+		this.min = min;
+		this.max = max;
 	}
 	
 	//getters & setters :
 	public String getNomJoueur(){ 
-		return nomJoueur;
+		return this.nomJoueur;
 	}
 	
 	public void setNomJoueur(String nomJoueur){ 
@@ -24,7 +28,7 @@ public abstract class Joueur {
 	}
 	
 	public int getScore(){ 
-		return score;
+		return this.score;
 	}
 	
 	public void setScore(int score){ 
@@ -39,8 +43,24 @@ public abstract class Joueur {
 		this.numeroJoueur = numeroJoueur;
 	}
 	
+	public int getMin() {
+		return this.min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public int getMax() {
+		return this.max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
 	//methods :
-	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise aï¿½ jour des valeurs du plateau
+	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a  jour des valeurs du plateau
 	public abstract int getJeu();// avoir le coup que le joueur a choisi
 		
 	
