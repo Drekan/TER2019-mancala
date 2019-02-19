@@ -80,4 +80,30 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return 1-((double)(nbCasesVides)*1/6);
 		
 	}
+	
+	/* Heuristique 4:
+	 * L'objectif de cet heuristique est de valoriser
+	 * les états du jeu où les graines sont à droite
+	 */
+	private double H4(int numeroJoueur,int[] plateau) {
+		int nombreGrainesJoueur=0;
+		double valeurH4=0;
+		double[] poids= {0,1/5,2/5,3/5,4/5,1};
+		
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==2?6:12);
+		
+		for(int i=debut;i<fin;i++) {
+			nombreGrainesJoueur++;
+		}
+		
+		int poidsActuel=0;
+		for(int i=debut;i<fin;i++) {
+			valeurH4+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
+			poidsActuel++;
+		}
+		
+		return valeurH4;
+		
+	}
 }
