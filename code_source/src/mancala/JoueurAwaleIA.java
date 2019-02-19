@@ -36,6 +36,10 @@ public class JoueurAwaleIA extends JoueurAwale{
 		
 	}
 	
+	/* Heuristique 2:
+	 * L'objectif de cet heuristique est de maximiser
+	 * notre nombre de graines
+	 */
 	private double H2(int numeroJoueur,int[] plateau) {
 		double nombreGraine=0;
 		double nombreGraineJoueur=0;
@@ -55,5 +59,25 @@ public class JoueurAwaleIA extends JoueurAwale{
 		}
 		
 		return (double)(nombreGraineJoueur)/(double)(nombreGraine);
+	}
+	
+	/* Heuristique 3:
+	 * L'objectif de cet heuristique est de minimiser
+	 * le nombre de cases vides
+	 */
+	private double H3(int numeroJoueur,int[] plateau) {
+		int nbCasesVides=0;
+		
+		int debut=(numeroJoueur==0?0:6);
+		int fin=(numeroJoueur==1?6:12);
+		
+		for(int i=debut;i<fin;i++) {
+			if(plateau[i]==0) {
+				nbCasesVides++;
+			}
+		}
+		
+		return 1-((double)(nbCasesVides)*1/6);
+		
 	}
 }
