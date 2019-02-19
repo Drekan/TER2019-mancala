@@ -112,7 +112,29 @@ public class JoueurAwaleIA extends JoueurAwale{
 	 * L'objectif de cet heuristique est de minimiser
 	 * le score de l'adversaire
 	 */
-	private double H3(int scoreJoueur,int scoreAdversaire) {
+	private double H5(int scoreJoueur,int scoreAdversaire) {
 		return (double)(scoreJoueur)/(double)(scoreJoueur+scoreAdversaire);
+	}
+	
+	
+	/* evaluation d'un état du jeu en fonction
+	 * de la pondération de chaque heuristique
+	 */
+	public double evalutation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
+		double[] poids= {1/2,1/2,1/2,1/2,1/2};
+		double[] heuristiques= {
+				H1(numeroJoueur,plateau),
+				H2(numeroJoueur,plateau),
+				H3(numeroJoueur,plateau),
+				H4(numeroJoueur,plateau),
+				H5(scoreJoueur,scoreAdversaire)			
+		};
+		
+		double valeurEvaluation=0;
+		for(int i=0;i<5;i++) {
+			valeurEvaluation+=heuristiques[i]*poids[i];
+		}
+		
+		return valeurEvaluation;
 	}
 }
