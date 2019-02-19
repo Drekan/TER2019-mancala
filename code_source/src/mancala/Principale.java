@@ -21,7 +21,8 @@ public class Principale {
 		while( !ArbitreAwale.finPartie() ) {
 			int coupJoue;
 			
-			/*// Entree les coups manuellement a travers la console :
+			// Entree les coups manuellement a travers la console :
+			/*
 			System.out.println(ArbitreAwale.gestionTour().getNomJoueur() +  " donner coup a jouer : ");
 			int coupJouee = sc.nextInt();
 			 */
@@ -51,10 +52,8 @@ public class Principale {
 		ArbitreAwale.getGagnant();
 		
 		//Afficher Historique :
-		//System.out.println(ArbitreAwale.getHistorique());
 		ArbitreAwale.afficheHistorique();
 		sc.close();
 	}
-	
 
 }

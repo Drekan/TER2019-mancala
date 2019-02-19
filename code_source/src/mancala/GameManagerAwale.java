@@ -8,21 +8,21 @@ import java.util.Arrays;
 public class GameManagerAwale extends GameManager{
 	
 	private int nbrJoueursHumain;
-	private int historiquePlateau[][] = null;
 	private boolean tour = true;
+	private int historiquePlateau[][] = null;
 	private ArrayList<int[]> historique;
 	
 	private JoueurAwale joueur1;
 	private JoueurAwale joueur2;
 	private Awale partie;
 
-	private int i ;
+	private int tourActuel ;
 	
 	//constructeurs :
 	public GameManagerAwale(int nbrJoueursHumain) {
 		super();
 		this.nbrJoueursHumain = nbrJoueursHumain;
-		this.i = 0 ;
+		this.tourActuel = 0 ;
 		this.historique = new ArrayList<int[]>();
 	}
 	//getters & setters :
@@ -34,7 +34,7 @@ public class GameManagerAwale extends GameManager{
 		this.nbrJoueursHumain = nbrJoueursHumain;
 	}
 	
-	public int[][] get() {	
+	public int[][] getHistoriquePlateau() {	
 		return this.historiquePlateau;
 	}
 	
@@ -62,13 +62,13 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setJoueur1(String nomJoueur) {
 		if(getNbrJoueursHumain() == 0) {
-			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1);
+			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,6);
 		}
 		else if(getNbrJoueursHumain() == 1) {
-			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1);
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,6);
 		}
 		else if(getNbrJoueursHumain() == 2) {
-			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1);
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,6);
 		}
 	}
 	
@@ -83,13 +83,13 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setJoueur2(String nomJoueur) {
 		if(getNbrJoueursHumain() == 0) {
-			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2);
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,12);
 		}
 		else if(getNbrJoueursHumain() == 1) {
-			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2);
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,12);
 		}
 		else if(getNbrJoueursHumain() == 2) {
-			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2);
+			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,12);
 		}
 	}
 	
@@ -106,12 +106,12 @@ public class GameManagerAwale extends GameManager{
 		this.partie  = new Awale(nomJeu,regles,difficulte);
 	}
 	
-	public int getI() {	
-		return i;
+	public int getTourActuel() {	
+		return this.tourActuel;
 	}
 	
-	public void setI(int i) {
-		this.i = i;
+	public void setTourActuel(int tourActuel) {
+		this.tourActuel = tourActuel;
 	}
 	
 	//methods :
@@ -125,46 +125,28 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	public void stockerEtatMouvement(int[] etatActuel) {//Historique
-		/*
-		for(int j=0;j<12;j++) {
-			this.historiquePlateau[this.getI()][j] = etatActuel[j];
-		}
-		*/
-		//this.historique.addAll(Arrays.asList(etatActuel));
 		this.historique.add(0,etatActuel.clone());
-		this.setI(getI()+1);
+		this.setTourActuel(getTourActuel()+1);
 	}
 	
 	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee) {//bonne case avec bonnes regles
 		//case non vide :
-		if(this.getPartie().getPlateau()[caseJouee] != 0) {
-			if( joueur.getNumeroJoueur() == 1) {
-				if( caseJouee >= 0 && caseJouee < 6 ) return true;
-			}
-			else {
-				if( caseJouee >= 6 && caseJouee < 12 ) return true;
-			}
+		if( this.getPartie().getPlateau()[caseJouee] != 0 ) {
+			if( caseJouee >= joueur.getMin() && caseJouee < joueur.getMax() ) return true;
 		}
 		return false;
 	}
 	
 	@Override
 	public JoueurAwale gestionTour() { //decide de qui va jouer
-		if( this.getI()%2 == 0) return this.joueur2;
+		if( this.getTourActuel()%2 == 0) return this.joueur2;
 		return this.joueur1;
 	}
 	
 	public int calculSommeGrainesEnJeu(JoueurAwale joueur) {
 		int x = 0;
-		if(joueur.getNumeroJoueur() == 1) {
-			for(int i=0;i<6;i++) {
-				x+= this.getPartie().getPlateau()[i];
-			}
-		}
-		else {
-			for(int i=6;i<12;i++) {
-				x+= this.getPartie().getPlateau()[i];
-			}
+		for(int i=joueur.getMin();i<joueur.getMax();i++) {
+			x+= this.getPartie().getPlateau()[i];
 		}
 		return x;
 	}
@@ -188,7 +170,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	@Override
-	public void gestionTemps() {//gere le temps alloue a chaque joueur tour aï¿½ tour
+	public void gestionTemps() {//gere le temps alloue a chaque joueur tour a  tour
 		
 	}
 	
@@ -207,7 +189,6 @@ public class GameManagerAwale extends GameManager{
 		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2) );
 		this.joueur1.setScore( this.joueur1.getScore() + calculSommeGrainesEnJeu(this.joueur1) );
 	}
-	
 	public void afficheHistorique() {
 		int taille=historique.size();
 		int[] current;
@@ -222,6 +203,15 @@ public class GameManagerAwale extends GameManager{
 			}
 			System.out.println();System.out.println();
 		}
+	}
+	public ArrayList dterminerCoupPossible(JoueurAwale joueur) {
+		ArrayList CoupPossible = new ArrayList<>();
+		for(int i=joueur.getMin();i<joueur.getMax();i++) {
+			if( verifierCoupValide(joueur,i)) {
+				CoupPossible.add(i);
+			}
+		}
+		return CoupPossible;
 	}
 }
 

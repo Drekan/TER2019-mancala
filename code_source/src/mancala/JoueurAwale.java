@@ -6,8 +6,8 @@ public abstract class JoueurAwale extends Joueur{
 	
 	GameManagerAwale gameManagerAwale;
 
-	public JoueurAwale(String nomJoueur, int score, int numeroJoueur) {
-		super(nomJoueur, score, numeroJoueur);
+	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max) {
+		super(nomJoueur, score, numeroJoueur,min,max);
 	}
 
 	@Override
@@ -49,16 +49,7 @@ public abstract class JoueurAwale extends Joueur{
 	}
 	public void prendreGraines(int CaseActuelle, GameManagerAwale gameManagerAwale) {
 		//enlever les graines = 2 ou =3 et augmenter le score du joueur
-		int min,max;
-		if( getNumeroJoueur() == 2 ) {
-			min= 0;
-			max= 5;
-		}
-		else {
-			min = 6;
-			max= 11; 
-		}
-		while( CaseActuelle <= max && CaseActuelle >= min && ( gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 2 || gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 3 ) ) {
+		while( CaseActuelle <= this.getMax() && CaseActuelle >= this.getMin() && ( gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 2 || gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 3 ) ) {
 			
 			setScore(getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
 			System.out.println("score joueur " + getNumeroJoueur() +": " + getScore());
