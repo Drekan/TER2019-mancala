@@ -129,9 +129,9 @@ public class GameManagerAwale extends GameManager{
 		this.setTourActuel(getTourActuel()+1);
 	}
 	
-	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee) {//bonne case avec bonnes regles
+	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
-		if( this.getPartie().getPlateau()[caseJouee] != 0 ) {
+		if( plateau[caseJouee] != 0 ) { //this.getPartie().getPlateau()
 			if( caseJouee >= joueur.getMin() && caseJouee < joueur.getMax() ) return true;
 		}
 		return false;
@@ -177,7 +177,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	@Override
-	public void gestionTemps() {//gere le temps alloue a chaque joueur tour a  tour
+	public void gestionTemps() {//gere le temps alloue a chaque joueur tour aÂ  tour
 		
 	}
 	
@@ -211,14 +211,14 @@ public class GameManagerAwale extends GameManager{
 			System.out.println();System.out.println();
 		}
 	}
-	public ArrayList dterminerCoupPossible(JoueurAwale joueur) {
-		ArrayList CoupPossible = new ArrayList<>();
-		for(int i=joueur.getMin();i<joueur.getMax();i++) {
-			if( verifierCoupValide(joueur,i)) {
-				CoupPossible.add(i);
+	public ArrayList determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
+		ArrayList coupPossible = new ArrayList<>();
+		for(int i = joueur.getMin(); i < joueur.getMax(); i++) {
+			if( verifierCoupValide(joueur,i,plateau)) {
+				coupPossible.add(i);
 			}
 		}
-		return CoupPossible;
+		return coupPossible;
 	}
 	
 	public boolean InterdictionAffamer() {
