@@ -188,9 +188,10 @@ public class GameManagerAwale extends GameManager{
 		if( score1 == score2 )	
 			System.out.println(" Score Egaux ! " + score1);
 		else if( score1 > score2 )	
-			System.out.println("  Gagnant : Joueur1 !!! " + score1  + " Score perdant : " + score2);
+			System.out.println("Joueur 1 a gagné");
 		else	
-			System.out.println("  Gagnant : Joueur2 !!! " + score2 + " Score perdant : " + score1);
+			System.out.println("Joueur 2 a gagné");
+		System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
 	}
 	public void ajoutGains() {
 		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2) );
