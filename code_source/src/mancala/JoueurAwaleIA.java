@@ -113,7 +113,9 @@ public class JoueurAwaleIA extends JoueurAwale{
 	 * le score de l'adversaire
 	 */
 	private double H5(int scoreJoueur,int scoreAdversaire) {
-		return (double)(scoreJoueur)/(double)(scoreJoueur+scoreAdversaire);
+		return ((scoreJoueur+scoreAdversaire!=0)?
+					(double)(scoreJoueur)/(double)(scoreJoueur+scoreAdversaire)
+					:0);
 	}
 	
 	
