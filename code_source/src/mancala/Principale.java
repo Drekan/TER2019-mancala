@@ -33,14 +33,14 @@ public class Principale {
 				coupJoue = rand.nextInt(5 - 0 + 1) + 0;
 				System.out.println("coup jouee par joueur 1 : " +  coupJoue);
 				System.out.println();
-				if( ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue) )
+				if( ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue, ArbitreAwale.getPartie().getPlateau()) )
 					ArbitreAwale.getJoueur1().jouerUnCoup(coupJoue,ArbitreAwale);
 			}
 			else {
 				coupJoue = rand.nextInt(11 - 6 + 1) + 6;
 				System.out.println("coup jouee par joueur 2 : " + coupJoue);
 				System.out.println();
-				if( ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue) )
+				if( ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue, ArbitreAwale.getPartie().getPlateau()) )
 					ArbitreAwale.getJoueur2().jouerUnCoup(coupJoue,ArbitreAwale);
 			}
 			
