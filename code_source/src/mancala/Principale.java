@@ -30,7 +30,7 @@ public class Principale {
 					System.out.println(ArbitreAwale.gestionTour().getNomJoueur() +  " donner coup a jouer : ");
 					coupJoue = sc.nextInt();
 					//coupJoue = rand.nextInt(5 - 0 + 1) + 0;
-				}while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue) );
+				}while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue,ArbitreAwale.getPartie().getPlateau() ));
 				System.out.println("coup jouee par joueur 1 : " +  coupJoue);
 				System.out.println();
 				ArbitreAwale.getJoueur1().jouerUnCoup(coupJoue,ArbitreAwale);
@@ -38,7 +38,7 @@ public class Principale {
 			else {
 				do {
 					coupJoue = rand.nextInt(11 - 6 + 1) + 6;
-				}while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue) );
+				}while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue,ArbitreAwale.getPartie().getPlateau()) );
 				System.out.println("coup jouee par joueur 2 : " + coupJoue);
 				System.out.println();
 				ArbitreAwale.getJoueur2().jouerUnCoup(coupJoue,ArbitreAwale);
