@@ -58,7 +58,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 			}*/
 		}
 		
-		return (double)(nombreGraineJoueur)/(double)(nombreGraine);
+		return (nombreGraine==0?0:(double)(nombreGraineJoueur)/(double)(nombreGraine));
 	}
 	
 	/* Heuristique 3:
@@ -97,10 +97,12 @@ public class JoueurAwaleIA extends JoueurAwale{
 			nombreGrainesJoueur++;
 		}
 		
-		int poidsActuel=0;
-		for(int i=debut;i<fin;i++) {
-			valeurH4+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
-			poidsActuel++;
+		if(nombreGrainesJoueur!=0) {
+			int poidsActuel=0;
+			for(int i=debut;i<fin;i++) {
+				valeurH4+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
+				poidsActuel++;
+			}
 		}
 		
 		return valeurH4;
