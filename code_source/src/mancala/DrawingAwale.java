@@ -1,3 +1,5 @@
+package mancala;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;

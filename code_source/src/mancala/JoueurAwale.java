@@ -23,7 +23,8 @@ public abstract class JoueurAwale extends Joueur{
 			if(caseJouee==0 && CaseActuelle==11) {
 				CaseActuelle = 1;
 			}
-			else if(CaseActuelle == caseJouee-1) {
+			else if(CaseActuelle == caseJouee-1)
+			{
 				if(CaseActuelle == 10) {
 					CaseActuelle = 0;
 				}
