@@ -116,8 +116,5 @@ public abstract class JoueurAwale extends Joueur{
 		
 	}
 
-	@Override
-	public abstract int getJeu();//a redefinir dans classe fille
-		
-
+	public void choisirUnCoup(GameManagerAwale arbitreAwale) {}
 }

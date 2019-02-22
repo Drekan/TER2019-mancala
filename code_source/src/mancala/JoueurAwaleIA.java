@@ -1,5 +1,7 @@
 package mancala;
 
+import java.util.ArrayList;
+
 //les methodes de decision seront utiliser(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
 
@@ -9,12 +11,6 @@ public class JoueurAwaleIA extends JoueurAwale{
 	}
 	
 	//methods:
-	@Override
-	public int getJeu() {//faire appel a algo MiniMax;
-		int caseJouer = 0 ;
-		return caseJouer;
-		
-	}
 	
 	/* Heuristique 1:
 	 * L'objectif de cet heuristique est de minimiser
@@ -141,4 +137,94 @@ public class JoueurAwaleIA extends JoueurAwale{
 		
 		return valeurEvaluation;
 	}
+
+	public double maximum(double premiereValeur, double secondeValeur){
+        double resultat;
+          
+        if(premiereValeur > secondeValeur){
+            resultat = premiereValeur;
+        }
+        else{
+            resultat = secondeValeur;
+        }
+          
+        return resultat;
+    }
+      
+    public double minimum(double premiereValeur, double secondeValeur){
+        double resultat;
+          
+        if(premiereValeur <= secondeValeur){
+            resultat = premiereValeur;
+        }
+        else{
+            resultat = secondeValeur;
+        }
+          
+        return resultat;
+    }
+      
+    public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax){
+        ArrayList coupPossible = new ArrayList<>();
+        int plateauSimule[] = new int[12];
+        plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
+         
+        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),plateauSimule);
+        double valeur = -1;
+         
+        //Gerer le cas où le noeud est terminal
+        if(profondeurMax == 0){//&& le noeud n'est pas terminal
+            if(arbitreAwale.gestionTour() == arbitreAwale.getJoueur1()){
+                valeur = evaluation(1, plateauSimule, arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+            }
+            else{
+                valeur = evaluation(2, plateauSimule, arbitreAwale.getJoueur2().getScore(), arbitreAwale.getJoueur1().getScore());
+            }
+            return valeur;
+        }
+          
+        //Si le joueur est l'IA
+        if(joueurMax){
+            valeur = -10000;
+            for(int i = 0; i < coupPossible.size() ; i++){
+                  
+                valeur = maximum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+            }
+        }
+        else{
+            valeur = 10000;
+            for(int i = 0; i < coupPossible.size(); i++){
+                valeur = minimum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
+            }
+        }
+          
+        return valeur;
+    }
+  
+    public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax){
+        double valeur_optimisee = -10000;
+        double valeur;
+         
+        ArrayList coupPossible = new ArrayList<>();
+        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),arbitreAwale.getPartie().getPlateau());
+         
+        int coup_optimise = -1;
+  
+        for(int i = 0; i < coupPossible.size(); i++)//Pour chaque coup possible a partir de l'etat courant{
+            valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true);
+            if(valeur > valeur_optimisee){
+                valeur_optimisee = valeur;
+                coup_optimise = (int)coupPossible.get(i);
+            }
+        }
+  
+        return coup_optimise;
+    }
+     
+    public void choisirUnCoup(GameManagerAwale arbitreAwale) {
+        int caseJouee = jouerMinimax(arbitreAwale,4);
+        System.out.println("case jouée : " + caseJouee);
+         
+        jouerUnCoup(caseJouee,arbitreAwale);        
+    }
 }

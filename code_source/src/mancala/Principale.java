@@ -36,12 +36,19 @@ public class Principale {
 				ArbitreAwale.getJoueur1().jouerUnCoup(coupJoue,ArbitreAwale);
 			}
 			else {
-				do {
-					coupJoue = rand.nextInt(11 - 6 + 1) + 6;
-				}while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue,ArbitreAwale.getPartie().getPlateau()) );
-				System.out.println("coup jouee par joueur 2 : " + coupJoue);
-				System.out.println();
-				ArbitreAwale.getJoueur2().jouerUnCoup(coupJoue,ArbitreAwale);
+				if(choix == 2) {
+                    do {
+                        coupJoue = rand.nextInt(11 - 6 + 1) + 6;
+                    }while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur2(),coupJoue,ArbitreAwale.getPartie().getPlateau()) );
+                    System.out.println("coup joue par joueur 2 : " + coupJoue);
+                    System.out.println();
+                    ArbitreAwale.getJoueur2().jouerUnCoup(coupJoue,ArbitreAwale);
+                }
+                else if(choix == 1) {
+                    System.out.println("coup joue par joueur 2 : ");
+                    System.out.println();
+                    ArbitreAwale.getJoueur2().choisirUnCoup(ArbitreAwale);
+                }
 			}
 			
 			System.out.println();
