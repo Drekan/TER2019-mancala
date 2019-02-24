@@ -120,7 +120,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	/* evaluation d'un état du jeu en fonction
 	 * de la pondération de chaque heuristique
 	 */
-	public double evalutation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
+	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
 		double[] poids= {1/2,1/2,1/2,1/2,1/2};
 		double[] heuristiques= {
 				H1(numeroJoueur,plateau),
@@ -210,7 +210,7 @@ public class JoueurAwaleIA extends JoueurAwale{
          
         int coup_optimise = -1;
   
-        for(int i = 0; i < coupPossible.size(); i++)//Pour chaque coup possible a partir de l'etat courant{
+        for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
             valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true);
             if(valeur > valeur_optimisee){
                 valeur_optimisee = valeur;
