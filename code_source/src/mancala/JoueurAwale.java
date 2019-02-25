@@ -49,46 +49,6 @@ public abstract class JoueurAwale extends Joueur{
 		
 	}
 	
-	public int[] simulerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale)
-	{
-		int caseActuelle = caseJouee;
-		int nbrGrainesADeplacer = gameManagerAwale.getPartie().getPlateau()[caseJouee];
-		int plateauSimule[] = new int[12];
-		
-		for(int i = 0; i < 12; i++)
-		{
-			plateauSimule[i] = gameManagerAwale.getPartie().getPlateau()[i];
-		}
-		
-		plateauSimule[caseJouee] = 0;
-		
-		while(nbrGrainesADeplacer>0) {			
-			if(caseJouee==0 && caseActuelle==11) {
-				caseActuelle = 1;
-			}
-			else if(caseActuelle == caseJouee-1) {
-				if(caseActuelle == 10) {
-					caseActuelle = 0;
-				}
-				else {
-					caseActuelle += 2;
-				}
-			}
-			else if (caseActuelle == 11) {
-				caseActuelle = 0;
-			}
-			else {
-				caseActuelle++;
-			}
-			
-			plateauSimule[caseActuelle] = plateauSimule[caseActuelle] + 1;
-			
-			nbrGrainesADeplacer--;			
-		}
-		
-		return plateauSimule;
-	}
-	
 	public void prendreGraines(int CaseActuelle, GameManagerAwale gameManagerAwale) {
 		//enlever les graines = 2 ou =3 et augmenter le score du joueur
 		int min,max;
