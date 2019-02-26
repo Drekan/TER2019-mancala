@@ -9,43 +9,34 @@ public abstract class JoueurAwale extends Joueur{
 	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max) {
 		super(nomJoueur, score, numeroJoueur,min,max);
 	}
-
-	@Override
-	public void jouerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale) {//mise a jour des valeurs du plateau
-		int CaseActuelle = caseJouee;
-		int nbrGrainesADeplacer = gameManagerAwale.getPartie().getPlateau()[caseJouee];
-		gameManagerAwale.getPartie().setPlateau( 0, caseJouee );
+	
+	public int miseAJourPlateau(int[] plateau,int caseInitiale) {
+		int grainesRestantes=plateau[caseInitiale];
+		plateau[caseInitiale]=0;
 		
-		while(nbrGrainesADeplacer>0) {
-			System.out.println("nbr graine a deplacer : " + nbrGrainesADeplacer );
-			System.out.println(" gameManagerAwale.Partie.getPlateau()["+ CaseActuelle +"] = " + gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
-			
-			if(caseJouee==0 && CaseActuelle==11) {
-				CaseActuelle = 1;
-			}
-			else if(CaseActuelle == caseJouee-1)
-			{
-				if(CaseActuelle == 10) {
-					CaseActuelle = 0;
-				}
-				else {
-					CaseActuelle += 2;
-				}
-			}
-			else if (CaseActuelle == 11) {
-				CaseActuelle = 0;
+		int caseActuelle=caseInitiale;
+		while(grainesRestantes>0) {
+			//System.out.println("nbr graine a deplacer : " + grainesRestantes );
+			//System.out.println(" gameManagerAwale.Partie.getPlateau()["+ caseActuelle +"] = " + plateau[caseActuelle] );
+			if(((caseActuelle+1)%12) == caseInitiale){
+				caseActuelle=(caseActuelle+2)%12;
 			}
 			else {
-				CaseActuelle++;
+				caseActuelle=(caseActuelle+1)%12;
 			}
 			
-			gameManagerAwale.getPartie().setPlateau( gameManagerAwale.getPartie().getPlateau()[CaseActuelle] + 1 , CaseActuelle);
-			
-			nbrGrainesADeplacer--;			
+			plateau[caseActuelle]++;
+			grainesRestantes--;
 		}
+		return caseActuelle;
+	}
+	
+	@Override
+	public void jouerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale) {//mise a jour des valeurs du plateau
+		int derniereCaseJouee=miseAJourPlateau(gameManagerAwale.getPartie().getPlateau(),caseJouee);
 		//enlever les graines = 2 ou =3
 		// diminuer le nbr de graines du plateau
-		prendreGraines(CaseActuelle, gameManagerAwale);
+		prendreGraines(derniereCaseJouee, gameManagerAwale);
 		
 	}
 	

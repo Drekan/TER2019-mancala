@@ -29,6 +29,12 @@ public class Awale extends Jeu{
 		this.plateau[caseModifiee] = nouvelleValeur;
 	}
 	
+	public void setPlateau(int[] p) {
+		if(p.length==6) {
+			this.plateau=p;
+		}
+	}
+	
 	//methods :
 	public void stockerJoueur(JoueurAwale joueur1,JoueurAwale joueur2) {// pouvoir reprendre une partie plus tard
 		gameManagerAwale.saveJoueur1(joueur1);
