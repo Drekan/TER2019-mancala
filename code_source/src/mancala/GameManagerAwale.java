@@ -164,6 +164,11 @@ public class GameManagerAwale extends GameManager{
 			System.out.println(" !! InterdictionAffamer !! ");
 			return true;
 		}
+		else if(NbRedondanceHistorique(18)>1) {
+			this.ajoutGains();
+			System.out.println("Redondances dans les coups joués. La partie s'arrête.");
+			return true;
+		}
 		return false;
 	}
 	
