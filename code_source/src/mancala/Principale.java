@@ -7,7 +7,6 @@ public class Principale {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		/* */
 		System.out.println("Choisissez, un ou deux joueurs? ");
 		int choix = sc.nextInt();
 		GameManagerAwale ArbitreAwale = new GameManagerAwale(choix);

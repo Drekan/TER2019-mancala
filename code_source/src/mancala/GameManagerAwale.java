@@ -188,9 +188,9 @@ public class GameManagerAwale extends GameManager{
 		if( score1 == score2 )	
 			System.out.println(" Score Egaux ! " + score1);
 		else if( score1 > score2 )	
-			System.out.println("Joueur 1 a gagné");
+			System.out.println("Joueur 1 a gagnï¿½");
 		else	
-			System.out.println("Joueur 2 a gagné");
+			System.out.println("Joueur 2 a gagnï¿½");
 		System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
 	}
 	public void ajoutGains() {
@@ -236,6 +236,18 @@ public class GameManagerAwale extends GameManager{
 			}
 		}
 		return false;
+	}
+	
+	public boolean comparerEtatDeJeu(int[] plateau1,int[] plateau2) {
+		boolean equal=(plateau1.length==plateau2.length);
+		int i=plateau1.length-1;
+		while(equal && i>=0) {
+			if(plateau1[i]!=plateau2[i]) {
+				equal=false;
+			}
+			i--;
+		}
+		return equal;
 	}
 }
 
