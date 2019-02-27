@@ -9,7 +9,6 @@ public class GameManagerAwale extends GameManager{
 	
 	private int nbrJoueursHumain;
 	private boolean tour = true;
-	private int historiquePlateau[][] = null;
 	private ArrayList<int[]> historique;
 	
 	private JoueurAwale joueur1;
@@ -32,14 +31,6 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setNbrJoueursHumain(int nbrJoueursHumain) {	
 		this.nbrJoueursHumain = nbrJoueursHumain;
-	}
-	
-	public int[][] getHistoriquePlateau() {	
-		return this.historiquePlateau;
-	}
-	
-	public void setHistoriquePlateau(int[][] historiquePlateau) {
-		this.historiquePlateau = historiquePlateau;
 	}
 	
 	public ArrayList<int[]> getHistorique() {
@@ -238,7 +229,7 @@ public class GameManagerAwale extends GameManager{
 		return false;
 	}
 	
-	public boolean comparerEtatDeJeu(int[] plateau1,int[] plateau2) {
+	public boolean plateauxEgaux(int[] plateau1,int[] plateau2) {
 		boolean equal=(plateau1.length==plateau2.length);
 		int i=plateau1.length-1;
 		while(equal && i>=0) {
@@ -248,6 +239,17 @@ public class GameManagerAwale extends GameManager{
 			i--;
 		}
 		return equal;
+	}
+	
+	public int NbRedondanceHistorique(int profondeur) {
+		int redondances=0;
+		int profondeurEffective=Math.min(this.historique.size()-1,profondeur);
+		for(int i=0;i<profondeurEffective;i++) {
+			if(plateauxEgaux(this.historique.get(this.historique.size()-1),this.historique.get(i))) {
+				redondances++;
+			}
+		}
+		return redondances;
 	}
 }
 

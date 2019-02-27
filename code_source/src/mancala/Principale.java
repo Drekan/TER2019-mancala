@@ -18,6 +18,7 @@ public class Principale {
 		System.out.println("nbrgraine init : " + ArbitreAwale.getPartie().getNbrGrainesEnJeu() );
 		
 		while( !ArbitreAwale.finPartie() ) {
+			System.out.println("Nombre de redondances dans les 10 derniers coups :"+ArbitreAwale.NbRedondanceHistorique(10));
 			int coupJoue = 0;
 			
 			// Entree les coups manuellement a travers la console :
@@ -68,7 +69,7 @@ public class Principale {
 		ArbitreAwale.getGagnant();
 		
 		//Afficher Historique :
-		ArbitreAwale.afficheHistorique();
+		//ArbitreAwale.afficheHistorique();
 		sc.close();
 	}
 
