@@ -182,9 +182,11 @@ public class JoueurAwaleIA extends JoueurAwale{
         plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
          
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),plateauSimule);
+        System.out.println(" !! coupPossible = " + coupPossible);
+        
         double valeur = -1;
          
-        //Gerer le cas où le noeud est terminal
+        //Gerer le cas ou le noeud est terminal
         if(profondeurMax == 0){//&& le noeud n'est pas terminal
             if(arbitreAwale.gestionTour() == arbitreAwale.getJoueur1()){
                 valeur = evaluation(1, plateauSimule, arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
@@ -199,8 +201,8 @@ public class JoueurAwaleIA extends JoueurAwale{
         if(joueurMax){
             valeur = -10000;
             for(int i = 0; i < coupPossible.size() ; i++){
-                  
                 valeur = maximum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+                //System.out.println(" !! valeur = " + valeur);
             }
         }
         else{
@@ -209,7 +211,6 @@ public class JoueurAwaleIA extends JoueurAwale{
                 valeur = minimum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
             }
         }
-          
         return valeur;
     }
   
@@ -219,23 +220,27 @@ public class JoueurAwaleIA extends JoueurAwale{
          
         ArrayList coupPossible = new ArrayList<>();
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),arbitreAwale.getPartie().getPlateau());
-         
+        System.out.println(" !! coupPossible = " + coupPossible);
+        
         int coup_optimise = -1;
   
         for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
+        	
             valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true);
+            //System.out.println(" !! valeur = " + valeur);
             if(valeur > valeur_optimisee){
                 valeur_optimisee = valeur;
                 coup_optimise = (int)coupPossible.get(i);
+                
             }
         }
-  
+        System.out.println(" !! coup_optimise = " + coup_optimise);
         return coup_optimise;
     }
      
     public void choisirUnCoup(GameManagerAwale arbitreAwale) {
         int caseJouee = jouerMinimax(arbitreAwale,4);
-        System.out.println("case jouée : " + caseJouee);
+        System.out.println("case jouee : " + caseJouee);
          
         jouerUnCoup(caseJouee,arbitreAwale);        
     }

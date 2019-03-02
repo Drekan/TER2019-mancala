@@ -215,6 +215,7 @@ public class GameManagerAwale extends GameManager{
 				coupPossible.add(i);
 			}
 		}
+		
 		return coupPossible;
 	}
 	
