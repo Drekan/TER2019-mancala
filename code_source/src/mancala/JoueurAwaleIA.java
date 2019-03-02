@@ -182,11 +182,22 @@ public class JoueurAwaleIA extends JoueurAwale{
         plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
          
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),plateauSimule);
-        System.out.println(" !! coupPossible = " + coupPossible);
+        //System.out.println("Minimax !! coupPossible = " + coupPossible);
         
         double valeur = -1;
          
         //Gerer le cas ou le noeud est terminal
+        
+        //On verifie que la liste des coupPossible est vide
+        //Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
+        //Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur
+        if(coupPossible.isEmpty())
+        {
+        	//System.out.println("plateauSimule = null");
+        	valeur = 1000;
+        	return valeur;
+        }
+        
         if(profondeurMax == 0){//&& le noeud n'est pas terminal
             if(arbitreAwale.gestionTour() == arbitreAwale.getJoueur1()){
                 valeur = evaluation(1, plateauSimule, arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
@@ -220,12 +231,12 @@ public class JoueurAwaleIA extends JoueurAwale{
          
         ArrayList coupPossible = new ArrayList<>();
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),arbitreAwale.getPartie().getPlateau());
-        System.out.println(" !! coupPossible = " + coupPossible);
+        //System.out.println(" JouerMinimax !! coupPossible = " + coupPossible);
         
         int coup_optimise = -1;
   
         for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
-        	
+        	System.out.println("Test coupPossible[" + i + "] : " + (int)coupPossible.get(i));
             valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true);
             //System.out.println(" !! valeur = " + valeur);
             if(valeur > valeur_optimisee){
@@ -234,7 +245,7 @@ public class JoueurAwaleIA extends JoueurAwale{
                 
             }
         }
-        System.out.println(" !! coup_optimise = " + coup_optimise);
+        //System.out.println(" !! coup_optimise = " + coup_optimise);
         return coup_optimise;
     }
      
