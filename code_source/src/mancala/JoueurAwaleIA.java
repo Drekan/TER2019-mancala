@@ -236,7 +236,6 @@ public class JoueurAwaleIA extends JoueurAwale{
         int coup_optimise = -1;
   
         for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
-        	System.out.println("Test coupPossible[" + i + "] : " + (int)coupPossible.get(i));
             valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true);
             //System.out.println(" !! valeur = " + valeur);
             if(valeur > valeur_optimisee){
