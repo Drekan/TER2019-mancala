@@ -4,7 +4,17 @@ import java.util.ArrayList;
 
 //les methodes de decision seront utiliser(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
+	//Pour calculer le nombre d'appels récursifs de minimax
+	private int compteur = 0;
+	
+	public int getCompteur() {
+		return compteur;
+	}
 
+	public void setCompteur(int compteur) {
+		this.compteur = compteur;
+	}
+	
 	//constructeurs :
 	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max) {
 		super(nomJoueur, score, numeroJoueur,min,max);
@@ -213,6 +223,7 @@ public class JoueurAwaleIA extends JoueurAwale{
             valeur = -10000;
             for(int i = 0; i < coupPossible.size() ; i++){
                 valeur = maximum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+		setCompteur(getCompteur() + 1);
                 //System.out.println(" !! valeur = " + valeur);
             }
         }
@@ -220,14 +231,17 @@ public class JoueurAwaleIA extends JoueurAwale{
             valeur = 10000;
             for(int i = 0; i < coupPossible.size(); i++){
                 valeur = minimum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
+		setCompteur(getCompteur() + 1);
             }
         }
+	    
         return valeur;
     }
   
     public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax){
         double valeur_optimisee = -10000;
         double valeur;
+	int nombre_appel = 0;
          
         ArrayList coupPossible = new ArrayList<>();
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),arbitreAwale.getPartie().getPlateau());
@@ -236,7 +250,8 @@ public class JoueurAwaleIA extends JoueurAwale{
         int coup_optimise = -1;
   
         for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
-            valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true);
+            valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true); 
+	    nombre_appel++;
             //System.out.println(" !! valeur = " + valeur);
             if(valeur > valeur_optimisee){
                 valeur_optimisee = valeur;
@@ -245,6 +260,13 @@ public class JoueurAwaleIA extends JoueurAwale{
             }
         }
         //System.out.println(" !! coup_optimise = " + coup_optimise);
+	    
+	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels récursif de minimax puis on remet le compteur à 0 
+        System.out.println("Nombre d'appels récursif de minimax : " + getCompteur());
+        setCompteur(0);
+        
+        System.out.println("Nombre d'appels récursifs de jouerMinimax : " + nombre_appel);
+	    
         return coup_optimise;
     }
      
