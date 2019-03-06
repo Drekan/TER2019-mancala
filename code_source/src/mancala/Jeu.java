@@ -1,6 +1,6 @@
 package mancala;
 
-//contient les règles du jeu, le mode de difficulté et le nom du Jeu
+//contient les regles du jeu, le mode de difficulte et le nom du Jeu
 public abstract class Jeu {
 	
 	private String nomJeu;
@@ -42,7 +42,7 @@ public abstract class Jeu {
 	}
 
 	//methods :
-	public abstract void initialisationJeu();//permet de tout remettre a� 0
+	public abstract void initialisationJeu();//permet de tout remettre a  0
 		
 	
 }
