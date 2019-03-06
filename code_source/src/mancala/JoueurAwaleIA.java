@@ -170,32 +170,6 @@ public class JoueurAwaleIA extends JoueurAwale{
 		
 		return valeurEvaluation;
 	}
-
-	public double maximum(double premiereValeur, double secondeValeur){
-        double resultat;
-          
-        if(premiereValeur > secondeValeur){
-            resultat = premiereValeur;
-        }
-        else{
-            resultat = secondeValeur;
-        }
-          
-        return resultat;
-    }
-      
-    public double minimum(double premiereValeur, double secondeValeur){
-        double resultat;
-          
-        if(premiereValeur <= secondeValeur){
-            resultat = premiereValeur;
-        }
-        else{
-            resultat = secondeValeur;
-        }
-          
-        return resultat;
-    }
       
     public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax){
 	long time = System.currentTimeMillis();
