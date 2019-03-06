@@ -31,7 +31,7 @@ public class Principale {
 					coupJoue = sc.nextInt();
 					//coupJoue = rand.nextInt(5 - 0 + 1) + 0;
 				}while( !ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue,ArbitreAwale.getPartie().getPlateau() ));
-				System.out.println("coup jouee par joueur 1 : " +  coupJoue);
+				System.out.println("coup joue par joueur 1 : " +  coupJoue);
 				System.out.println();
 				ArbitreAwale.getJoueur1().jouerUnCoup(coupJoue,ArbitreAwale);
 			}
