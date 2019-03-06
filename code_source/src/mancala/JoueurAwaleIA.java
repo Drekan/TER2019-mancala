@@ -2,7 +2,7 @@ package mancala;
 
 import java.util.ArrayList;
 
-//les methodes de decision seront utiliser(MiniMax, Evalution...)
+//les methodes de decision seront utilisees(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
 	//Pour calculer le nombre d'appels récursifs de minimax
 	private int compteur = 0;
@@ -151,7 +151,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	
 	/* evaluation d'un état du jeu en fonction
-	 * de la pondération de chaque heuristique
+	 * de la ponderation de chaque heuristique
 	 */
 	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
 		double[] poids= {1/2,1/2,1/2,1/2,1/2};
@@ -251,11 +251,11 @@ public class JoueurAwaleIA extends JoueurAwale{
         }
         //System.out.println(" !! coup_optimise = " + coup_optimise);
 	    
-	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels récursif de minimax puis on remet le compteur à 0 
+	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur à 0 
         System.out.println("Nombre d'appels récursif de minimax : " + getCompteur());
         setCompteur(0);
         
-        //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'exécution de minimax puis on remet le compteur à 0
+        //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
         System.out.println("Temps d'exécution de minimax : " + getTime() + "ms.");
         setTime(0);
 	
