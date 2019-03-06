@@ -7,12 +7,23 @@ public class JoueurAwaleIA extends JoueurAwale{
 	//Pour calculer le nombre d'appels récursifs de minimax
 	private int compteur = 0;
 	
+	//Pour calculer le temps d'exécution de minimax
+	private long time = 0;
+	
 	public int getCompteur() {
 		return compteur;
 	}
 
 	public void setCompteur(int compteur) {
 		this.compteur = compteur;
+	}
+	
+	public long getTime() {
+		return time;
+	}
+
+	public void setTime(long time) {
+		this.time = time;
 	}
 	
 	//constructeurs :
@@ -187,6 +198,7 @@ public class JoueurAwaleIA extends JoueurAwale{
     }
       
     public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax){
+	long time = System.currentTimeMillis();
         ArrayList coupPossible = new ArrayList<>();
         int plateauSimule[] = new int[12];
         plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
@@ -234,12 +246,16 @@ public class JoueurAwaleIA extends JoueurAwale{
 		setCompteur(getCompteur() + 1);
             }
         }
+	
+	time = System.currentTimeMillis() - time;
+        setTime(getTime() + time);
 	    
         return valeur;
     }
   
     public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax){
-        double valeur_optimisee = -10000;
+        long time = System.currentTimeMillis();
+	double valeur_optimisee = -10000;
         double valeur;
 	int nombre_appel = 0;
          
@@ -265,9 +281,16 @@ public class JoueurAwaleIA extends JoueurAwale{
         System.out.println("Nombre d'appels récursif de minimax : " + getCompteur());
         setCompteur(0);
         
-        System.out.println("Nombre d'appels récursifs de jouerMinimax : " + nombre_appel);
+        //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'exécution de minimax puis on remet le compteur à 0
+        System.out.println("Temps d'exécution de minimax : " + getTime() + "ms.");
+        setTime(0);
+	
+	System.out.println("Nombre d'appels récursifs de jouerMinimax : " + nombre_appel);
 	    
-        return coup_optimise;
+        time = System.currentTimeMillis() - time;
+        System.out.println("Temps d'exécution de jouerMinimax : " + time + "ms.");
+	    
+	return coup_optimise;
     }
      
     public void choisirUnCoup(GameManagerAwale arbitreAwale) {
