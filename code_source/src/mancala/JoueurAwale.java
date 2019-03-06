@@ -1,7 +1,7 @@
 package mancala;
 
 //peut jouer un coup en fonction du plateau.
-//le comportement change q'il s'agit d'un humain ou d'une IA
+//le comportement change s'il s'agit d'un humain ou d'une IA
 public abstract class JoueurAwale extends Joueur{
 	
 	GameManagerAwale gameManagerAwale;
