@@ -208,7 +208,7 @@ public class JoueurAwaleIA extends JoueurAwale{
         if(joueurMax){
             valeur = -10000;
             for(int i = 0; i < coupPossible.size() ; i++){
-                valeur = maximum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+                valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
 		setCompteur(getCompteur() + 1);
                 //System.out.println(" !! valeur = " + valeur);
             }
@@ -216,7 +216,7 @@ public class JoueurAwaleIA extends JoueurAwale{
         else{
             valeur = 10000;
             for(int i = 0; i < coupPossible.size(); i++){
-                valeur = minimum(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
+                valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
 		setCompteur(getCompteur() + 1);
             }
         }
