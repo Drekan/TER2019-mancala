@@ -123,7 +123,7 @@ public class GameManagerAwale extends GameManager{
 	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
 		if( plateau[caseJouee] != 0 ) { //this.getPartie().getPlateau()
-			if( caseJouee >= joueur.getMin() && caseJouee < joueur.getMax() ) return true;
+			if( caseJouee >= joueur.getMin() && caseJouee < joueur.getMax() && InterdictionAffamer(caseJouee) ) return true;
 		}
 		return false;
 	}
@@ -157,11 +157,6 @@ public class GameManagerAwale extends GameManager{
 		else if( gestionTour() == this.joueur2 && calculSommeGrainesEnJeu(this.joueur2) == 0 ) {
 			this.ajoutGains();
 			System.out.println(" !! plus de graines a jouer pour joueur 2 !! ");
-			return true;
-		}
-		else if ( InterdictionAffamer() ) {
-			this.ajoutGains();
-			System.out.println(" !! InterdictionAffamer !! ");
 			return true;
 		}
 		else if(NbRedondanceHistorique(18)>1) {
@@ -217,6 +212,17 @@ public class GameManagerAwale extends GameManager{
 		}
 		
 		return coupPossible;
+	}
+	
+	public boolean InterdictionAffamer(int caseJouee) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
+		if ( (this.gestionTour() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2()) == 0) || ( this.gestionTour() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1()) == 0 ) ) {
+			int nbrGrainesJouee = this.partie.getPlateau()[caseJouee];
+			int resteADeposer = nbrGrainesJouee-(this.gestionTour().getMax() - caseJouee);
+			//System.out.println("InterdictionAffamer/getMax() : " + this.gestionTour().getMax());
+			if( resteADeposer <= 0 )
+				return false ;
+		}
+		return true;
 	}
 	
 	public boolean InterdictionAffamer() {
