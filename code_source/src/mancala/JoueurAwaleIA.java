@@ -252,25 +252,28 @@ public class JoueurAwaleIA extends JoueurAwale{
         //System.out.println(" !! coup_optimise = " + coup_optimise);
 	    
 	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur à 0 
-        System.out.println("Nombre d'appels récursif de minimax : " + getCompteur());
+        System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
         setCompteur(0);
         
         //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
-        System.out.println("Temps d'exécution de minimax : " + getTime() + "ms.");
+        System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
         setTime(0);
 	
-	System.out.println("Nombre d'appels récursifs de jouerMinimax : " + nombre_appel);
+	System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
 	    
         time = System.currentTimeMillis() - time;
-        System.out.println("Temps d'exécution de jouerMinimax : " + time + "ms.");
+        System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
 	    
 	return coup_optimise;
     }
      
     public void choisirUnCoup(GameManagerAwale arbitreAwale) {
-        int caseJouee = jouerMinimax(arbitreAwale,4);
+        int caseJouee = -1;
+        do {
+        	caseJouee = jouerMinimax(arbitreAwale,8);
+        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.gestionTour(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
+        
         System.out.println("case jouee : " + caseJouee);
-         
         jouerUnCoup(caseJouee,arbitreAwale);        
     }
 }
