@@ -117,6 +117,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	private double H4(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
 		double valeurH4=0;
+		//double[] poids= {1,4/5,3/5,2/5,1/5,0};
 		double[] poids= {0,1/5,2/5,3/5,4/5,1};
 		
 		int debut=(numeroJoueur==1?0:6);
@@ -154,7 +155,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	 * de la ponderation de chaque heuristique
 	 */
 	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
-		double[] poids= {1/2,1/2,1/2,1/2,1/2};
+		double[] poids= {0.3,0.19,0.37,0.41,0.56};
 		double[] heuristiques= {
 				H1(numeroJoueur,plateau),
 				H2(numeroJoueur,plateau),
