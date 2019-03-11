@@ -209,10 +209,15 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	//methods :
+	
+	/*Méthode qui instancie le plateau de jeu et
+	 * démarre la partie avec la difficulté adéquate !
+	 */
 	public void lancerUneNouvellePartie(){
 		initJoueurs("joueur1","joueur2");
 		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
 		this.getPartie().initialisationJeu();
+		this.commencerPartie();
 		
 	}
 	
@@ -285,10 +290,14 @@ public class GameManagerAwale extends GameManager{
 			System.out.println("Joueur 2 a gagn�");
 		System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
 	}
+	
+	
 	public void ajoutGains() {
 		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2) );
 		this.joueur1.setScore( this.joueur1.getScore() + calculSommeGrainesEnJeu(this.joueur1) );
 	}
+	
+	
 	public void afficheHistorique() {
 		int taille=historique.size();
 		int[] current;
