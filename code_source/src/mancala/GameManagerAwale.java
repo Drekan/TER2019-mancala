@@ -2,6 +2,7 @@ package mancala;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Scanner;
 
 //gere le jeu en fonction des regles de l'awale
 //il enregistre aussi l'historique de la partie
@@ -18,12 +19,27 @@ public class GameManagerAwale extends GameManager{
 	private int tourActuel ;
 	
 	//constructeurs :
-	public GameManagerAwale(int nbrJoueursHumain) {
-		if(nbrJoueursHumain<=2 && nbrJoueursHumain>=0) {
-			this.nbrJoueursHumain = nbrJoueursHumain;
-			this.tourActuel = 0 ;
-			this.historique = new ArrayList<int[]>();
-		}
+	public GameManagerAwale() {
+		this.nbrJoueursHumain=choisirModeJeu();
+		this.tourActuel = 0 ;
+		this.historique = new ArrayList<int[]>();
+	}
+	
+	public int choisirModeJeu() {
+		int modeDeJeu;
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("----Choisissez le mode de jeu----");
+		System.out.println("0. IA       VS   IA");
+		System.out.println("1. IA       VS   Joueur");
+		System.out.println("2. Joueur   VS   Joueur");
+		
+		do {
+			System.out.println("\nVotre choix >>");
+			modeDeJeu = sc.nextInt();
+		}while(modeDeJeu<0 || modeDeJeu>2);
+		
+		return modeDeJeu;
 	}
 	//getters & setters :
 	public int getNbrJoueursHumain() {
