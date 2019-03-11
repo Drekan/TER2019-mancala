@@ -178,7 +178,7 @@ public class JoueurAwaleIA extends JoueurAwale{
         int plateauSimule[] = new int[12];
         plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
          
-        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),plateauSimule);
+        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),plateauSimule);
         //System.out.println("Minimax !! coupPossible = " + coupPossible);
         
         double valeur = -1;
@@ -196,7 +196,7 @@ public class JoueurAwaleIA extends JoueurAwale{
         }
         
         if(profondeurMax == 0){//&& le noeud n'est pas terminal
-            if(arbitreAwale.gestionTour() == arbitreAwale.getJoueur1()){
+            if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1()){
                 valeur = evaluation(1, plateauSimule, arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
             }
             else{
@@ -235,7 +235,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	int nombre_appel = 0;
          
         ArrayList coupPossible = new ArrayList<>();
-        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.gestionTour(),arbitreAwale.getPartie().getPlateau());
+        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
         //System.out.println(" JouerMinimax !! coupPossible = " + coupPossible);
         
         int coup_optimise = -1;
@@ -272,7 +272,7 @@ public class JoueurAwaleIA extends JoueurAwale{
         int caseJouee = -1;
         do {
         	caseJouee = jouerMinimax(arbitreAwale,8);
-        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.gestionTour(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
+        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
         
         System.out.println("case jouee : " + caseJouee);
         jouerUnCoup(caseJouee,arbitreAwale);        

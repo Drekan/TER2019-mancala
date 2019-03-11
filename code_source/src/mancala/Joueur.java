@@ -19,7 +19,7 @@ public abstract class Joueur {
 	}
 	
 	//getters & setters :
-	public String getNomJoueur(){ 
+	public String getNom(){ 
 		return this.nomJoueur;
 	}
 	
