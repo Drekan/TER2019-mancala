@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class GameManagerAwale extends GameManager{
 	
 	private int nbrJoueursHumain;
-	private boolean tour = true;
 	private ArrayList<int[]> historique;
 	
 	private JoueurAwale joueur1;
@@ -73,13 +72,6 @@ public class GameManagerAwale extends GameManager{
 	public void setHistorique(ArrayList<int[]> historique) {
 		this.historique = historique;
 	}
-	public boolean isTour() {
-		return this.tour;
-	}
-	
-	public void setTour(boolean tour) {
-		this.tour = tour;
-	}
 	
 	public JoueurAwale getJoueur1() {
 		return this.joueur1;
@@ -140,6 +132,10 @@ public class GameManagerAwale extends GameManager{
 		setJoueur2(J2);
 	}
 	
+	/* Cette méthode gère la mise en place de la difficulté
+	 * 	NB: On n'a pas besoin d'assigner de difficulté lorsque deux
+	 * 		joueurs humains s'affrontent
+	 */
 	private int choisirDifficulte() {
 		int difficulte=0;
 		if(this.nbrJoueursHumain!=2) {
@@ -155,10 +151,14 @@ public class GameManagerAwale extends GameManager{
 		return difficulte;
 	}
 	
+	
+	/* Méthode qui gère le déroulement d'une partie,
+	 * les coups joués et par qui. Elle ne s'arrête que 
+	 * lorsqu'une(au moins) des conditions de fins de partie est remplie 
+	 */
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			System.out.println("Nombre de redondances dans les 10 derniers coups :"+this.NbRedondanceHistorique(10));
 			int coupJoue = 0;
 			
 			// Entree les coups manuellement a travers la console :
