@@ -24,7 +24,23 @@ public class GameManagerAwale extends GameManager{
 		this.tourActuel = 0 ;
 		this.historique = new ArrayList<int[]>();
 	}
+	public GameManagerAwale(int modeJeu) {
+		this.nbrJoueursHumain=(modeDeJeuValide(modeJeu)?modeJeu:0);
+		this.tourActuel = 0 ;
+		this.historique = new ArrayList<int[]>();
+	}
 	
+	/* Cette méthode teste si un mode de jeu donné
+	 *  en paramètre est valide ou non. On peut donc gérer
+	 *  toutes les valeurs que l'on accepte, facilement
+	 */
+	public boolean modeDeJeuValide(int modeJeu) {
+		return !(modeJeu<0 || modeJeu>2);
+	}
+	
+	/* Cette méthode affiche les différents modes de jeux jouables,
+	 *  et demande à l'utilisateur d'en choisir un
+	 */
 	public int choisirModeJeu() {
 		int modeDeJeu;
 		Scanner sc = new Scanner(System.in);
@@ -37,8 +53,9 @@ public class GameManagerAwale extends GameManager{
 		do {
 			System.out.println("\nVotre choix >>");
 			modeDeJeu = sc.nextInt();
-		}while(modeDeJeu<0 || modeDeJeu>2);
+		}while(!modeDeJeuValide(modeDeJeu));
 		
+		sc.close();
 		return modeDeJeu;
 	}
 	//getters & setters :
