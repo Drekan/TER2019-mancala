@@ -2,6 +2,7 @@ package mancala;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 //gere le jeu en fonction des regles de l'awale
@@ -152,6 +153,59 @@ public class GameManagerAwale extends GameManager{
 			}while(difficulte<0 || difficulte>1);
 		}
 		return difficulte;
+	}
+	
+	public void commencerPartie() {
+		Scanner sc=new Scanner(System.in);
+		while( !this.finPartie() ) {
+			System.out.println("Nombre de redondances dans les 10 derniers coups :"+this.NbRedondanceHistorique(10));
+			int coupJoue = 0;
+			
+			// Entree les coups manuellement a travers la console :
+					
+			// gestion tour:
+			Random rand = new Random();
+			if( this.gestionTour() == this.getJoueur1()){
+				do {
+					System.out.println(this.gestionTour().getNomJoueur() +  " donner coup a jouer : ");
+					coupJoue = sc.nextInt();
+					//coupJoue = rand.nextInt(5 - 0 + 1) + 0;
+				}while( !this.verifierCoupValide(this.getJoueur1(),coupJoue,this.getPartie().getPlateau() ));
+				System.out.println("coup joue par joueur 1 : " +  coupJoue);
+				System.out.println();
+				this.getJoueur1().jouerUnCoup(coupJoue,this);
+			}
+			else {
+				if(this.nbrJoueursHumain == 2) {
+                    do {
+                        coupJoue = rand.nextInt(11 - 6 + 1) + 6;
+                    }while( !this.verifierCoupValide(this.getJoueur2(),coupJoue,this.getPartie().getPlateau()) );
+                    System.out.println("coup joue par joueur 2 : " + coupJoue);
+                    System.out.println();
+                    this.getJoueur2().jouerUnCoup(coupJoue,this);
+                }
+                else if(this.nbrJoueursHumain == 1) {
+                    System.out.println("coup joue par joueur 2 : ");
+                    System.out.println();
+                    this.getJoueur2().choisirUnCoup(this);
+                }
+			}
+			
+			System.out.println();
+			this.stockerEtatMouvement(this.getPartie().etatActuel());
+			for(int i = 11;i>5;i--) {
+				System.out.print(this.getPartie().etatActuel()[i] + " | ");
+			}
+			System.out.println();
+			for(int i = 0;i<6;i++) {
+				System.out.print(this.getPartie().etatActuel()[i] + " | ");
+			}
+			
+			System.out.println();
+			
+			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGrainesEnJeu());
+			
+		}
 	}
 	
 	//methods :
