@@ -19,10 +19,11 @@ public class GameManagerAwale extends GameManager{
 	
 	//constructeurs :
 	public GameManagerAwale(int nbrJoueursHumain) {
-		super();
-		this.nbrJoueursHumain = nbrJoueursHumain;
-		this.tourActuel = 0 ;
-		this.historique = new ArrayList<int[]>();
+		if(nbrJoueursHumain<=2 && nbrJoueursHumain>=0) {
+			this.nbrJoueursHumain = nbrJoueursHumain;
+			this.tourActuel = 0 ;
+			this.historique = new ArrayList<int[]>();
+		}
 	}
 	//getters & setters :
 	public int getNbrJoueursHumain() {

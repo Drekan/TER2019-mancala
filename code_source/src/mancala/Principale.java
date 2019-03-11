@@ -7,7 +7,11 @@ public class Principale {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Choisissez, un ou deux joueurs? ");
+		System.out.println("----Choisissez le mode de jeu----");
+		System.out.println("0. IA       VS   IA");
+		System.out.println("1. IA       VS   Joueur");
+		System.out.println("2. Joueur   VS   Joueur");
+		System.out.println("\nVotre choix >>");
 		int choix = sc.nextInt();
 		GameManagerAwale ArbitreAwale = new GameManagerAwale(choix);
 		
