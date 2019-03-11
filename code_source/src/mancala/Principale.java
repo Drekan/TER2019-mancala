@@ -6,13 +6,12 @@ import java.util.Scanner;
 public class Principale {
 
 	public static void main(String[] args) {
-		Scanner sc=new Scanner(System.in);
+
 		GameManagerAwale ArbitreAwale = new GameManagerAwale();
 		int choix=ArbitreAwale.getNbrJoueursHumain();
+		Scanner sc=new Scanner(System.in);
 		
-		System.out.println("Choisissez la difficulte ");
-		int difficulte = sc.nextInt();
-		ArbitreAwale.lancerUneNouvellePartie(difficulte);
+		ArbitreAwale.lancerUneNouvellePartie();
 		
 		System.out.println("nbrgraine init : " + ArbitreAwale.getPartie().getNbrGrainesEnJeu() );
 		

@@ -51,11 +51,10 @@ public class GameManagerAwale extends GameManager{
 		System.out.println("2. Joueur   VS   Joueur");
 		
 		do {
-			System.out.println("\nVotre choix >>");
+			System.out.print("\nVotre choix >>");
 			modeDeJeu = sc.nextInt();
 		}while(!modeDeJeuValide(modeDeJeu));
 		
-		sc.close();
 		return modeDeJeu;
 	}
 	//getters & setters :
@@ -127,10 +126,6 @@ public class GameManagerAwale extends GameManager{
 		return this.partie;
 	}
 	
-	public void setPartie(String nomJeu, String regles, int difficulte) {
-		this.partie  = new Awale(nomJeu,regles,difficulte);
-	}
-	
 	public int getTourActuel() {	
 		return this.tourActuel;
 	}
@@ -139,12 +134,30 @@ public class GameManagerAwale extends GameManager{
 		this.tourActuel = tourActuel;
 	}
 	
+	public void initJoueurs(String J1,String J2) {
+		setJoueur1(J1);
+		setJoueur2(J2);
+	}
+	
+	private int choisirDifficulte() {
+		int difficulte=0;
+		if(this.nbrJoueursHumain!=2) {
+			Scanner sc=new Scanner(System.in);
+			System.out.println("----Choisissez la difficulté de l'IA----");
+			System.out.println("0. IA naïve (random)");
+			System.out.println("1. IA minimax");
+			do {
+				System.out.print("\nVotre choix >>");
+				difficulte=sc.nextInt();
+			}while(difficulte<0 || difficulte>1);
+		}
+		return difficulte;
+	}
+	
 	//methods :
-	public void lancerUneNouvellePartie(int difficulte){
-		setJoueur1("joueur1");
-		setJoueur2("joueur2");
-		
-		setPartie("MonAwale","MesRegles",difficulte);
+	public void lancerUneNouvellePartie(){
+		initJoueurs("joueur1","joueur2");
+		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
 		this.getPartie().initialisationJeu();
 		
 	}
