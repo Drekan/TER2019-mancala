@@ -251,20 +251,24 @@ public class GameManagerAwale extends GameManager{
 	@Override
 	public boolean finPartie() {//dire si c'est une fin de partie et arreter le jeu en fonction
 		boolean finDePartie=false;
+		String messageFinDePartie="";
+		
 		if( this.getPartie().getNbrGrainesEnJeu() <= 1 ) {
-			this.ajoutGains();
-			System.out.println(" !! plus qu'une graine !! ");
+			messageFinDePartie=" !! plus qu'une graine !! ";
 			finDePartie=true;
 		}
 		else if(NbRedondanceHistorique(18)>1) {
-			this.ajoutGains();
-			System.out.println("Redondances dans les coups joués. La partie s'arrête.");
+			messageFinDePartie="Redondances dans les coups joués. La partie s'arrête.";
 			finDePartie=true;
 		}
 		else if(calculSommeGrainesEnJeu(joueurActuel()) == 0 ) {
-			this.ajoutGains();
-			System.out.println(" !! plus de graines a jouer pour "+ joueurActuel().getNom() +" !! ");
+			messageFinDePartie=" !! plus de graines a jouer pour "+ joueurActuel().getNom() +" !! ";
 			finDePartie=true;
+		}
+		
+		if(finDePartie){
+			ajoutGains();
+			System.out.println(messageFinDePartie);
 		}
 		
 		return finDePartie;
