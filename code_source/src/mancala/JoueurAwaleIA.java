@@ -238,17 +238,35 @@ public class JoueurAwaleIA extends JoueurAwale{
     public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax){
 	long time = System.currentTimeMillis();
         ArrayList coupPossible = new ArrayList<>();
+	double valeur = -1;
         int plateauSimule[] = new int[12];
-	int scoreJoueur, scoreAdversaire;
+	int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire;
 	    
         plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
          
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),plateauSimule);
         //System.out.println("Minimax !! coupPossible = " + coupPossible);
-        
-        double valeur = -1;
-         
-        //Gerer le cas ou le noeud est terminal
+
+	retourSimulerFinPartie = simulerFinPartie(plateauSimule, arbitreAwale);
+	    
+        if(retourSimulerFinPartie != -1)
+        {
+        	if(retourSimulerFinPartie == arbitreAwale.joueurActuel().getNumeroJoueur())
+        	{
+        		score = 1; //On valorise le cas ou le joueur actuel gagne la partie
+        	}
+        	else if(retourSimulerFinPartie == 0)
+        	{
+        		score = 0; //Neutre si ex aequo
+        	}
+        	else
+        	{
+        		score = -1; //On devalorise le cas ou le joueur actuel perd la partie
+        	}
+        	
+        	valeur = score * 1000;
+        	
+        }
         
         /*On verifie que la liste des coupPossible est vide
         Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
@@ -271,7 +289,6 @@ public class JoueurAwaleIA extends JoueurAwale{
             }
             
             valeur = evaluation(2, plateauSimule, scoreJoueur, scoreAdversaire);
-            
             
             return valeur;
         }
