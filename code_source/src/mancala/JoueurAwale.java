@@ -67,5 +67,5 @@ public abstract class JoueurAwale extends Joueur{
 		
 	}
 
-	public void choisirUnCoup(GameManagerAwale arbitreAwale) {}
+	
 }

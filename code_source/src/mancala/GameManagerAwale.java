@@ -159,11 +159,18 @@ public class GameManagerAwale extends GameManager{
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			int coupJoue = 0;
+			int coupJoue = this.joueurActuel().choisirUnCoup(this);
+			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
+				this.joueurActuel().jouerUnCoup(coupJoue, this);
+			}
+			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
+			System.out.println("Coup joué : "+coupJoue);
+			
 			
 			// Entree les coups manuellement a travers la console :
 					
 			// gestion tour:
+			/*
 			Random rand = new Random();
 			if( this.joueurActuel() == this.getJoueur1()){
 				do {
@@ -189,7 +196,7 @@ public class GameManagerAwale extends GameManager{
                     System.out.println();
                     this.getJoueur2().choisirUnCoup(this);
                 }
-			}
+			}*/
 			
 			System.out.println();
 			this.stockerEtatMouvement(this.getPartie().etatActuel());

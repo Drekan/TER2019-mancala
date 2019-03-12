@@ -61,5 +61,5 @@ public abstract class Joueur {
 
 	//methods :
 	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a  jour des valeurs du plateau
-	public abstract void choisirUnCoup(GameManagerAwale gameManagerAwale);
+	public abstract int choisirUnCoup(GameManagerAwale gameManagerAwale);
 }

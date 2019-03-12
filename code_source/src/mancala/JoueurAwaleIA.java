@@ -1,6 +1,7 @@
 package mancala;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 //les methodes de decision seront utilisees(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
@@ -268,7 +269,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	return coup_optimise;
     }
      
-    public void choisirUnCoup(GameManagerAwale arbitreAwale) {
+    public int choisirUnCoup(GameManagerAwale arbitreAwale) {
         int caseJouee = -1;
         int ia=arbitreAwale.getPartie().getDifficulteChoisie();
         if(ia==1) {
@@ -277,7 +278,15 @@ public class JoueurAwaleIA extends JoueurAwale{
 	        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 	        
 	        System.out.println("case jouee : " + caseJouee);
-	        jouerUnCoup(caseJouee,arbitreAwale);
+	        //jouerUnCoup(caseJouee,arbitreAwale);
         }
+        else if(ia==0) {
+        	Random rand = new Random();
+        	System.out.println("MIN : "+this.getMin()+"----");
+        	do {
+        		caseJouee = rand.nextInt(6)+this.getMin();
+            }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
+        }
+        return caseJouee;
     }
 }
