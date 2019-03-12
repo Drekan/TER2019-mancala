@@ -83,9 +83,6 @@ public class JoueurAwaleIA extends JoueurAwale{
 			if(i>=debut && i<fin) {
 				nombreGraineJoueur+=plateau[i];
 			}
-			/*else {
-				nombreGraineAdversaire+=plateau[i];
-			}*/
 		}
 		
 		return (nombreGraine==0?0:(double)(nombreGraineJoueur)/(double)(nombreGraine));
@@ -278,14 +275,11 @@ public class JoueurAwaleIA extends JoueurAwale{
 	        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 	        
 	        System.out.println("case jouee : " + caseJouee);
-	        //jouerUnCoup(caseJouee,arbitreAwale);
         }
         else if(ia==0) {
         	Random rand = new Random();
-        	System.out.println("MIN : "+this.getMin()+"----");
         	do {
         		caseJouee = rand.nextInt(6)+this.getMin();
-        		//System.out.println("JE CHERCHE");
             }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
         }
         return caseJouee;

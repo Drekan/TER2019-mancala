@@ -16,8 +16,6 @@ public abstract class JoueurAwale extends Joueur{
 		
 		int caseActuelle=caseInitiale;
 		while(grainesRestantes>0) {
-			//System.out.println("nbr graine a deplacer : " + grainesRestantes );
-			//System.out.println(" gameManagerAwale.Partie.getPlateau()["+ caseActuelle +"] = " + plateau[caseActuelle] );
 			if(((caseActuelle+1)%12) == caseInitiale){
 				caseActuelle=(caseActuelle+2)%12;
 			}

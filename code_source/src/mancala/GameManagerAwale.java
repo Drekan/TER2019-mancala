@@ -160,44 +160,14 @@ public class GameManagerAwale extends GameManager{
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
 			int coupJoue = this.joueurActuel().choisirUnCoup(this);
+			
+			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
 				this.joueurActuel().jouerUnCoup(coupJoue, this);
 			}
-			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
-			//System.out.println("Coup joué : "+coupJoue);
 			
 			
-			// Entree les coups manuellement a travers la console :
-					
-			// gestion tour:
-			/*
-			Random rand = new Random();
-			if( this.joueurActuel() == this.getJoueur1()){
-				do {
-					System.out.println(this.joueurActuel().getNom() +  " donner coup a jouer : ");
-					coupJoue = sc.nextInt();
-					//coupJoue = rand.nextInt(5 - 0 + 1) + 0;
-				}while( !this.verifierCoupValide(this.getJoueur1(),coupJoue,this.getPartie().getPlateau() ));
-				System.out.println("coup joue par joueur 1 : " +  coupJoue);
-				System.out.println();
-				this.getJoueur1().jouerUnCoup(coupJoue,this);
-			}
-			else {
-				if(this.nbrJoueursHumain == 2) {
-                    do {
-                        coupJoue = rand.nextInt(11 - 6 + 1) + 6;
-                    }while( !this.verifierCoupValide(this.getJoueur2(),coupJoue,this.getPartie().getPlateau()) );
-                    System.out.println("coup joue par joueur 2 : " + coupJoue);
-                    System.out.println();
-                    this.getJoueur2().jouerUnCoup(coupJoue,this);
-                }
-                else if(this.nbrJoueursHumain == 1) {
-                    System.out.println("coup joue par joueur 2 : ");
-                    System.out.println();
-                    this.getJoueur2().choisirUnCoup(this);
-                }
-			}*/
-			
+			//se pencher sur ce bout de code plus tard -Bastien (note à moi même)--------------
 			System.out.println();
 			this.stockerEtatMouvement(this.getPartie().etatActuel());
 			for(int i = 11;i>5;i--) {
@@ -211,6 +181,7 @@ public class GameManagerAwale extends GameManager{
 			System.out.println();
 			
 			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGrainesEnJeu());
+			//---------------------------------------------------------------------------------
 			
 		}
 	}
@@ -344,30 +315,12 @@ public class GameManagerAwale extends GameManager{
 		if ( (this.joueurActuel() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2()) == 0) || ( this.joueurActuel() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1()) == 0 ) ) {
 			int nbrGrainesJouee = this.partie.getPlateau()[caseJouee];
 			int resteADeposer = nbrGrainesJouee-(this.joueurActuel().getMax() - caseJouee);
-			//System.out.println("InterdictionAffamer/getMax() : " + this.gestionTour().getMax());
 			if( resteADeposer <= 0 )
 				return false ;
 		}
-		//System.out.println("AFFAMER OK");
 		return true;
 	}
 	
-	/*
-	public boolean InterdictionAffamer() {
-		if ( joueurActuel() == this.joueur1 && calculSommeGrainesEnJeu(this.joueur2) == 0 ) {
-			int max = this.joueur1.getMax();
-			//int min = this.joueur2.getMin();
-			int compteur = 0;
-			for( int i=this.joueur1.getMax() ; i> this.joueur2.getMin() ; i--) {
-				if( this.getPartie().getPlateau()[max] <= compteur ) {
-					return true;
-				}
-				compteur++;
-				max--;
-			}
-		}
-		return false;
-	}*/
 	
 	public boolean plateauxEgaux(int[] plateau1,int[] plateau2) {
 		boolean equal=(plateau1.length==plateau2.length);

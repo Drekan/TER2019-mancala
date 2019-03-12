@@ -7,10 +7,8 @@ public class Principale {
 
 	public static void main(String[] args) {
 		GameManagerAwale ArbitreAwale = new GameManagerAwale();
-		
 		ArbitreAwale.lancerUneNouvellePartie();
-		ArbitreAwale.getGagnant();
-		
+		ArbitreAwale.getGagnant();	
 	}
 
 }
