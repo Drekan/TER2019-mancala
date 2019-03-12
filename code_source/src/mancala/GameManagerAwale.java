@@ -229,7 +229,9 @@ public class GameManagerAwale extends GameManager{
 			messageFinDePartie=" !! plus qu'une graine !! ";
 			finDePartie=true;
 		}
-		else if(NbRedondanceHistorique(18)>1) {
+		//2*6*3 = 36, 2 pour les 2 joueurs, 6 pour le nombre de cases d'un cote, 3 pour le nombre de tour de plateau
+		//36 >= 3 fois le tour du plateau redondant 
+		else if(NbRedondanceHistorique(36)>=3) {
 			messageFinDePartie="Redondances dans les coups joués. La partie s'arrête.";
 			finDePartie=true;
 		}
