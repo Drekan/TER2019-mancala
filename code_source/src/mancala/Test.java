@@ -13,7 +13,7 @@ public class Test {
 
         System.out.println("Choisissez la difficulte ");
         int difficulte = sc.nextInt();
-        ArbitreAwale.lancerUneNouvellePartie(difficulte);
+        ArbitreAwale.lancerUneNouvellePartie();
 
         System.out.println("nbrgraine init : " + ArbitreAwale.getPartie().getNbrGrainesEnJeu() );
 
@@ -37,7 +37,7 @@ public class Test {
             int coupJoue = -1;
 
             // gestion tour:
-            if( ArbitreAwale.gestionTour() == ArbitreAwale.getJoueur1()){
+            if( ArbitreAwale.joueurActuel() == ArbitreAwale.getJoueur1()){
                 do {
                     coupJoue = window.getCoupActu();
                     window.setCoupActu(-1);
