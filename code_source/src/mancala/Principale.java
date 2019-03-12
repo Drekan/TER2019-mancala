@@ -9,7 +9,6 @@ public class Principale {
 		GameManagerAwale ArbitreAwale = new GameManagerAwale();
 		
 		ArbitreAwale.lancerUneNouvellePartie();
-		
 		ArbitreAwale.getGagnant();
 		
 	}

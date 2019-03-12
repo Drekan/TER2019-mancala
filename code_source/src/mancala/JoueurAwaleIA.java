@@ -285,6 +285,7 @@ public class JoueurAwaleIA extends JoueurAwale{
         	System.out.println("MIN : "+this.getMin()+"----");
         	do {
         		caseJouee = rand.nextInt(6)+this.getMin();
+        		//System.out.println("JE CHERCHE");
             }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
         }
         return caseJouee;

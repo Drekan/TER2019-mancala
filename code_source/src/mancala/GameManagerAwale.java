@@ -79,13 +79,13 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setJoueur1(String nomJoueur) {
 		if(getNbrJoueursHumain() == 0) {
-			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,6);
+			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,5);
 		}
 		else if(getNbrJoueursHumain() == 1) {
-			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,6);
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5);
 		}
 		else if(getNbrJoueursHumain() == 2) {
-			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,6);
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5);
 		}
 	}
 	
@@ -100,13 +100,13 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setJoueur2(String nomJoueur) {
 		if(getNbrJoueursHumain() == 0) {
-			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,12);
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11);
 		}
 		else if(getNbrJoueursHumain() == 1) {
-			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,12);
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11);
 		}
 		else if(getNbrJoueursHumain() == 2) {
-			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,12);
+			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,11);
 		}
 	}
 	
@@ -164,7 +164,7 @@ public class GameManagerAwale extends GameManager{
 				this.joueurActuel().jouerUnCoup(coupJoue, this);
 			}
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
-			System.out.println("Coup joué : "+coupJoue);
+			//System.out.println("Coup joué : "+coupJoue);
 			
 			
 			// Entree les coups manuellement a travers la console :
@@ -236,7 +236,7 @@ public class GameManagerAwale extends GameManager{
 	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
 		if( plateau[caseJouee] != 0 ) { //this.getPartie().getPlateau()
-			if( caseJouee >= joueur.getMin() && caseJouee < joueur.getMax() && InterdictionAffamer(caseJouee) ) return true;
+			if( caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && InterdictionAffamer(caseJouee) ) return true;
 		}
 		return false;
 	}
@@ -249,7 +249,7 @@ public class GameManagerAwale extends GameManager{
 	
 	public int calculSommeGrainesEnJeu(JoueurAwale joueur) {
 		int x = 0;
-		for(int i=joueur.getMin();i<joueur.getMax();i++) {
+		for(int i=joueur.getMin();i<=joueur.getMax();i++) {
 			x+= this.getPartie().getPlateau()[i];
 		}
 		return x;
@@ -272,6 +272,14 @@ public class GameManagerAwale extends GameManager{
 			messageFinDePartie=" !! plus de graines a jouer pour "+ joueurActuel().getNom() +" !! ";
 			finDePartie=true;
 		}
+		
+		boolean affamerPartout=true;
+		for(int i=this.joueurActuel().getMin();i<=joueurActuel().getMax();i++) {
+			if(InterdictionAffamer(i)) {
+				affamerPartout=false;
+			}
+		}
+		finDePartie=finDePartie||affamerPartout;
 		
 		if(finDePartie){
 			ajoutGains();
@@ -323,7 +331,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	public ArrayList determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
 		ArrayList coupPossible = new ArrayList<>();
-		for(int i = joueur.getMin(); i < joueur.getMax(); i++) {
+		for(int i = joueur.getMin(); i <=joueur.getMax(); i++) {
 			if( verifierCoupValide(joueur,i,plateau)) {
 				coupPossible.add(i);
 			}
@@ -340,9 +348,11 @@ public class GameManagerAwale extends GameManager{
 			if( resteADeposer <= 0 )
 				return false ;
 		}
+		//System.out.println("AFFAMER OK");
 		return true;
 	}
 	
+	/*
 	public boolean InterdictionAffamer() {
 		if ( joueurActuel() == this.joueur1 && calculSommeGrainesEnJeu(this.joueur2) == 0 ) {
 			int max = this.joueur1.getMax();
@@ -357,7 +367,7 @@ public class GameManagerAwale extends GameManager{
 			}
 		}
 		return false;
-	}
+	}*/
 	
 	public boolean plateauxEgaux(int[] plateau1,int[] plateau2) {
 		boolean equal=(plateau1.length==plateau2.length);
