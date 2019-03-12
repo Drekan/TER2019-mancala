@@ -212,10 +212,10 @@ public class GameManagerAwale extends GameManager{
 		return this.joueur1;
 	}
 	
-	public int calculSommeGrainesEnJeu(JoueurAwale joueur) {
+	public int calculSommeGrainesEnJeu(JoueurAwale joueur, int[] plateau) {
 		int x = 0;
-		for(int i=joueur.getMin();i<=joueur.getMax();i++) {
-			x+= this.getPartie().getPlateau()[i];
+		for(int i = joueur.getMin(); i <= joueur.getMax(); i++) {
+			x += plateau[i];
 		}
 		return x;
 	}
@@ -232,10 +232,10 @@ public class GameManagerAwale extends GameManager{
 		//2*6*3 = 36, 2 pour les 2 joueurs, 6 pour le nombre de cases d'un cote, 3 pour le nombre de tour de plateau
 		//36 >= 3 fois le tour du plateau redondant 
 		else if(NbRedondanceHistorique(36)>=3) {
-			messageFinDePartie="Redondances dans les coups joués. La partie s'arrête.";
+			messageFinDePartie="Redondances dans les coups joues. La partie s'arrete.";
 			finDePartie=true;
 		}
-		else if(calculSommeGrainesEnJeu(joueurActuel()) == 0 ) {
+		else if(calculSommeGrainesEnJeu(joueurActuel(), this.getPartie().getPlateau()) == 0 ) {
 			messageFinDePartie=" !! plus de graines a jouer pour "+ joueurActuel().getNom() +" !! ";
 			finDePartie=true;
 		}
@@ -276,8 +276,8 @@ public class GameManagerAwale extends GameManager{
 	
 	
 	public void ajoutGains() {
-		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2) );
-		this.joueur1.setScore( this.joueur1.getScore() + calculSommeGrainesEnJeu(this.joueur1) );
+		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2, this.getPartie().getPlateau()) );
+		this.joueur1.setScore( this.joueur1.getScore() + calculSommeGrainesEnJeu(this.joueur1, this.getPartie().getPlateau()) );
 	}
 	
 	
@@ -308,7 +308,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	public boolean InterdictionAffamer(int caseJouee) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
-		if ( (this.joueurActuel() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2()) == 0) || ( this.joueurActuel() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1()) == 0 ) ) {
+		if ( (this.joueurActuel() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2(), this.getPartie().getPlateau()) == 0) || ( this.joueurActuel() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1(), this.getPartie().getPlateau()) == 0 ) ) {
 			int nbrGrainesJouee = this.partie.getPlateau()[caseJouee];
 			int resteADeposer = nbrGrainesJouee-(this.joueurActuel().getMax() - caseJouee);
 			if( resteADeposer <= 0 )
