@@ -81,10 +81,7 @@ public class GameManagerAwale extends GameManager{
 		if(getNbrJoueursHumain() == 0) {
 			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,5);
 		}
-		else if(getNbrJoueursHumain() == 1) {
-			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5);
-		}
-		else if(getNbrJoueursHumain() == 2) {
+		else if(getNbrJoueursHumain() >= 1) {
 			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5);
 		}
 	}
@@ -99,10 +96,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	public void setJoueur2(String nomJoueur) {
-		if(getNbrJoueursHumain() == 0) {
-			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11);
-		}
-		else if(getNbrJoueursHumain() == 1) {
+		if(getNbrJoueursHumain() <= 1) {
 			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11);
 		}
 		else if(getNbrJoueursHumain() == 2) {
@@ -159,9 +153,9 @@ public class GameManagerAwale extends GameManager{
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			int coupJoue = this.joueurActuel().choisirUnCoup(this);
-			
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
+			
+			int coupJoue = this.joueurActuel().choisirUnCoup(this);
 			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
 				this.joueurActuel().jouerUnCoup(coupJoue, this);
 			}

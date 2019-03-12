@@ -119,7 +119,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		double[] poids= {0,1/5,2/5,3/5,4/5,1};
 		
 		int debut=(numeroJoueur==1?0:6);
-		int fin=(numeroJoueur==2?6:12);
+		int fin=(numeroJoueur==1?6:12);
 		
 		for(int i=debut;i<fin;i++) {
 			nombreGrainesJoueur++;
@@ -128,6 +128,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		if(nombreGrainesJoueur!=0) {
 			int poidsActuel=0;
 			for(int i=debut;i<fin;i++) {
+				//System.out.println(i);
 				valeurH4+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
 				poidsActuel++;
 			}
