@@ -46,6 +46,17 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return plateauSimule;
 	}
 	
+	public int nombreGrainePlateau(int[] plateauSimule) {
+		int nombreGraine = 0;
+		
+		for(int i = 0; i < 12; i++)
+		{
+			nombreGraine += plateauSimule[i];
+		}
+		
+		return nombreGraine;
+	}
+	
 	/* Heuristique 1:
 	 * L'objectif de cet heuristique est de minimiser
 	 * le nombre de cases vulnérables
