@@ -57,6 +57,38 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return nombreGraine;
 	}
 	
+	public int simulerFinPartie(int[] plateauSimule, GameManagerAwale arbitreAwale) {
+		int joueurGagnant = -1;
+		
+		if( nombreGrainePlateau(plateauSimule) <= 1 ) {
+			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+		}
+		
+		/* cas de la redondance a traiter
+		else if(arbitreAwale.NbRedondanceHistorique(36) >= 3) {
+			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+		}*/
+		
+		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), plateauSimule) == 0 ) {
+			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+		}
+		
+		boolean affamerPartout = true;
+		
+		for(int i = arbitreAwale.joueurActuel().getMin(); i <= arbitreAwale.joueurActuel().getMax(); i++) {
+			if(arbitreAwale.InterdictionAffamer(i, plateauSimule)) {
+				affamerPartout = false;
+			}
+		}
+		
+		if(affamerPartout)
+		{
+			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+		}
+		
+		return joueurGagnant;
+	}
+	
 	/* Heuristique 1:
 	 * L'objectif de cet heuristique est de minimiser
 	 * le nombre de cases vulnérables
@@ -186,6 +218,8 @@ public class JoueurAwaleIA extends JoueurAwale{
 	long time = System.currentTimeMillis();
         ArrayList coupPossible = new ArrayList<>();
         int plateauSimule[] = new int[12];
+	int scoreJoueur, scoreAdversaire;
+	    
         plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
          
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),plateauSimule);
@@ -195,9 +229,9 @@ public class JoueurAwaleIA extends JoueurAwale{
          
         //Gerer le cas ou le noeud est terminal
         
-        //On verifie que la liste des coupPossible est vide
-        //Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
-        //Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur
+        /*On verifie que la liste des coupPossible est vide
+        Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
+        Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
         if(coupPossible.isEmpty())
         {
         	//System.out.println("plateauSimule = null");
@@ -205,13 +239,19 @@ public class JoueurAwaleIA extends JoueurAwale{
         	return valeur;
         }
         
-        if(profondeurMax == 0){//&& le noeud n'est pas terminal
+        if(profondeurMax == 0){
             if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1()){
-                valeur = evaluation(1, plateauSimule, arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+            	scoreJoueur = arbitreAwale.getJoueur1().getScore();
+            	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
             }
             else{
-                valeur = evaluation(2, plateauSimule, arbitreAwale.getJoueur2().getScore(), arbitreAwale.getJoueur1().getScore());
+            	scoreJoueur = arbitreAwale.getJoueur1().getScore();
+            	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
             }
+            
+            valeur = evaluation(2, plateauSimule, scoreJoueur, scoreAdversaire);
+            
+            
             return valeur;
         }
           
