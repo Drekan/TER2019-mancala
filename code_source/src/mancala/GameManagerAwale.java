@@ -30,15 +30,15 @@ public class GameManagerAwale extends GameManager{
 		this.historique = new ArrayList<int[]>();
 	}
 	
-	/* Cette méthode teste si un mode de jeu donné
-	 *  en paramètre est valide ou non. On peut donc gérer
+	/* Cette methode teste si un mode de jeu donne
+	 *  en parametre est valide ou non. On peut donc gerer
 	 *  toutes les valeurs que l'on accepte, facilement
 	 */
 	public boolean modeDeJeuValide(int modeJeu) {
 		return !(modeJeu<0 || modeJeu>2);
 	}
 	
-	/* Cette méthode affiche les différents modes de jeux jouables,
+	/* Cette methode affiche les differents modes de jeux jouables,
 	 *  et demande à l'utilisateur d'en choisir un
 	 */
 	public int choisirModeJeu() {
@@ -126,16 +126,16 @@ public class GameManagerAwale extends GameManager{
 		setJoueur2(J2);
 	}
 	
-	/* Cette méthode gère la mise en place de la difficulté
-	 * 	NB: On n'a pas besoin d'assigner de difficulté lorsque deux
+	/* Cette methode gere la mise en place de la difficulte
+	 * 	NB: On n'a pas besoin d'assigner de difficulte lorsque deux
 	 * 		joueurs humains s'affrontent
 	 */
 	private int choisirDifficulte() {
 		int difficulte=0;
 		if(this.nbrJoueursHumain!=2) {
 			Scanner sc=new Scanner(System.in);
-			System.out.println("----Choisissez la difficulté de l'IA----");
-			System.out.println("0. IA naïve (random)");
+			System.out.println("----Choisissez la difficulte de l'IA----");
+			System.out.println("0. IA naive (random)");
 			System.out.println("1. IA minimax");
 			do {
 				System.out.print("\nVotre choix >>");
@@ -146,9 +146,9 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	
-	/* Méthode qui gère le déroulement d'une partie,
-	 * les coups joués et par qui. Elle ne s'arrête que 
-	 * lorsqu'une(au moins) des conditions de fins de partie est remplie 
+	/* Methode qui gere le deroulement d'une partie,
+	 * les coups joues et par qui. Elle ne s'arrete que 
+	 * lorsqu'une (au moins) des conditions de fins de partie est remplie 
 	 */
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
@@ -161,7 +161,7 @@ public class GameManagerAwale extends GameManager{
 			}
 			
 			
-			//se pencher sur ce bout de code plus tard -Bastien (note à moi même)--------------
+			//se pencher sur ce bout de code plus tard -Bastien (note a moi meme)--------------
 			System.out.println();
 			this.stockerEtatMouvement(this.getPartie().etatActuel());
 			for(int i = 11;i>5;i--) {
@@ -182,8 +182,8 @@ public class GameManagerAwale extends GameManager{
 	
 	//methods :
 	
-	/*Méthode qui instancie le plateau de jeu et
-	 * démarre la partie avec la difficulté adéquate !
+	/*Methode qui instancie le plateau de jeu et
+	 * demarre la partie avec la difficulte adequate !
 	 */
 	public void lancerUneNouvellePartie(){
 		initJoueurs("joueur1","joueur2");
@@ -268,9 +268,9 @@ public class GameManagerAwale extends GameManager{
 		if( score1 == score2 )	
 			System.out.println(" Score Egaux ! " + score1);
 		else if( score1 > score2 )	
-			System.out.println("Joueur 1 a gagn�");
+			System.out.println("Joueur 1 a gagne");
 		else	
-			System.out.println("Joueur 2 a gagn�");
+			System.out.println("Joueur 2 a gagne");
 		System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
 	}
 	
