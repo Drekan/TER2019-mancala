@@ -201,7 +201,7 @@ public class GameManagerAwale extends GameManager{
 	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
 		if( plateau[caseJouee] != 0 ) { //this.getPartie().getPlateau()
-			if( caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && InterdictionAffamer(caseJouee) ) return true;
+			if( caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && InterdictionAffamer(caseJouee, plateau) ) return true;
 		}
 		return false;
 	}
@@ -242,7 +242,7 @@ public class GameManagerAwale extends GameManager{
 		
 		boolean affamerPartout=true;
 		for(int i=this.joueurActuel().getMin();i<=joueurActuel().getMax();i++) {
-			if(InterdictionAffamer(i)) {
+			if(InterdictionAffamer(i, this.getPartie().getPlateau())) {
 				affamerPartout=false;
 			}
 		}
@@ -307,9 +307,9 @@ public class GameManagerAwale extends GameManager{
 		return coupPossible;
 	}
 	
-	public boolean InterdictionAffamer(int caseJouee) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
-		if ( (this.joueurActuel() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2(), this.getPartie().getPlateau()) == 0) || ( this.joueurActuel() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1(), this.getPartie().getPlateau()) == 0 ) ) {
-			int nbrGrainesJouee = this.partie.getPlateau()[caseJouee];
+	public boolean InterdictionAffamer(int caseJouee, int[] plateau) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
+		if ( (this.joueurActuel() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2(), plateau) == 0) || ( this.joueurActuel() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1(), plateau) == 0 ) ) {
+			int nbrGrainesJouee = plateau[caseJouee];
 			int resteADeposer = nbrGrainesJouee-(this.joueurActuel().getMax() - caseJouee);
 			if( resteADeposer <= 0 )
 				return false ;
