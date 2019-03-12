@@ -57,21 +57,41 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return nombreGraine;
 	}
 	
-	//simulerFinPartie compile, mais ne renvoie pas le joueur gagnant pour le moment, je me suis trompee dans les tests
+	//Permet de savoir qui gagne
+	public int vainqueur(int scoreJoueur1, int scoreJoueur2)
+	{
+		int joueurGagnant = -1;
+		
+		if(scoreJoueur1 > scoreJoueur2)
+		{
+			joueurGagnant = 1;
+		}
+		else if(scoreJoueur1 < scoreJoueur2)
+		{
+			joueurGagnant = 2;
+		}
+		else
+		{
+			joueurGagnant = 0;
+		}
+		
+		return joueurGagnant;
+	}
+	
 	public int simulerFinPartie(int[] plateauSimule, GameManagerAwale arbitreAwale) {
 		int joueurGagnant = -1;
 		
 		if( nombreGrainePlateau(plateauSimule) <= 1 ) {
-			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
 		/* cas de la redondance a traiter
 		else if(arbitreAwale.NbRedondanceHistorique(36) >= 3) {
-			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}*/
 		
 		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), plateauSimule) == 0 ) {
-			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
 		boolean affamerPartout = true;
@@ -84,7 +104,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		
 		if(affamerPartout)
 		{
-			joueurGagnant = arbitreAwale.joueurActuel().getNumeroJoueur();
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
 		return joueurGagnant;
