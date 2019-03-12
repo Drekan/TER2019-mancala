@@ -270,11 +270,14 @@ public class JoueurAwaleIA extends JoueurAwale{
      
     public void choisirUnCoup(GameManagerAwale arbitreAwale) {
         int caseJouee = -1;
-        do {
-        	caseJouee = jouerMinimax(arbitreAwale,8);
-        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
-        
-        System.out.println("case jouee : " + caseJouee);
-        jouerUnCoup(caseJouee,arbitreAwale);        
+        int ia=arbitreAwale.getPartie().getDifficulteChoisie();
+        if(ia==1) {
+	        do {
+	        	caseJouee = jouerMinimax(arbitreAwale,8);
+	        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
+	        
+	        System.out.println("case jouee : " + caseJouee);
+	        jouerUnCoup(caseJouee,arbitreAwale);
+        }
     }
 }
