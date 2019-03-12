@@ -57,6 +57,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return nombreGraine;
 	}
 	
+	//simulerFinPartie compile, mais ne renvoie pas le joueur gagnant pour le moment, je me suis trompee dans les tests
 	public int simulerFinPartie(int[] plateauSimule, GameManagerAwale arbitreAwale) {
 		int joueurGagnant = -1;
 		
