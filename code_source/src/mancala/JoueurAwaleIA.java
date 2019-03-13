@@ -11,19 +11,23 @@ public class JoueurAwaleIA extends JoueurAwale{
 	//Pour calculer le temps d'exécution de minimax
 	private long time = 0;
 	
-	public int getCompteur() {
+	public int getCompteur() 
+	{
 		return compteur;
 	}
 
-	public void setCompteur(int compteur) {
+	public void setCompteur(int compteur) 
+	{
 		this.compteur = compteur;
 	}
 	
-	public long getTime() {
+	public long getTime() 
+	{
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(long time) 
+	{
 		this.time = time;
 	}
 	
@@ -44,17 +48,6 @@ public class JoueurAwaleIA extends JoueurAwale{
 		miseAJourPlateau(plateauSimule,caseJouee);
 		
 		return plateauSimule;
-	}
-	
-	public int nombreGrainePlateau(int[] plateauSimule) {
-		int nombreGraine = 0;
-		
-		for(int i = 0; i < 12; i++)
-		{
-			nombreGraine += plateauSimule[i];
-		}
-		
-		return nombreGraine;
 	}
 	
 	//Permet de savoir qui gagne
@@ -78,26 +71,32 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return joueurGagnant;
 	}
 	
-	public int simulerFinPartie(int[] plateauSimule, GameManagerAwale arbitreAwale) {
+	public int simulerFinPartie(Awale partieSimulee, GameManagerAwale arbitreAwale) 
+	{
 		int joueurGagnant = -1;
 		
-		if( nombreGrainePlateau(plateauSimule) <= 1 ) {
+		if( partieSimulee.getNbrGrainesEnJeu() <= 1 ) 
+		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
 		/* cas de la redondance a traiter
-		else if(arbitreAwale.NbRedondanceHistorique(36) >= 3) {
+		else if(arbitreAwale.NbRedondanceHistorique(36) >= 3) 
+		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}*/
 		
-		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), plateauSimule) == 0 ) {
+		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), partieSimulee.getPlateau()) == 0 ) 
+		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
 		boolean affamerPartout = true;
 		
-		for(int i = arbitreAwale.joueurActuel().getMin(); i <= arbitreAwale.joueurActuel().getMax(); i++) {
-			if(arbitreAwale.InterdictionAffamer(i, plateauSimule)) {
+		for(int i = arbitreAwale.joueurActuel().getMin(); i <= arbitreAwale.joueurActuel().getMax(); i++) 
+		{
+			if(arbitreAwale.InterdictionAffamer(i, partieSimulee.getPlateau())) 
+			{
 				affamerPartout = false;
 			}
 		}
@@ -235,19 +234,24 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return valeurEvaluation;
 	}
       
-    public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax){
+    public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax)
+    {
 	long time = System.currentTimeMillis();
         ArrayList coupPossible = new ArrayList<>();
 	double valeur = -1;
-        int plateauSimule[] = new int[12];
-	int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire;
-	    
-        plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
+	int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
+	int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
+        
+        Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
+	//On met a jour le nombre de graines en jeu
+        partieSimulee.setNbrGrainesEnJeu(arbitreAwale.getPartie().getNbrGrainesEnJeu());
+	//On simule un plateau
+        partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
          
-        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),plateauSimule);
+        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(), partieSimulee.getPlateau());
         //System.out.println("Minimax !! coupPossible = " + coupPossible);
 
-	retourSimulerFinPartie = simulerFinPartie(plateauSimule, arbitreAwale);
+	retourSimulerFinPartie = simulerFinPartie(partieSimulee, arbitreAwale);
 	    
         if(retourSimulerFinPartie != -1)
         {
@@ -278,33 +282,42 @@ public class JoueurAwaleIA extends JoueurAwale{
         	return valeur;
         }
         
-        if(profondeurMax == 0){
-            if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1()){
+        if(profondeurMax == 0)
+	{
+            if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1())
+	    {
+		numeroJoueur = 1;
             	scoreJoueur = arbitreAwale.getJoueur1().getScore();
             	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
             }
-            else{
+            else
+	    {
+		numeroJoueur = 2;
             	scoreJoueur = arbitreAwale.getJoueur1().getScore();
             	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
             }
             
-            valeur = evaluation(2, plateauSimule, scoreJoueur, scoreAdversaire);
+            valeur = evaluation(numeroJoueur, partieSimulee.getPlateau(), scoreJoueur, scoreAdversaire);
             
             return valeur;
         }
           
         //Si le joueur est l'IA
-        if(joueurMax){
+        if(joueurMax)
+	{
             valeur = -10000;
-            for(int i = 0; i < coupPossible.size() ; i++){
+            for(int i = 0; i < coupPossible.size() ; i++)
+	    {
                 valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
 		setCompteur(getCompteur() + 1);
                 //System.out.println(" !! valeur = " + valeur);
             }
         }
-        else{
+        else
+	{
             valeur = 10000;
-            for(int i = 0; i < coupPossible.size(); i++){
+            for(int i = 0; i < coupPossible.size(); i++)
+	    {
                 valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
 		setCompteur(getCompteur() + 1);
             }
@@ -316,7 +329,8 @@ public class JoueurAwaleIA extends JoueurAwale{
         return valeur;
     }
   
-    public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax){
+    public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
+    {
         long time = System.currentTimeMillis();
 	double valeur_optimisee = -10000;
         double valeur;
@@ -328,11 +342,13 @@ public class JoueurAwaleIA extends JoueurAwale{
         
         int coup_optimise = -1;
   
-        for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
+        for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
+	{
             valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true); 
 	    nombre_appel++;
             //System.out.println(" !! valeur = " + valeur);
-            if(valeur > valeur_optimisee){
+            if(valeur > valeur_optimisee)
+	    {
                 valeur_optimisee = valeur;
                 coup_optimise = (int)coupPossible.get(i);
                 
@@ -356,17 +372,19 @@ public class JoueurAwaleIA extends JoueurAwale{
 	return coup_optimise;
     }
      
-    public int choisirUnCoup(GameManagerAwale arbitreAwale) {
+    public int choisirUnCoup(GameManagerAwale arbitreAwale) 
+    {
         int caseJouee = -1;
         int ia=arbitreAwale.getPartie().getDifficulteChoisie();
-        if(ia==1) {
+        if(ia == 1) 
+	{
 	        do {
 	        	caseJouee = jouerMinimax(arbitreAwale,8);
 	        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 	        
 	        System.out.println("case jouee : " + caseJouee);
         }
-        else if(ia==0) {
+        else if(ia == 0) {
         	Random rand = new Random();
         	do {
         		caseJouee = rand.nextInt(6)+this.getMin();
