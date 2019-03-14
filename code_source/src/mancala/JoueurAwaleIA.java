@@ -5,7 +5,7 @@ import java.util.Random;
 
 //les methodes de decision seront utilisees(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
-	//Pour calculer le nombre d'appels récursifs de minimax
+	//Pour calculer le nombre d'appels rÃ©cursifs de minimax
 	private int compteur = 0;
 	
 	//Pour calculer le temps d'execution de minimax
@@ -111,7 +111,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	/* Heuristique 1:
 	 * L'objectif de cet heuristique est de minimiser
-	 * le nombre de cases vulnérables
+	 * le nombre de cases vulnÃ©rables
 	 */
 	private double H1(int numeroJoueur,int[] plateau) {
 		int nbCasesVulnerables=0;
@@ -173,7 +173,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	/* Heuristique 4:
 	 * L'objectif de cet heuristique est de valoriser
-	 * les etats du jeu où les graines sont à droite
+	 * les etats du jeu oÃ¹ les graines sont Ã  droite
 	 */
 	private double H4(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
@@ -233,158 +233,167 @@ public class JoueurAwaleIA extends JoueurAwale{
 		
 		return valeurEvaluation;
 	}
-      
-    public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax)
-    {
-	long time = System.currentTimeMillis();
-        ArrayList coupPossible = new ArrayList<>();
-	double valeur = -1;
-	int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
-	int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
-        
-        Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
-	//On met a jour le nombre de graines en jeu
-        partieSimulee.setNbrGrainesEnJeu(arbitreAwale.getPartie().getNbrGrainesEnJeu());
-	//On simule un plateau
-        partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
-         
-        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(), partieSimulee.getPlateau());
-        //System.out.println("Minimax !! coupPossible = " + coupPossible);
+    
+	public double noeudTerminal(int retourSimulerFinPartie, GameManagerAwale arbitreAwale)
+	{
+		double valeur;
+		int score;
+		
+		if(retourSimulerFinPartie == arbitreAwale.joueurActuel().getNumeroJoueur())
+    		{
+    			score = 1; //On valorise le cas ou le joueur actuel gagne la partie
+    		}
+    		else if(retourSimulerFinPartie == 0)
+    		{
+    			score = 0; //Neutre si ex aequo
+    		}
+    		else
+    		{
+    			score = -1; //On devalorise le cas ou le joueur actuel perd la partie
+    		}
+    	
+    		valeur = score * 1000;
+    	
+		return valeur;
+	}
+	
+	public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax)
+    	{
+		long time = System.currentTimeMillis();
+		ArrayList coupPossible = new ArrayList<>();
+		double valeur = -1;
+		int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
+		int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
 
-	retourSimulerFinPartie = simulerFinPartie(partieSimulee, arbitreAwale);
+		Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
+		//On met a jour le nombre de graines en jeu
+		partieSimulee.setNbrGrainesEnJeu(arbitreAwale.getPartie().getNbrGrainesEnJeu());
+		//On simule un plateau
+		partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
+
+		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(), partieSimulee.getPlateau());
+		//System.out.println("Minimax !! coupPossible = " + coupPossible);
+
+		retourSimulerFinPartie = simulerFinPartie(partieSimulee, arbitreAwale);
 	    
-        if(retourSimulerFinPartie != -1)
-        {
-        	if(retourSimulerFinPartie == arbitreAwale.joueurActuel().getNumeroJoueur())
-        	{
-        		score = 1; //On valorise le cas ou le joueur actuel gagne la partie
+        	if(retourSimulerFinPartie != -1)
+        	{        	
+        		valeur = noeudTerminal(retourSimulerFinPartie, arbitreAwale);        	
         	}
-        	else if(retourSimulerFinPartie == 0)
-        	{
-        		score = 0; //Neutre si ex aequo
-        	}
-        	else
-        	{
-        		score = -1; //On devalorise le cas ou le joueur actuel perd la partie
-        	}
-        	
-        	valeur = score * 1000;
-        	
-        }
         
-        /*On verifie que la liste des coupPossible est vide
-        Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
-        Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
-        if(coupPossible.isEmpty())
-        {
-        	valeur = 1000;
-        	return valeur;
-        }
+		/*On verifie que la liste des coupPossible est vide
+		Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
+		Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
+		if(coupPossible.isEmpty())
+		{
+			valeur = 1000;
+			return valeur;
+		}
         
-        if(profondeurMax == 0)
-	{
-            if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1())
-	    {
-		numeroJoueur = 1;
-            	scoreJoueur = arbitreAwale.getJoueur1().getScore();
-            	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
-            }
-            else
-	    {
-		numeroJoueur = 2;
-            	scoreJoueur = arbitreAwale.getJoueur1().getScore();
-            	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
-            }
-            
-            valeur = evaluation(numeroJoueur, partieSimulee.getPlateau(), scoreJoueur, scoreAdversaire);
-            
-            return valeur;
-        }
+		if(profondeurMax == 0)
+		{
+		    if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1())
+		    {
+			numeroJoueur = 1;
+			scoreJoueur = arbitreAwale.getJoueur1().getScore();
+			scoreAdversaire = arbitreAwale.getJoueur2().getScore();
+		    }
+		    else
+		    {
+			numeroJoueur = 2;
+			scoreJoueur = arbitreAwale.getJoueur1().getScore();
+			scoreAdversaire = arbitreAwale.getJoueur2().getScore();
+		    }
+
+		    valeur = evaluation(numeroJoueur, partieSimulee.getPlateau(), scoreJoueur, scoreAdversaire);
+
+		    return valeur;
+		}
           
-        //Si le joueur est l'IA
-        if(joueurMax)
-	{
-            valeur = -10000;
-            for(int i = 0; i < coupPossible.size() ; i++)
-	    {
-                valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
-		setCompteur(getCompteur() + 1);
-            }
-        }
-        else
-	{
-            valeur = 10000;
-            for(int i = 0; i < coupPossible.size(); i++)
-	    {
-                valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
-		setCompteur(getCompteur() + 1);
-            }
-        }
+		//Si le joueur est l'IA
+		if(joueurMax)
+		{
+		    valeur = -10000;
+		    for(int i = 0; i < coupPossible.size() ; i++)
+		    {
+			valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+			setCompteur(getCompteur() + 1);
+		    }
+		}
+		else
+		{
+		    valeur = 10000;
+		    for(int i = 0; i < coupPossible.size(); i++)
+		    {
+			valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
+			setCompteur(getCompteur() + 1);
+		    }
+		}
 	
-	time = System.currentTimeMillis() - time;
-        setTime(getTime() + time);
-	    
-        return valeur;
-    }
+		time = System.currentTimeMillis() - time;
+		setTime(getTime() + time);
+
+		return valeur;
+    	}
   
-    public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
-    {
-        long time = System.currentTimeMillis();
-	double valeur_optimisee = -10000;
-        double valeur;
-	int nombre_appel = 0;
-         
-        ArrayList coupPossible = new ArrayList<>();
-        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
-        
-        int coup_optimise = -1;
+    	public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
+    	{
+		long time = System.currentTimeMillis();
+		double valeur_optimisee = -10000;
+		double valeur;
+		int nombre_appel = 0;
+
+		ArrayList coupPossible = new ArrayList<>();
+		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
+
+		int coup_optimise = -1;
   
-        for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
-	{
-            valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true); 
-	    nombre_appel++;
-            if(valeur > valeur_optimisee)
-	    {
-                valeur_optimisee = valeur;
-                coup_optimise = (int)coupPossible.get(i);
-                
-            }
-        }
+		for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
+		{
+		    valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true); 
+		    nombre_appel++;
+		    if(valeur > valeur_optimisee)
+		    {
+			valeur_optimisee = valeur;
+			coup_optimise = (int)coupPossible.get(i);
+
+		    }
+        	}
 	    
-	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur à 0 
-        System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
-        setCompteur(0);
-        
-        //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
-        System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
-        setTime(0);
-	
-	System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
-	    
-        time = System.currentTimeMillis() - time;
-        System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
-	    
-	return coup_optimise;
-    }
+		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur Ã  0 
+		System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
+		setCompteur(0);
+
+		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur Ã  0
+		System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
+		setTime(0);
+
+		System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
+
+		time = System.currentTimeMillis() - time;
+		System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
+
+		return coup_optimise;
+    	}
      
-    public int choisirUnCoup(GameManagerAwale arbitreAwale) 
-    {
-        int caseJouee = -1;
-        int ia=arbitreAwale.getPartie().getDifficulteChoisie();
-        if(ia == 1) 
-	{
-	        do {
-	        	caseJouee = jouerMinimax(arbitreAwale,8);
-	        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
-	        
-	        System.out.println("case jouee : " + caseJouee);
-        }
-        else if(ia == 0) {
-        	Random rand = new Random();
-        	do {
-        		caseJouee = rand.nextInt(6)+this.getMin();
-            }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
-        }
-        return caseJouee;
-    }
+    	public int choisirUnCoup(GameManagerAwale arbitreAwale) 
+    	{
+		int caseJouee = -1;
+		int ia=arbitreAwale.getPartie().getDifficulteChoisie();
+		if(ia == 1) 
+		{
+			do {
+				caseJouee = jouerMinimax(arbitreAwale,8);
+			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
+
+			System.out.println("case jouee : " + caseJouee);
+		}
+		else if(ia == 0) {
+			Random rand = new Random();
+			do {
+				caseJouee = rand.nextInt(6)+this.getMin();
+		    }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
+		}
+       		return caseJouee;
+    	}
 }
