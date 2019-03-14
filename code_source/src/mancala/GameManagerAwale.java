@@ -334,7 +334,7 @@ public class GameManagerAwale extends GameManager{
 		int redondances=0;
 		int profondeurEffective=Math.min(this.historique.size()-1,profondeur);
 		for(int i=0;i<profondeurEffective;i++) {
-			if(plateauxEgaux(this.historique.get(this.historique.size()-1),this.historique.get(i))) {
+			if(plateauxEgaux(this.historique.get(0),this.historique.get(i))) {
 				redondances++;
 			}
 		}
