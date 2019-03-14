@@ -264,6 +264,9 @@ public class JoueurAwaleIA extends JoueurAwale{
 		double valeur = -1;
 		int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
 		int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
+		
+		//Compte le nombre d'appels recursifs
+		setCompteur(getCompteur() + 1);
 
 		Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
 		//On met a jour le nombre de graines en jeu
@@ -317,7 +320,6 @@ public class JoueurAwaleIA extends JoueurAwale{
 		    for(int i = 0; i < coupPossible.size() ; i++)
 		    {
 			valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
-			setCompteur(getCompteur() + 1);
 		    }
 		}
 		else
@@ -326,7 +328,6 @@ public class JoueurAwaleIA extends JoueurAwale{
 		    for(int i = 0; i < coupPossible.size(); i++)
 		    {
 			valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
-			setCompteur(getCompteur() + 1);
 		    }
 		}
 	
@@ -360,18 +361,20 @@ public class JoueurAwaleIA extends JoueurAwale{
 		    }
         	}
 	    
-		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur à 0 
+		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
 		System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
-		setCompteur(0);
 
 		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
 		System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
 		setTime(0);
 
 		System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
+		System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
 
 		time = System.currentTimeMillis() - time;
 		System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
+		
+		setCompteur(0);
 
 		return coup_optimise;
     	}
