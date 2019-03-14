@@ -157,7 +157,7 @@ public class DrawingManagerAwale {
 		JPanel menu = new JPanel();
 		frmAwale.getContentPane().add(menu, BorderLayout.NORTH);
 		
-		JLabel titre = new JLabel("Bienvenue");
+		JLabel titre = new JLabel("Bienvenue au jeu d'Awale !");
 		menu.add(titre);
 		
 		JPanel game = new JPanel();

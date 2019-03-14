@@ -35,6 +35,10 @@ public class Awale extends Jeu{
 		}
 	}
 	
+	public void modifierPlateau(int[] plateau) {
+		this.plateau = plateau;
+	}
+	
 	//methods :
 	public void stockerJoueur(JoueurAwale joueur1,JoueurAwale joueur2) {// pouvoir reprendre une partie plus tard
 		gameManagerAwale.saveJoueur1(joueur1);

@@ -5,25 +5,29 @@ import java.util.Random;
 
 //les methodes de decision seront utilisees(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale{
-	//Pour calculer le nombre d'appels r√©cursifs de minimax
+	//Pour calculer le nombre d'appels rÈcursifs de minimax
 	private int compteur = 0;
 	
-	//Pour calculer le temps d'ex√©cution de minimax
+	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
 	
-	public int getCompteur() {
+	public int getCompteur() 
+	{
 		return compteur;
 	}
 
-	public void setCompteur(int compteur) {
+	public void setCompteur(int compteur) 
+	{
 		this.compteur = compteur;
 	}
 	
-	public long getTime() {
+	public long getTime() 
+	{
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(long time) 
+	{
 		this.time = time;
 	}
 	
@@ -46,20 +50,68 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return plateauSimule;
 	}
 	
-	public int nombreGrainePlateau(int[] plateauSimule) {
-		int nombreGraine = 0;
+	//Permet de savoir qui gagne
+	public int vainqueur(int scoreJoueur1, int scoreJoueur2)
+	{
+		int joueurGagnant = -1;
 		
-		for(int i = 0; i < 12; i++)
+		if(scoreJoueur1 > scoreJoueur2)
 		{
-			nombreGraine += plateauSimule[i];
+			joueurGagnant = 1;
+		}
+		else if(scoreJoueur1 < scoreJoueur2)
+		{
+			joueurGagnant = 2;
+		}
+		else
+		{
+			joueurGagnant = 0;
 		}
 		
-		return nombreGraine;
+		return joueurGagnant;
+	}
+	
+	public int simulerFinPartie(Awale partieSimulee, GameManagerAwale arbitreAwale) 
+	{
+		int joueurGagnant = -1;
+		
+		if( partieSimulee.getNbrGrainesEnJeu() <= 1 ) 
+		{
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+		}
+		
+		/* cas de la redondance a traiter
+		else if(arbitreAwale.NbRedondanceHistorique(36) >= 3) 
+		{
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+		}*/
+		
+		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), partieSimulee.getPlateau()) == 0 ) 
+		{
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+		}
+		
+		boolean affamerPartout = true;
+		
+		for(int i = arbitreAwale.joueurActuel().getMin(); i <= arbitreAwale.joueurActuel().getMax(); i++) 
+		{
+			if(arbitreAwale.InterdictionAffamer(i, partieSimulee.getPlateau())) 
+			{
+				affamerPartout = false;
+			}
+		}
+		
+		if(affamerPartout)
+		{
+			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+		}
+		
+		return joueurGagnant;
 	}
 	
 	/* Heuristique 1:
 	 * L'objectif de cet heuristique est de minimiser
-	 * le nombre de cases vuln√©rables
+	 * le nombre de cases vulnÈrables
 	 */
 	private double H1(int numeroJoueur,int[] plateau) {
 		int nbCasesVulnerables=0;
@@ -84,7 +136,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	private double H2(int numeroJoueur,int[] plateau) {
 		double nombreGraine=0;
 		double nombreGraineJoueur=0;
-		//double nombreGraineAdversaire=0;
+		
 		int debut=(numeroJoueur==1?0:6);
 		int fin=(numeroJoueur==2?6:12);
 		
@@ -121,12 +173,12 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	/* Heuristique 4:
 	 * L'objectif de cet heuristique est de valoriser
-	 * les √©tats du jeu o√π les graines sont √† droite
+	 * les etats du jeu o˘ les graines sont ‡ droite
 	 */
 	private double H4(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
 		double valeurH4=0;
-		//double[] poids= {1,4/5,3/5,2/5,1/5,0};
+		
 		double[] poids= {0,1/5,2/5,3/5,4/5,1};
 		
 		int debut=(numeroJoueur==1?0:6);
@@ -139,7 +191,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		if(nombreGrainesJoueur!=0) {
 			int poidsActuel=0;
 			for(int i=debut;i<fin;i++) {
-				//System.out.println(i);
+				
 				valeurH4+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
 				poidsActuel++;
 			}
@@ -161,7 +213,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	}
 	
 	
-	/* evaluation d'un √©tat du jeu en fonction
+	/* evaluation d'un etat du jeu en fonction
 	 * de la ponderation de chaque heuristique
 	 */
 	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
@@ -182,51 +234,88 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return valeurEvaluation;
 	}
       
-    public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax){
+    public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax)
+    {
 	long time = System.currentTimeMillis();
         ArrayList coupPossible = new ArrayList<>();
-        int plateauSimule[] = new int[12];
-        plateauSimule = this.simulerUnCoup(caseJouee, arbitreAwale);
+	double valeur = -1;
+	int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
+	int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
+        
+        Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
+	//On met a jour le nombre de graines en jeu
+        partieSimulee.setNbrGrainesEnJeu(arbitreAwale.getPartie().getNbrGrainesEnJeu());
+	//On simule un plateau
+        partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
          
-        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),plateauSimule);
+        coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(), partieSimulee.getPlateau());
         //System.out.println("Minimax !! coupPossible = " + coupPossible);
+
+	retourSimulerFinPartie = simulerFinPartie(partieSimulee, arbitreAwale);
+	    
+        if(retourSimulerFinPartie != -1)
+        {
+        	if(retourSimulerFinPartie == arbitreAwale.joueurActuel().getNumeroJoueur())
+        	{
+        		score = 1; //On valorise le cas ou le joueur actuel gagne la partie
+        	}
+        	else if(retourSimulerFinPartie == 0)
+        	{
+        		score = 0; //Neutre si ex aequo
+        	}
+        	else
+        	{
+        		score = -1; //On devalorise le cas ou le joueur actuel perd la partie
+        	}
+        	
+        	valeur = score * 1000;
+        	
+        }
         
-        double valeur = -1;
-         
-        //Gerer le cas ou le noeud est terminal
-        
-        //On verifie que la liste des coupPossible est vide
-        //Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
-        //Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur
+        /*On verifie que la liste des coupPossible est vide
+        Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
+        Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
         if(coupPossible.isEmpty())
         {
-        	//System.out.println("plateauSimule = null");
         	valeur = 1000;
         	return valeur;
         }
         
-        if(profondeurMax == 0){//&& le noeud n'est pas terminal
-            if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1()){
-                valeur = evaluation(1, plateauSimule, arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+        if(profondeurMax == 0)
+	{
+            if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1())
+	    {
+		numeroJoueur = 1;
+            	scoreJoueur = arbitreAwale.getJoueur1().getScore();
+            	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
             }
-            else{
-                valeur = evaluation(2, plateauSimule, arbitreAwale.getJoueur2().getScore(), arbitreAwale.getJoueur1().getScore());
+            else
+	    {
+		numeroJoueur = 2;
+            	scoreJoueur = arbitreAwale.getJoueur1().getScore();
+            	scoreAdversaire = arbitreAwale.getJoueur2().getScore();
             }
+            
+            valeur = evaluation(numeroJoueur, partieSimulee.getPlateau(), scoreJoueur, scoreAdversaire);
+            
             return valeur;
         }
           
         //Si le joueur est l'IA
-        if(joueurMax){
+        if(joueurMax)
+	{
             valeur = -10000;
-            for(int i = 0; i < coupPossible.size() ; i++){
+            for(int i = 0; i < coupPossible.size() ; i++)
+	    {
                 valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
 		setCompteur(getCompteur() + 1);
-                //System.out.println(" !! valeur = " + valeur);
             }
         }
-        else{
+        else
+	{
             valeur = 10000;
-            for(int i = 0; i < coupPossible.size(); i++){
+            for(int i = 0; i < coupPossible.size(); i++)
+	    {
                 valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
 		setCompteur(getCompteur() + 1);
             }
@@ -238,7 +327,8 @@ public class JoueurAwaleIA extends JoueurAwale{
         return valeur;
     }
   
-    public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax){
+    public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
+    {
         long time = System.currentTimeMillis();
 	double valeur_optimisee = -10000;
         double valeur;
@@ -246,27 +336,26 @@ public class JoueurAwaleIA extends JoueurAwale{
          
         ArrayList coupPossible = new ArrayList<>();
         coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
-        //System.out.println(" JouerMinimax !! coupPossible = " + coupPossible);
         
         int coup_optimise = -1;
   
-        for(int i = 0; i < coupPossible.size(); i++) {//Pour chaque coup possible a partir de l'etat courant
+        for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
+	{
             valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true); 
 	    nombre_appel++;
-            //System.out.println(" !! valeur = " + valeur);
-            if(valeur > valeur_optimisee){
+            if(valeur > valeur_optimisee)
+	    {
                 valeur_optimisee = valeur;
                 coup_optimise = (int)coupPossible.get(i);
                 
             }
         }
-        //System.out.println(" !! coup_optimise = " + coup_optimise);
 	    
-	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur √† 0 
+	//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax puis on remet le compteur ‡ 0 
         System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
         setCompteur(0);
         
-        //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur √† 0
+        //Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur ‡ 0
         System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
         setTime(0);
 	
@@ -278,17 +367,19 @@ public class JoueurAwaleIA extends JoueurAwale{
 	return coup_optimise;
     }
      
-    public int choisirUnCoup(GameManagerAwale arbitreAwale) {
+    public int choisirUnCoup(GameManagerAwale arbitreAwale) 
+    {
         int caseJouee = -1;
         int ia=arbitreAwale.getPartie().getDifficulteChoisie();
-        if(ia==1) {
+        if(ia == 1) 
+	{
 	        do {
 	        	caseJouee = jouerMinimax(arbitreAwale,8);
 	        }while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 	        
 	        System.out.println("case jouee : " + caseJouee);
         }
-        else if(ia==0) {
+        else if(ia == 0) {
         	Random rand = new Random();
         	do {
         		caseJouee = rand.nextInt(6)+this.getMin();

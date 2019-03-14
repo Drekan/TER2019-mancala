@@ -11,7 +11,7 @@ public class Test {
         int choix = sc.nextInt();
         GameManagerAwale ArbitreAwale = new GameManagerAwale(choix);
 
-        System.out.println("Choisissez la difficulte ");
+        System.out.println("Choisissez la difficulte >> ");
         int difficulte = sc.nextInt();
         ArbitreAwale.lancerUneNouvellePartie();
 
@@ -21,17 +21,6 @@ public class Test {
 
         window = new DrawingManagerAwale(ArbitreAwale);
         window.getFrmAwale().setVisible(true);
-        //window.startGame();
-
-//        EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
 
         while( !ArbitreAwale.finPartie() ) {
             int coupJoue = -1;
@@ -46,7 +35,6 @@ public class Test {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    //System.out.println(coupJoue);
                 }while( (coupJoue == -1) || (!ArbitreAwale.verifierCoupValide(ArbitreAwale.getJoueur1(),coupJoue,ArbitreAwale.getPartie().getPlateau())) );
                 ArbitreAwale.getJoueur1().jouerUnCoup(coupJoue,ArbitreAwale);
             }
