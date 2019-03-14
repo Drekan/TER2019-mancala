@@ -71,6 +71,13 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return joueurGagnant;
 	}
 	
+	public int differenceScore(int scoreJoueurA, int scoreJoueurB)
+	{
+		int difference = scoreJoueurA - scoreJoueurB;
+		
+		return difference;
+	}
+	
 	public int simulerFinPartie(Awale partieSimulee, GameManagerAwale arbitreAwale) 
 	{
 		int joueurGagnant = -1;
@@ -237,19 +244,26 @@ public class JoueurAwaleIA extends JoueurAwale{
 	public double noeudTerminal(int retourSimulerFinPartie, GameManagerAwale arbitreAwale)
 	{
 		double valeur;
-		int score;
+		int score, scoreJoueur, scoreAdversaire;
 		
-		if(retourSimulerFinPartie == arbitreAwale.joueurActuel().getNumeroJoueur())
-    		{
-    			score = 1; //On valorise le cas ou le joueur actuel gagne la partie
-    		}
-    		else if(retourSimulerFinPartie == 0)
-    		{
-    			score = 0; //Neutre si ex aequo
-    		}
-    		else
-    		{
-    			score = -1; //On devalorise le cas ou le joueur actuel perd la partie
+		if(arbitreAwale.joueurActuel().getNumeroJoueur() == 1)
+		{
+			scoreJoueur =  arbitreAwale.getJoueur1().getScore();
+			scoreAdversaire =  arbitreAwale.getJoueur2().getScore();
+		}
+		else
+		{
+			scoreJoueur =  arbitreAwale.getJoueur2().getScore();
+			scoreAdversaire =  arbitreAwale.getJoueur1().getScore();
+		}
+		
+		if(retourSimulerFinPartie == 0)
+		{
+			score = 0; //Neutre si ex aequo
+		}
+		else
+		{
+			score = differenceScore(scoreJoueur, scoreAdversaire); //Positif si le joueur actuel est gagnant, negatif sinon
     		}
     	
     		valeur = score * 1000;
