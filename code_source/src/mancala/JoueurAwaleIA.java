@@ -78,7 +78,23 @@ public class JoueurAwaleIA extends JoueurAwale{
 		return difference;
 	}
 	
-	public int simulerFinPartie(Awale partieSimulee, GameManagerAwale arbitreAwale) 
+	//Supprimer la redondance de code a l'occasion si possible
+	public int nbRedondanceHistorique(int profondeur, ArrayList<int []> historique, GameManagerAwale arbitreAwale) 
+	{
+		int redondance = 0;
+		int profondeurEffective = Math.min(historique.size()-1, profondeur);
+		for(int i = 0; i < profondeurEffective; i++) 
+		{
+			if(arbitreAwale.plateauxEgaux(historique.get(0), historique.get(i))) 
+			{
+				redondance++;
+			}
+		}
+		
+		return redondance;
+	}
+	
+	public int simulerFinPartie(Awale partieSimulee, ArrayList<int []> historique, GameManagerAwale arbitreAwale) 
 	{
 		int joueurGagnant = -1;
 		
@@ -86,12 +102,11 @@ public class JoueurAwaleIA extends JoueurAwale{
 		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
-		
-		/* cas de la redondance a traiter
-		else if(arbitreAwale.NbRedondanceHistorique(36) >= 3) 
+
+		else if(nbRedondanceHistorique(36, historique, arbitreAwale) >= 3) 
 		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
-		}*/
+		}
 		
 		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), partieSimulee.getPlateau()) == 0 ) 
 		{
@@ -275,6 +290,7 @@ public class JoueurAwaleIA extends JoueurAwale{
     	{
 		long time = System.currentTimeMillis();
 		ArrayList coupPossible = new ArrayList<>();
+		ArrayList <int[]> historique = new ArrayList<>();
 		double valeur = -1;
 		int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
 		int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
@@ -287,11 +303,12 @@ public class JoueurAwaleIA extends JoueurAwale{
 		partieSimulee.setNbrGrainesEnJeu(arbitreAwale.getPartie().getNbrGrainesEnJeu());
 		//On simule un plateau
 		partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
+		historique.add(partieSimulee.getPlateau());
 
 		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(), partieSimulee.getPlateau());
 		//System.out.println("Minimax !! coupPossible = " + coupPossible);
 
-		retourSimulerFinPartie = simulerFinPartie(partieSimulee, arbitreAwale);
+		retourSimulerFinPartie = simulerFinPartie(partieSimulee, historique, arbitreAwale);
 	    
         	if(retourSimulerFinPartie != -1)
         	{        	
