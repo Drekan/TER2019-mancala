@@ -4,26 +4,50 @@ package mancala;
 //le comportement change s'il s'agit d'un humain ou d'une IA
 public abstract class JoueurAwale extends Joueur{
 	
-	GameManagerAwale gameManagerAwale;
+	//GameManagerAwale gameManagerAwale; /* Je crois que c'est un attribut dont on a pas besoin ici */
 
-	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max) {
-		super(nomJoueur, score, numeroJoueur,min,max);
+	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
 	}
 	
-	public int miseAJourPlateau(int[] plateau,int caseInitiale) {
+	public int miseAJourPlateau(int[] plateau, int caseInitiale, GameManagerAwale gameManagerAwale) {//permet d'actualiser les cases du plateau
 		int grainesRestantes=plateau[caseInitiale];
+		gameManagerAwale.joueurActuel().setNbrGrainesEnJeu(gameManagerAwale.joueurActuel().getNbrGrainesEnJeu() - plateau[caseInitiale] );
 		plateau[caseInitiale]=0;
 		
 		int caseActuelle=caseInitiale;
 		while(grainesRestantes>0) {
-			if(((caseActuelle+1)%12) == caseInitiale){
+			if( ( (caseActuelle+1)%12 ) == caseInitiale ){
 				caseActuelle=(caseActuelle+2)%12;
 			}
 			else {
 				caseActuelle=(caseActuelle+1)%12;
 			}
 			
+			if( (caseActuelle%12) <6 ) {
+				gameManagerAwale.getJoueur1().setNbrGrainesEnJeu( gameManagerAwale.getJoueur1().getNbrGrainesEnJeu()+1 );
+			}
+			else {
+				gameManagerAwale.getJoueur2().setNbrGrainesEnJeu( gameManagerAwale.getJoueur2().getNbrGrainesEnJeu()+1 );
+			}
 			plateau[caseActuelle]++;
+			grainesRestantes--;
+		}
+		return caseActuelle;
+	}
+	public int miseAJourPlateauSimuler(int[] plateauSimule, int caseInitiale) {//permet d'actualiser les cases du plateau
+		int grainesRestantes=plateauSimule[caseInitiale];
+		plateauSimule[caseInitiale]=0;
+		
+		int caseActuelle=caseInitiale;
+		while(grainesRestantes>0) {
+			if( ( (caseActuelle+1)%12 ) == caseInitiale ){
+				caseActuelle=(caseActuelle+2)%12;
+			}
+			else {
+				caseActuelle=(caseActuelle+1)%12;
+			}
+			plateauSimule[caseActuelle]++;
 			grainesRestantes--;
 		}
 		return caseActuelle;
@@ -31,9 +55,9 @@ public abstract class JoueurAwale extends Joueur{
 	
 	@Override
 	public void jouerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale) {//mise a jour des valeurs du plateau
-		int derniereCaseJouee=miseAJourPlateau(gameManagerAwale.getPartie().getPlateau(),caseJouee);
+		int derniereCaseJouee=miseAJourPlateau(gameManagerAwale.getPartie().getPlateau(), caseJouee, gameManagerAwale);
 		//enlever les graines = 2 ou =3
-		// diminuer le nbr de graines du plateau
+		// diminuer le nbr de graines du plateau et le nbr de graines pour l'adversaire
 		prendreGraines(derniereCaseJouee, gameManagerAwale);
 		
 	}
@@ -50,6 +74,13 @@ public abstract class JoueurAwale extends Joueur{
 			max= 11; 
 		}
 		while( CaseActuelle <= max && CaseActuelle >= min && ( gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 2 || gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 3 ) ) {
+			
+			if( getNumeroJoueur() == 2 ) {
+				gameManagerAwale.getJoueur1().setNbrGrainesEnJeu( gameManagerAwale.getJoueur1().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
+			}
+			else {
+				gameManagerAwale.getJoueur2().setNbrGrainesEnJeu( gameManagerAwale.getJoueur2().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
+			}
 			
 			setScore(getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
 			System.out.println("score joueur " + getNumeroJoueur() +": " + getScore());

@@ -5,8 +5,8 @@ import java.util.Scanner;
 //On demande a l'utilisateur de faire un coup
 public class JoueurAwaleHumain extends JoueurAwale{
 
-	public JoueurAwaleHumain(String nomJoueur, int score, int numeroJoueur, int min, int max) {
-		super(nomJoueur, score, numeroJoueur,min,max);
+	public JoueurAwaleHumain(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
 	}
 	
 	public int choisirUnCoup(GameManagerAwale arbitre) {

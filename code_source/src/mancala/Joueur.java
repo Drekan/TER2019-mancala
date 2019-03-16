@@ -8,14 +8,16 @@ public abstract class Joueur {
 	private int numeroJoueur;
 	private int min;
 	private int max;
+	private int nbrGrainesEnJeu;
 	
 	//constructeurs :
-	public Joueur(String nomJoueur, int score, int numeroJoueur, int min, int max){
+	public Joueur(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu){
 		this.nomJoueur = nomJoueur;
 		this.score = score;
 		this.numeroJoueur = numeroJoueur;
 		this.min = min;
 		this.max = max;
+		this.nbrGrainesEnJeu = nbrGrainesEnJeu;
 	}
 	
 	//getters & setters :
@@ -57,6 +59,14 @@ public abstract class Joueur {
 
 	public void setMax(int max) {
 		this.max = max;
+	}
+
+	public int getNbrGrainesEnJeu() {
+		return this.nbrGrainesEnJeu;
+	}
+
+	public void setNbrGrainesEnJeu(int nbrGrainesEnJeu) {
+		this.nbrGrainesEnJeu = nbrGrainesEnJeu;
 	}
 
 	//methods :

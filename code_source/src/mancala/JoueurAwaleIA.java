@@ -32,8 +32,8 @@ public class JoueurAwaleIA extends JoueurAwale{
 	}
 	
 	//constructeurs :
-	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max) {
-		super(nomJoueur, score, numeroJoueur,min,max);
+	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGrainesEnJeu) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
 	}
 	
 	//methods:
@@ -45,7 +45,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		{
 			plateauSimule[i] = gameManagerAwale.getPartie().getPlateau()[i];
 		}
-		miseAJourPlateau(plateauSimule,caseJouee);
+		miseAJourPlateauSimuler(plateauSimule, caseJouee);
 		
 		return plateauSimule;
 	}
@@ -108,7 +108,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
-		else if(arbitreAwale.calculSommeGrainesEnJeu(arbitreAwale.joueurActuel(), partieSimulee.getPlateau()) == 0 ) 
+		else if(arbitreAwale.joueurActuel().getNbrGrainesEnJeu() == 0 ) 
 		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
@@ -133,7 +133,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	/* Heuristique 1:
 	 * L'objectif de cet heuristique est de minimiser
-	 * le nombre de cases vulnérables
+	 * le nombre de cases vulnerables
 	 */
 	private double H1(int numeroJoueur,int[] plateau) {
 		int nbCasesVulnerables=0;
@@ -195,7 +195,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	/* Heuristique 4:
 	 * L'objectif de cet heuristique est de valoriser
-	 * les etats du jeu où les graines sont à droite
+	 * les etats du jeu ou les graines sont a� droite
 	 */
 	private double H4(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
@@ -417,7 +417,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		if(ia == 1) 
 		{
 			do {
-				caseJouee = jouerMinimax(arbitreAwale,8);
+				caseJouee = jouerMinimax(arbitreAwale,4);
 			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 
 			System.out.println("case jouee : " + caseJouee);

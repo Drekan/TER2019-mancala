@@ -79,10 +79,10 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setJoueur1(String nomJoueur) {
 		if(getNbrJoueursHumain() == 0) {
-			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,5);
+			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,5,24);
 		}
 		else if(getNbrJoueursHumain() >= 1) {
-			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5);
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5,24);
 		}
 	}
 	
@@ -97,10 +97,10 @@ public class GameManagerAwale extends GameManager{
 	
 	public void setJoueur2(String nomJoueur) {
 		if(getNbrJoueursHumain() <= 1) {
-			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11);
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11,24);
 		}
 		else if(getNbrJoueursHumain() == 2) {
-			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,11);
+			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,11,24);
 		}
 	}
 	
@@ -153,7 +153,7 @@ public class GameManagerAwale extends GameManager{
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
+			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom() + " test ");
 			
 			int coupJoue = this.joueurActuel().choisirUnCoup(this);
 			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
@@ -211,15 +211,7 @@ public class GameManagerAwale extends GameManager{
 		if( this.getTourActuel()%2 == 0) return this.joueur2;
 		return this.joueur1;
 	}
-	
-	public int calculSommeGrainesEnJeu(JoueurAwale joueur, int[] plateau) {
-		int x = 0;
-		for(int i = joueur.getMin(); i <= joueur.getMax(); i++) {
-			x += plateau[i];
-		}
-		return x;
-	}
-	
+
 	@Override
 	public boolean finPartie() {//dire si c'est une fin de partie et arreter le jeu en fonction
 		boolean finDePartie=false;
@@ -235,7 +227,7 @@ public class GameManagerAwale extends GameManager{
 			messageFinDePartie="Redondances dans les coups joues. La partie s'arrete.";
 			finDePartie=true;
 		}
-		else if(calculSommeGrainesEnJeu(joueurActuel(), this.getPartie().getPlateau()) == 0 ) {
+		else if( this.joueurActuel().getNbrGrainesEnJeu() == 0 ) {
 			messageFinDePartie=" !! plus de graines a jouer pour "+ joueurActuel().getNom() +" !! ";
 			finDePartie=true;
 		}
@@ -245,12 +237,15 @@ public class GameManagerAwale extends GameManager{
 			if(InterdictionAffamer(i, this.getPartie().getPlateau())) {
 				affamerPartout=false;
 			}
+			messageFinDePartie="Adversaire affame.";
 		}
 		finDePartie=finDePartie||affamerPartout;
 		
 		if(finDePartie){
 			ajoutGains();
+			System.out.println();
 			System.out.println(messageFinDePartie);
+			System.out.println();
 		}
 		
 		return finDePartie;
@@ -276,8 +271,8 @@ public class GameManagerAwale extends GameManager{
 	
 	
 	public void ajoutGains() {
-		this.joueur2.setScore( this.joueur2.getScore() + calculSommeGrainesEnJeu(this.joueur2, this.getPartie().getPlateau()) );
-		this.joueur1.setScore( this.joueur1.getScore() + calculSommeGrainesEnJeu(this.joueur1, this.getPartie().getPlateau()) );
+		this.joueur2.setScore( this.joueur2.getScore() + this.getJoueur2().getNbrGrainesEnJeu() );
+		this.joueur1.setScore( this.joueur1.getScore() + this.getJoueur1().getNbrGrainesEnJeu() );
 	}
 	
 	
@@ -308,7 +303,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	public boolean InterdictionAffamer(int caseJouee, int[] plateau) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
-		if ( (this.joueurActuel() == this.getJoueur1() && calculSommeGrainesEnJeu(this.getJoueur2(), plateau) == 0) || ( this.joueurActuel() == this.getJoueur2() && calculSommeGrainesEnJeu(this.getJoueur1(), plateau) == 0 ) ) {
+		if ( (this.joueurActuel() == this.getJoueur1() && this.getJoueur2().getNbrGrainesEnJeu() == 0) || ( this.joueurActuel() == this.getJoueur2() && this.getJoueur1().getNbrGrainesEnJeu() == 0 ) ) {
 			int nbrGrainesJouee = plateau[caseJouee];
 			int resteADeposer = nbrGrainesJouee-(this.joueurActuel().getMax() - caseJouee);
 			if( resteADeposer <= 0 )
