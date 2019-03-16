@@ -159,8 +159,7 @@ public class GameManagerAwale extends GameManager{
 			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
 				this.joueurActuel().jouerUnCoup(coupJoue, this);
 			}
-			
-			
+
 			//se pencher sur ce bout de code plus tard -Bastien (note a moi meme)--------------
 			System.out.println();
 			this.stockerEtatMouvement(this.getPartie().etatActuel());
@@ -171,17 +170,17 @@ public class GameManagerAwale extends GameManager{
 			for(int i = 0;i<6;i++) {
 				System.out.print(this.getPartie().etatActuel()[i] + " | ");
 			}
-			
+
 			System.out.println();
-			
+
 			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGrainesEnJeu());
 			//---------------------------------------------------------------------------------
-			
+			this.setTourActuel(getTourActuel()+1);
 		}
 	}
-	
+
 	//methods :
-	
+
 	/*Methode qui instancie le plateau de jeu et
 	 * demarre la partie avec la difficulte adequate !
 	 */
@@ -190,12 +189,70 @@ public class GameManagerAwale extends GameManager{
 		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
 		this.getPartie().initialisationJeu();
 		this.commencerPartie();
-		
+
 	}
-	
+
+	public void lancerUneNouvellePartieGraphique(DrawingManagerAwale window){
+		initJoueurs("joueur1","joueur2");
+		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
+		this.getPartie().initialisationJeu();
+		this.commencerPartieGraphique(window);
+
+	}
+
+	public void commencerPartieGraphique(DrawingManagerAwale window) {
+		Scanner sc=new Scanner(System.in);
+		while( !this.finPartie() ) {
+			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
+
+			int coupJoue;
+			do {
+				coupJoue = window.getCoupActu();
+				window.setCoupActu(-1);
+				try {
+					Thread.sleep(1000/60);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
+			this.joueurActuel().jouerUnCoup(coupJoue,this);
+
+			window.getJ1_c1().setLabel("" + this.getPartie().etatActuel()[0]);
+			window.getJ1_c2().setLabel("" + this.getPartie().etatActuel()[1]);
+			window.getJ1_c3().setLabel("" + this.getPartie().etatActuel()[2]);
+			window.getJ1_c4().setLabel("" + this.getPartie().etatActuel()[3]);
+			window.getJ1_c5().setLabel("" + this.getPartie().etatActuel()[4]);
+			window.getJ1_c6().setLabel("" + this.getPartie().etatActuel()[5]);
+			window.getJ2_c1().setLabel("" + this.getPartie().etatActuel()[6]);
+			window.getJ2_c2().setLabel("" + this.getPartie().etatActuel()[7]);
+			window.getJ2_c3().setLabel("" + this.getPartie().etatActuel()[8]);
+			window.getJ2_c4().setLabel("" + this.getPartie().etatActuel()[9]);
+			window.getJ2_c5().setLabel("" + this.getPartie().etatActuel()[10]);
+			window.getJ2_c6().setLabel("" + this.getPartie().etatActuel()[11]);
+
+
+			//se pencher sur ce bout de code plus tard -Bastien (note a moi meme)--------------
+			System.out.println();
+			this.stockerEtatMouvement(this.getPartie().etatActuel());
+			for(int i = 11;i>5;i--) {
+				System.out.print(this.getPartie().etatActuel()[i] + " | ");
+			}
+			System.out.println();
+			for(int i = 0;i<6;i++) {
+				System.out.print(this.getPartie().etatActuel()[i] + " | ");
+			}
+
+			System.out.println();
+
+			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGrainesEnJeu());
+			//---------------------------------------------------------------------------------
+			this.setTourActuel(getTourActuel()+1);
+
+		}
+	}
+
 	public void stockerEtatMouvement(int[] etatActuel) {//Historique
 		this.historique.add(0,etatActuel.clone());
-		this.setTourActuel(getTourActuel()+1);
 	}
 	
 	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
