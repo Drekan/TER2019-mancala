@@ -45,7 +45,7 @@ public class GameManagerAwale extends GameManager{
 		int modeDeJeu;
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("----Choisissez le mode de jeu----");
+		System.out.println("\n----Choisissez le mode de jeu----");
 		System.out.println("0. IA       VS   IA");
 		System.out.println("1. IA       VS   Joueur");
 		System.out.println("2. Joueur   VS   Joueur");
@@ -134,11 +134,11 @@ public class GameManagerAwale extends GameManager{
 		int difficulte=0;
 		if(this.nbrJoueursHumain!=2) {
 			Scanner sc=new Scanner(System.in);
-			System.out.println("----Choisissez la difficulte de l'IA----");
+			System.out.println("\n----Choisissez la difficulte de l'IA----");
 			System.out.println("0. IA naive (random)");
 			System.out.println("1. IA minimax");
 			do {
-				System.out.print("\nVotre choix >>");
+				System.out.print("\nVotre choix >> ");
 				difficulte=sc.nextInt();
 			}while(difficulte<0 || difficulte>1);
 		}
