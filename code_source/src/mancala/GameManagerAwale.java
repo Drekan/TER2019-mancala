@@ -244,7 +244,7 @@ public class GameManagerAwale extends GameManager{
 
 			System.out.println();
 
-			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGrainesEnJeu());
+			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGraines());
 			//---------------------------------------------------------------------------------
 			this.setTourActuel(getTourActuel()+1);
 
