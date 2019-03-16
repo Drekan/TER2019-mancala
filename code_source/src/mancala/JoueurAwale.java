@@ -85,8 +85,8 @@ public abstract class JoueurAwale extends Joueur{
 			setScore(getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
 			System.out.println("score joueur " + getNumeroJoueur() +": " + getScore());
 			
-			gameManagerAwale.getPartie().setNbrGrainesEnJeu(gameManagerAwale.getPartie().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
-			System.out.println("nbr graines en jeu : " + gameManagerAwale.getPartie().getNbrGrainesEnJeu());
+			gameManagerAwale.getPartie().setNbrGraines(gameManagerAwale.getPartie().getNbrGraines() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
+			System.out.println("nbr graines en jeu : " + gameManagerAwale.getPartie().getNbrGraines());
 			
 			gameManagerAwale.getPartie().setPlateau(0, CaseActuelle );
 			System.out.println("Les graines de la case " + CaseActuelle + " ont ete recuperees par le joueur " + gameManagerAwale.joueurActuel().getNumeroJoueur());

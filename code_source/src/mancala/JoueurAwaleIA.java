@@ -98,7 +98,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	{
 		int joueurGagnant = -1;
 		
-		if( partieSimulee.getNbrGrainesEnJeu() <= 1 ) 
+		if( partieSimulee.getNbrGraines() <= 1 ) 
 		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
@@ -300,7 +300,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 
 		Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
 		//On met a jour le nombre de graines en jeu
-		partieSimulee.setNbrGrainesEnJeu(arbitreAwale.getPartie().getNbrGrainesEnJeu());
+		partieSimulee.setNbrGraines(arbitreAwale.getPartie().getNbrGraines());
 		//On simule un plateau
 		partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
 		historique.add(partieSimulee.getPlateau());

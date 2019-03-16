@@ -2,7 +2,7 @@ package mancala;
 
 //cette classe reconnait l'etat du jeu : nbr de graines, leur position dans le tableau
 public class Awale extends Jeu{
-	private int nbrGrainesEnJeu;
+	private int nbrGraines;
 	private int plateau[] ;
 	
 	GameManagerAwale gameManagerAwale;
@@ -13,12 +13,12 @@ public class Awale extends Jeu{
 		super(nomJeu,regles,difficulte);
 	}
 	//setters & getters :
-	public int getNbrGrainesEnJeu(){ 
-		return this.nbrGrainesEnJeu;
+	public int getNbrGraines(){ 
+		return this.nbrGraines;
 	}
 	
-	public void setNbrGrainesEnJeu(int nbrGrainesEnJeu){ 
-		this.nbrGrainesEnJeu = nbrGrainesEnJeu;
+	public void setNbrGraines(int nbrGrainesEnJeu){ 
+		this.nbrGraines = nbrGrainesEnJeu;
 	}
 	
 	public int[] getPlateau(){ 
@@ -50,7 +50,7 @@ public class Awale extends Jeu{
 	@Override
 	public void initialisationJeu() {
 		this.plateau = new int[] {4,4,4,4,4,4,4,4,4,4,4,4};
-		setNbrGrainesEnJeu(48);
+		setNbrGraines(48);
 		
 	}	
 }

@@ -15,7 +15,7 @@ public class Test {
         int difficulte = sc.nextInt();
         ArbitreAwale.lancerUneNouvellePartie();
 
-        System.out.println("nbrgraine init : " + ArbitreAwale.getPartie().getNbrGrainesEnJeu() );
+        System.out.println("nbrgraine init : " + ArbitreAwale.getPartie().getNbrGraines() );
 
         sc.close();
 

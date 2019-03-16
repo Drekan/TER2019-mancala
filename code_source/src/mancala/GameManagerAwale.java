@@ -174,7 +174,7 @@ public class GameManagerAwale extends GameManager{
 			
 			System.out.println();
 			
-			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGrainesEnJeu());
+			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGraines());
 			//---------------------------------------------------------------------------------
 			
 		}
@@ -217,7 +217,7 @@ public class GameManagerAwale extends GameManager{
 		boolean finDePartie=false;
 		String messageFinDePartie="";
 		
-		if( this.getPartie().getNbrGrainesEnJeu() <= 1 ) {
+		if( this.getPartie().getNbrGraines() <= 1 ) {
 			messageFinDePartie=" !! plus qu'une graine !! ";
 			finDePartie=true;
 		}
