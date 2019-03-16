@@ -12,18 +12,18 @@ public class Principale {
 		int gameMode;
 
 		System.out.println("\n----Choisissez le mode d'affichage----");
-		System.out.println("1. Console");
-		System.out.println("2. Graphique");
+		System.out.println("0. Console");
+		System.out.println("1. Graphique");
 
 		do {
 			System.out.print("\nVotre choix >> ");
 			gameMode = sc.nextInt();
-		}while(gameMode < 1 || gameMode > 2);
+		}while(gameMode < 0 || gameMode > 1);
 
 		switch (gameMode){
-			case 1:	ArbitreAwale.lancerUneNouvellePartie();
+			case 0:	ArbitreAwale.lancerUneNouvellePartie();
 					break;
-			case 2:	DrawingManagerAwale window = new DrawingManagerAwale(ArbitreAwale);
+			case 1:	DrawingManagerAwale window = new DrawingManagerAwale(ArbitreAwale);
 					window.getFrmAwale().setVisible(true);
 					ArbitreAwale.lancerUneNouvellePartieGraphique(window);
 					break;
