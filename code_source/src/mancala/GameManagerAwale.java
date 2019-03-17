@@ -24,6 +24,11 @@ public class GameManagerAwale extends GameManager{
 		this.tourActuel = 0 ;
 		this.historique = new ArrayList<int[]>();
 	}
+	public GameManagerAwale(int nbrJoueursHumain, int tourActuel) {
+		this.nbrJoueursHumain = nbrJoueursHumain;
+		this.tourActuel = tourActuel ;
+		this.historique = new ArrayList<int[]>();
+	}
 	public GameManagerAwale(int modeJeu) {
 		this.nbrJoueursHumain=(modeDeJeuValide(modeJeu)?modeJeu:0);
 		this.tourActuel = 0 ;
@@ -113,6 +118,10 @@ public class GameManagerAwale extends GameManager{
 		return this.partie;
 	}
 	
+	public void setPartie(Awale partie) {
+		this.partie = partie;
+	}
+	
 	public int getTourActuel() {	
 		return this.tourActuel;
 	}
@@ -153,7 +162,7 @@ public class GameManagerAwale extends GameManager{
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom() + " test ");
+			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 			
 			int coupJoue = this.joueurActuel().choisirUnCoup(this);
 			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
@@ -185,7 +194,7 @@ public class GameManagerAwale extends GameManager{
 	 * demarre la partie avec la difficulte adequate !
 	 */
 	public void lancerUneNouvellePartie(){
-		initJoueurs("joueur1","joueur2");
+		this.initJoueurs("joueur1","joueur2");
 		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
 		this.getPartie().initialisationJeu();
 		this.commencerPartie();

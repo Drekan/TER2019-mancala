@@ -74,20 +74,20 @@ public abstract class JoueurAwale extends Joueur{
 			max= 11; 
 		}
 		while( CaseActuelle <= max && CaseActuelle >= min && ( gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 2 || gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 3 ) ) {
-			
+			//Modifier le nombre de graines total de chaque joueur :
 			if( getNumeroJoueur() == 2 ) {
 				gameManagerAwale.getJoueur1().setNbrGrainesEnJeu( gameManagerAwale.getJoueur1().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
 			}
 			else {
 				gameManagerAwale.getJoueur2().setNbrGrainesEnJeu( gameManagerAwale.getJoueur2().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
 			}
-			
-			setScore(getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
+			//Modifier le score du joueur :
+			this.setScore(this.getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
 			System.out.println("score joueur " + getNumeroJoueur() +": " + getScore());
-			
+			//Modifier le nombre de graines disponnible sur le plateau
 			gameManagerAwale.getPartie().setNbrGraines(gameManagerAwale.getPartie().getNbrGraines() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
 			System.out.println("nbr graines en jeu : " + gameManagerAwale.getPartie().getNbrGraines());
-			
+			//prendre les graines 
 			gameManagerAwale.getPartie().setPlateau(0, CaseActuelle );
 			System.out.println("Les graines de la case " + CaseActuelle + " ont ete recuperees par le joueur " + gameManagerAwale.joueurActuel().getNumeroJoueur());
 			
