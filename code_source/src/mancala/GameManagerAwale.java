@@ -206,15 +206,38 @@ public class GameManagerAwale extends GameManager{
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 
 			int coupJoue;
-			do {
-				coupJoue = window.getCoupActu();
-				window.setCoupActu(-1);
-				try {
-					Thread.sleep(1000/60);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+
+			if(this.getNbrJoueursHumain() == 0){
+				coupJoue = this.joueurActuel().choisirUnCoup(this);
+			}
+			else if(this.getNbrJoueursHumain() == 1){
+				if(this.getTourActuel()%2 == 0){
+					coupJoue = this.joueurActuel().choisirUnCoup(this);
 				}
-			}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
+				else{
+					do {
+						coupJoue = window.getCoupActu();
+						window.setCoupActu(-1);
+						try {
+							Thread.sleep(1000/60);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
+				}
+			}
+			else{
+				do {
+					coupJoue = window.getCoupActu();
+					window.setCoupActu(-1);
+					try {
+						Thread.sleep(1000/60);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
+			}
+
 			this.joueurActuel().jouerUnCoup(coupJoue,this);
 
 			window.getJ1_c1().setLabel("" + this.getPartie().etatActuel()[0]);

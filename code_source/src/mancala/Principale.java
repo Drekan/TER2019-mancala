@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class Principale {
 
 	public static void main(String[] args) {
-
 		GameManagerAwale ArbitreAwale = new GameManagerAwale();
 		Scanner sc = new Scanner(System.in);
 		int gameMode;
@@ -21,8 +20,10 @@ public class Principale {
 		}while(gameMode < 0 || gameMode > 1);
 
 		switch (gameMode){
+			//Partie sur console
 			case 0:	ArbitreAwale.lancerUneNouvellePartie();
 					break;
+			//Partie graphique
 			case 1:	DrawingManagerAwale window = new DrawingManagerAwale(ArbitreAwale);
 					window.getFrmAwale().setVisible(true);
 					ArbitreAwale.lancerUneNouvellePartieGraphique(window);
