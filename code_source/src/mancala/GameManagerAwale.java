@@ -180,7 +180,7 @@ public class GameManagerAwale extends GameManager{
 	public void commencerPartie() {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			affichePlateau();
+			this.affichePlateau();
 
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 
@@ -192,7 +192,7 @@ public class GameManagerAwale extends GameManager{
 
 			this.setTourActuel(getTourActuel()+1);
 		}
-		affichePlateau();
+		this.affichePlateau();
 	}
 
 	//methods :
@@ -219,7 +219,7 @@ public class GameManagerAwale extends GameManager{
 	public void commencerPartieGraphique(DrawingManagerAwale window) {
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
-			affichePlateau();
+			this.affichePlateau();
 
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 
@@ -274,7 +274,7 @@ public class GameManagerAwale extends GameManager{
 			this.setTourActuel(getTourActuel()+1);
 
 		}
-		affichePlateau();
+		this.affichePlateau();
 	}
 
 	public void stockerEtatMouvement(int[] etatActuel) {//Historique
