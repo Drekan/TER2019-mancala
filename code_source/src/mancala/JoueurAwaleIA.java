@@ -279,15 +279,15 @@ public class JoueurAwaleIA extends JoueurAwale{
 		else
 		{
 			score = differenceScore(scoreJoueur, scoreAdversaire); //Positif si le joueur actuel est gagnant, negatif sinon
-    		}
+		}
     	
-    		valeur = score * 1000;
+		valeur = score * 1000;
     	
 		return valeur;
 	}
 	
 	public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax)
-    	{
+	{
 		long time = System.currentTimeMillis();
 		ArrayList coupPossible = new ArrayList<>();
 		ArrayList <int[]> historique = new ArrayList<>();
@@ -310,10 +310,10 @@ public class JoueurAwaleIA extends JoueurAwale{
 
 		retourSimulerFinPartie = simulerFinPartie(partieSimulee, historique, arbitreAwale);
 	    
-        	if(retourSimulerFinPartie != -1)
-        	{        	
-        		valeur = noeudTerminal(retourSimulerFinPartie, arbitreAwale);        	
-        	}
+		if(retourSimulerFinPartie != -1)
+        {
+        	valeur = noeudTerminal(retourSimulerFinPartie, arbitreAwale);
+        }
         
 		/*On verifie que la liste des coupPossible est vide
 		Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
@@ -328,15 +328,15 @@ public class JoueurAwaleIA extends JoueurAwale{
 		{
 		    if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1())
 		    {
-			numeroJoueur = 1;
-			scoreJoueur = arbitreAwale.getJoueur1().getScore();
-			scoreAdversaire = arbitreAwale.getJoueur2().getScore();
+				numeroJoueur = 1;
+				scoreJoueur = arbitreAwale.getJoueur1().getScore();
+				scoreAdversaire = arbitreAwale.getJoueur2().getScore();
 		    }
 		    else
 		    {
-			numeroJoueur = 2;
-			scoreJoueur = arbitreAwale.getJoueur1().getScore();
-			scoreAdversaire = arbitreAwale.getJoueur2().getScore();
+				numeroJoueur = 2;
+				scoreJoueur = arbitreAwale.getJoueur1().getScore();
+				scoreAdversaire = arbitreAwale.getJoueur2().getScore();
 		    }
 
 		    valeur = evaluation(numeroJoueur, partieSimulee.getPlateau(), scoreJoueur, scoreAdversaire);
@@ -350,7 +350,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		    valeur = -10000;
 		    for(int i = 0; i < coupPossible.size() ; i++)
 		    {
-			valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+				valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
 		    }
 		}
 		else
@@ -358,7 +358,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 		    valeur = 10000;
 		    for(int i = 0; i < coupPossible.size(); i++)
 		    {
-			valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
+				valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
 		    }
 		}
 	
@@ -366,10 +366,10 @@ public class JoueurAwaleIA extends JoueurAwale{
 		setTime(getTime() + time);
 
 		return valeur;
-    	}
+	}
   
-    	public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
-    	{
+	public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
+	{
 		long time = System.currentTimeMillis();
 		double valeur_optimisee = -10000;
 		double valeur;
@@ -386,11 +386,10 @@ public class JoueurAwaleIA extends JoueurAwale{
 		    nombre_appel++;
 		    if(valeur > valeur_optimisee)
 		    {
-			valeur_optimisee = valeur;
-			coup_optimise = (int)coupPossible.get(i);
-
+				valeur_optimisee = valeur;
+				coup_optimise = (int)coupPossible.get(i);
 		    }
-        	}
+		}
 	    
 		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
 		System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
@@ -408,10 +407,10 @@ public class JoueurAwaleIA extends JoueurAwale{
 		setCompteur(0);
 
 		return coup_optimise;
-    	}
+	}
      
-    	public int choisirUnCoup(GameManagerAwale arbitreAwale) 
-    	{
+	public int choisirUnCoup(GameManagerAwale arbitreAwale)
+	{
 		int caseJouee = -1;
 		int ia=arbitreAwale.getPartie().getDifficulteChoisie();
 		if(ia == 1) 
@@ -422,12 +421,13 @@ public class JoueurAwaleIA extends JoueurAwale{
 
 			System.out.println("case jouee : " + caseJouee);
 		}
-		else if(ia == 0) {
+		else if(ia == 0)
+		{
 			Random rand = new Random();
 			do {
 				caseJouee = rand.nextInt(6)+this.getMin();
 		    }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
 		}
-       		return caseJouee;
-    	}
+		return caseJouee;
+	}
 }
