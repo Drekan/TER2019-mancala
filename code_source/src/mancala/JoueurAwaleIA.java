@@ -313,34 +313,31 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return valeur;
 	}
 	
-	public double minimax(int caseJouee, GameManagerAwale arbitreAwale, int profondeurMax, boolean joueurMax)
+	public double minimax(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax)
 	{
 		long time = System.currentTimeMillis();
 		ArrayList coupPossible = new ArrayList<>();
 		ArrayList <int[]> historique = new ArrayList<>();
 		double valeur = -1;
 		int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
-		int difficulte = arbitreAwale.getPartie().getDifficulteChoisie();
+		
+		//On simule un nouveau un GMA, c'est obligatoire, autrement c'est toujours l'arbitreAwaleSimule (le paramètre que l'on donne) qui est modifié et donc la simulation n'est pas correcte
+		GameManagerAwale arbitreSimuleMinimax = arbitreAwaleSimule.clone();
 		
 		//Compte le nombre d'appels recursifs
 		setCompteur(getCompteur() + 1);
+		
+		arbitreSimuleMinimax.getPartie().modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
+		historique.add(arbitreSimuleMinimax.getPartie().getPlateau());
 
-		Awale partieSimulee = new Awale("MonAwale", "MesRegles", difficulte);
-		//On met a jour le nombre de graines en jeu
-		partieSimulee.setNbrGraines(arbitreAwale.getPartie().getNbrGraines());
-		//On simule un plateau
-		partieSimulee.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwale));
-		historique.add(partieSimulee.getPlateau());
-
-		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(), partieSimulee.getPlateau());
-		//System.out.println("Minimax !! coupPossible = " + coupPossible);
-
-		retourSimulerFinPartie = simulerFinPartie(partieSimulee, historique, arbitreAwale);
+		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
+		
+		retourSimulerFinPartie = simulerFinPartie(arbitreSimuleMinimax.getPartie(), historique, arbitreSimuleMinimax);
 	    
 		if(retourSimulerFinPartie != -1)
-        {
-        	valeur = noeudTerminal(retourSimulerFinPartie, arbitreAwale);
-        }
+		{
+			valeur = noeudTerminal(retourSimulerFinPartie, arbitreSimuleMinimax);
+		}
         
 		/*On verifie que la liste des coupPossible est vide
 		Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
@@ -353,20 +350,20 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
         
 		if(profondeurMax == 0)
 		{
-		    if(arbitreAwale.joueurActuel() == arbitreAwale.getJoueur1())
+		    if(arbitreSimuleMinimax.joueurActuel() == arbitreSimuleMinimax.getJoueur1())
 		    {
 				numeroJoueur = 1;
-				scoreJoueur = arbitreAwale.getJoueur1().getScore();
-				scoreAdversaire = arbitreAwale.getJoueur2().getScore();
+				scoreJoueur = arbitreSimuleMinimax.getJoueur1().getScore();
+				scoreAdversaire = arbitreSimuleMinimax.getJoueur2().getScore();
 		    }
 		    else
 		    {
 				numeroJoueur = 2;
-				scoreJoueur = arbitreAwale.getJoueur1().getScore();
-				scoreAdversaire = arbitreAwale.getJoueur2().getScore();
+				scoreJoueur = arbitreSimuleMinimax.getJoueur1().getScore();
+				scoreAdversaire = arbitreSimuleMinimax.getJoueur2().getScore();
 		    }
 
-		    valeur = evaluation(numeroJoueur, partieSimulee.getPlateau(), scoreJoueur, scoreAdversaire);
+		    valeur = evaluation(numeroJoueur, arbitreSimuleMinimax.getPartie().getPlateau(), scoreJoueur, scoreAdversaire);
 
 		    return valeur;
 		}
@@ -377,7 +374,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    valeur = -10000;
 		    for(int i = 0; i < coupPossible.size() ; i++)
 		    {
-				valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, false));
+				valeur = Math.max(valeur, minimax((int)coupPossible.get(i), arbitreSimuleMinimax, profondeurMax-1, false));
 		    }
 		}
 		else
@@ -385,7 +382,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    valeur = 10000;
 		    for(int i = 0; i < coupPossible.size(); i++)
 		    {
-				valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax-1, true));
+				valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreSimuleMinimax, profondeurMax-1, true));
 		    }
 		}
 	
@@ -401,16 +398,22 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		double valeur_optimisee = -10000;
 		double valeur;
 		int nombre_appel = 0;
+		
+		//On simule un GMA pour ne pas modifier le GMA actuel du jeu
+		GameManagerAwale arbitreAwaleSimule;
+		
+		nombre_appel++;
 
 		ArrayList coupPossible = new ArrayList<>();
 		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
-
+		
+		arbitreAwaleSimule = arbitreAwale.clone();
+		
 		int coup_optimise = -1;
   
 		for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
 		{
-		    valeur = minimax((int)coupPossible.get(i), arbitreAwale, profondeurMax, true); 
-		    nombre_appel++;
+		    valeur = minimax((int)coupPossible.get(i), arbitreAwaleSimule, profondeurMax, true); 
 		    if(valeur > valeur_optimisee)
 		    {
 				valeur_optimisee = valeur;
