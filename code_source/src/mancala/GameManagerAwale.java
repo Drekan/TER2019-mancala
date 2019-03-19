@@ -184,6 +184,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		GameManagerAwale clone=new GameManagerAwale(this.nbrJoueursHumain,this.tourActuel);
 		clone.historique=new ArrayList<int[]>();
 		clone.historique=(ArrayList<int[]>)this.historique.clone();
+		clone.partie=this.partie.clone();
 		
 		if(this.joueur1.getClass()==new JoueurAwaleHumain().getClass()) {
 			clone.joueur1=(JoueurAwaleHumain)this.joueur1.clone();
@@ -198,7 +199,6 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		else {
 			clone.joueur2=(JoueurAwaleIA)this.joueur2.clone();
 		}
-		this.partie=this.partie.clone();
 		
 		
 		return clone;
