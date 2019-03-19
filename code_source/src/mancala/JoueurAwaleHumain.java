@@ -3,10 +3,21 @@ package mancala;
 import java.util.Scanner;
 
 //On demande a l'utilisateur de faire un coup
-public class JoueurAwaleHumain extends JoueurAwale{
+public class JoueurAwaleHumain extends JoueurAwale implements Cloneable{
 
 	public JoueurAwaleHumain(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
+	}
+	
+	public JoueurAwaleHumain clone() {
+		JoueurAwaleHumain clone=new JoueurAwaleHumain(this.getNom(),
+													this.getScore(),
+													this.getNumeroJoueur(),
+													this.getMin(),
+													this.getMax(),
+													this.getNbrGrainesEnJeu());
+		
+		return clone;
 	}
 	
 	public int choisirUnCoup(GameManagerAwale arbitre) {
