@@ -41,6 +41,7 @@ public class Awale extends Jeu implements Cloneable{
 	
 	public Awale clone() {
 		Awale clone=new Awale(this.getNomJeu(),this.getRegles(),this.getDifficulteChoisie());
+		clone.plateau=this.plateau.clone();
 		return clone;
 	}
 	
