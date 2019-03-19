@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 //gere le jeu en fonction des regles de l'awale
 //il enregistre aussi l'historique de la partie
-public class GameManagerAwale extends GameManager{
+public class GameManagerAwale extends GameManager implements Cloneable{
 	
 	private int nbrJoueursHumain;
 	private ArrayList<int[]> historique;
@@ -178,7 +178,31 @@ public class GameManagerAwale extends GameManager{
 		setJoueur1(J1,difficulte1);
 		setJoueur2(J2,difficulte2);
 	}
+	//GameManagerAwale(int modeJeu,int difficulte,int tourActuel,String j1,String j2)
 	
+	public GameManagerAwale clone() {
+		GameManagerAwale clone=new GameManagerAwale(this.nbrJoueursHumain,this.tourActuel);
+		clone.historique=new ArrayList<int[]>();
+		clone.historique=(ArrayList<int[]>)this.historique.clone();
+		
+		if(this.joueur1.getClass()==new JoueurAwaleHumain().getClass()) {
+			clone.joueur1=(JoueurAwaleHumain)this.joueur1.clone();
+		}
+		else {
+			clone.joueur1=(JoueurAwaleIA)this.joueur1.clone();
+		}
+		
+		if(this.joueur2.getClass()==new JoueurAwaleHumain().getClass()) {
+			clone.joueur2=(JoueurAwaleHumain)this.joueur2.clone();
+		}
+		else {
+			clone.joueur2=(JoueurAwaleIA)this.joueur2.clone();
+		}
+		this.partie=this.partie.clone();
+		
+		
+		return clone;
+	}
 	/* Cette methode gere la mise en place de la difficulte
 	 * 	NB: On n'a pas besoin d'assigner de difficulte lorsque deux
 	 * 		joueurs humains s'affrontent

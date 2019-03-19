@@ -2,12 +2,26 @@ package mancala;
 
 //peut jouer un coup en fonction du plateau.
 //le comportement change s'il s'agit d'un humain ou d'une IA
-public abstract class JoueurAwale extends Joueur{
+public class JoueurAwale extends Joueur implements Cloneable{
 	
 	//GameManagerAwale gameManagerAwale; /* Je crois que c'est un attribut dont on a pas besoin ici */
 
 	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
+	}
+	public JoueurAwale() {
+		super();
+	}
+	
+	public JoueurAwale clone() {
+		JoueurAwale clone=new JoueurAwaleHumain(this.getNom(),
+												this.getScore(),
+												this.getNumeroJoueur(),
+												this.getMin(),
+												this.getMax(),
+												this.getNbrGrainesEnJeu());
+
+		return clone;
 	}
 	
 	public int miseAJourPlateau(int[] plateau, int caseInitiale, GameManagerAwale gameManagerAwale) {//permet d'actualiser les cases du plateau
@@ -94,6 +108,11 @@ public abstract class JoueurAwale extends Joueur{
 			CaseActuelle--;
 		}
 		
+	}
+	@Override
+	public int choisirUnCoup(GameManagerAwale gameManagerAwale) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	

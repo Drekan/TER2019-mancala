@@ -20,6 +20,10 @@ public abstract class Joueur {
 		this.nbrGrainesEnJeu = nbrGrainesEnJeu;
 	}
 	
+	public Joueur() {
+		super();
+	}
+	
 	//getters & setters :
 	public String getNom(){ 
 		return this.nomJoueur;
@@ -70,6 +74,6 @@ public abstract class Joueur {
 	}
 
 	//methods :
-	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a  jour des valeurs du plateau
+	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise aï¿½ jour des valeurs du plateau
 	public abstract int choisirUnCoup(GameManagerAwale gameManagerAwale);
 }
