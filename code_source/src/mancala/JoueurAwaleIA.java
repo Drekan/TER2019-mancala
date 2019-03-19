@@ -43,11 +43,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	//constructeurs :
-	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGrainesEnJeu) {
-		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
+	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
 	}
-	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGrainesEnJeu,int difficulte) {
-		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
+	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur,int difficulte) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
 		setDifficulte(difficulte);
 	}
 	
@@ -57,7 +57,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 													this.getNumeroJoueur(),
 													this.getMin(),
 													this.getMax(),
-													this.getNbrGrainesEnJeu(),
+													this.getNbrGraineJoueur(),
 													this.difficulte);
 		clone.compteur=this.compteur;
 		clone.time=this.time;
@@ -137,7 +137,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}
 		
-		else if(arbitreAwale.joueurActuel().getNbrGrainesEnJeu() == 0 ) 
+		else if(arbitreAwale.joueurActuel().getNbrGraineJoueur() == 0 ) 
 		{
 			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
 		}

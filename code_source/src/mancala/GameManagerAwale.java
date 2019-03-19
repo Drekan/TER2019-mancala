@@ -386,7 +386,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			messageFinDePartie="Redondances dans les coups joues. La partie s'arrete.";
 			finDePartie=true;
 		}
-		else if( this.joueurActuel().getNbrGrainesEnJeu() == 0 ) {
+		else if( this.joueurActuel().getNbrGraineJoueur() == 0 ) {
 			messageFinDePartie=" !! plus de graines a jouer pour "+ joueurActuel().getNom() +" !! ";
 			finDePartie=true;
 		}
@@ -430,8 +430,8 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	
 	
 	public void ajoutGains() {
-		this.joueur2.setScore( this.joueur2.getScore() + this.getJoueur2().getNbrGrainesEnJeu() );
-		this.joueur1.setScore( this.joueur1.getScore() + this.getJoueur1().getNbrGrainesEnJeu() );
+		this.joueur2.setScore( this.joueur2.getScore() + this.getJoueur2().getNbrGraineJoueur() );
+		this.joueur1.setScore( this.joueur1.getScore() + this.getJoueur1().getNbrGraineJoueur() );
 	}
 	
 	
@@ -462,7 +462,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	}
 	
 	public boolean InterdictionAffamer(int caseJouee, int[] plateau) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
-		if ( (this.joueurActuel() == this.getJoueur1() && this.getJoueur2().getNbrGrainesEnJeu() == 0) || ( this.joueurActuel() == this.getJoueur2() && this.getJoueur1().getNbrGrainesEnJeu() == 0 ) ) {
+		if ( (this.joueurActuel() == this.getJoueur1() && this.getJoueur2().getNbrGraineJoueur() == 0) || ( this.joueurActuel() == this.getJoueur2() && this.getJoueur1().getNbrGraineJoueur() == 0 ) ) {
 			int nbrGrainesJouee = plateau[caseJouee];
 			int resteADeposer = nbrGrainesJouee-(this.joueurActuel().getMax() - caseJouee);
 			if( resteADeposer <= 0 )

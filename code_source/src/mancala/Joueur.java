@@ -8,16 +8,16 @@ public abstract class Joueur {
 	private int numeroJoueur;
 	private int min;
 	private int max;
-	private int nbrGrainesEnJeu;
+	private int nbrGraineJoueur;
 	
 	//constructeurs :
-	public Joueur(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu){
+	public Joueur(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGraineJoueur){
 		this.nomJoueur = nomJoueur;
 		this.score = score;
 		this.numeroJoueur = numeroJoueur;
 		this.min = min;
 		this.max = max;
-		this.nbrGrainesEnJeu = nbrGrainesEnJeu;
+		this.nbrGraineJoueur = nbrGraineJoueur;
 	}
 	
 	public Joueur() {
@@ -65,12 +65,12 @@ public abstract class Joueur {
 		this.max = max;
 	}
 
-	public int getNbrGrainesEnJeu() {
-		return this.nbrGrainesEnJeu;
+	public int getNbrGraineJoueur() {
+		return this.nbrGraineJoueur;
 	}
 
-	public void setNbrGrainesEnJeu(int nbrGrainesEnJeu) {
-		this.nbrGrainesEnJeu = nbrGrainesEnJeu;
+	public void setNbrGraineJoueur(int nbrGraineJoueur) {
+		this.nbrGraineJoueur = nbrGraineJoueur;
 	}
 
 	//methods :

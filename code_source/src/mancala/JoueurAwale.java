@@ -6,8 +6,8 @@ public class JoueurAwale extends Joueur implements Cloneable{
 	
 	//GameManagerAwale gameManagerAwale; /* Je crois que c'est un attribut dont on a pas besoin ici */
 
-	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGrainesEnJeu) {
-		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
+	public JoueurAwale(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGraineJoueur) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
 	}
 	public JoueurAwale() {
 		super();
@@ -19,14 +19,14 @@ public class JoueurAwale extends Joueur implements Cloneable{
 												this.getNumeroJoueur(),
 												this.getMin(),
 												this.getMax(),
-												this.getNbrGrainesEnJeu());
+												this.getNbrGraineJoueur());
 
 		return clone;
 	}
 	
 	public int miseAJourPlateau(int[] plateau, int caseInitiale, GameManagerAwale gameManagerAwale) {//permet d'actualiser les cases du plateau
 		int grainesRestantes=plateau[caseInitiale];
-		gameManagerAwale.joueurActuel().setNbrGrainesEnJeu(gameManagerAwale.joueurActuel().getNbrGrainesEnJeu() - plateau[caseInitiale] );
+		gameManagerAwale.joueurActuel().setNbrGraineJoueur(gameManagerAwale.joueurActuel().getNbrGraineJoueur() - plateau[caseInitiale] );
 		plateau[caseInitiale]=0;
 		
 		int caseActuelle=caseInitiale;
@@ -39,10 +39,10 @@ public class JoueurAwale extends Joueur implements Cloneable{
 			}
 			
 			if( (caseActuelle%12) <6 ) {
-				gameManagerAwale.getJoueur1().setNbrGrainesEnJeu( gameManagerAwale.getJoueur1().getNbrGrainesEnJeu()+1 );
+				gameManagerAwale.getJoueur1().setNbrGraineJoueur( gameManagerAwale.getJoueur1().getNbrGraineJoueur()+1 );
 			}
 			else {
-				gameManagerAwale.getJoueur2().setNbrGrainesEnJeu( gameManagerAwale.getJoueur2().getNbrGrainesEnJeu()+1 );
+				gameManagerAwale.getJoueur2().setNbrGraineJoueur( gameManagerAwale.getJoueur2().getNbrGraineJoueur()+1 );
 			}
 			plateau[caseActuelle]++;
 			grainesRestantes--;
@@ -90,10 +90,10 @@ public class JoueurAwale extends Joueur implements Cloneable{
 		while( CaseActuelle <= max && CaseActuelle >= min && ( gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 2 || gameManagerAwale.getPartie().getPlateau()[CaseActuelle] == 3 ) ) {
 			//Modifier le nombre de graines total de chaque joueur :
 			if( getNumeroJoueur() == 2 ) {
-				gameManagerAwale.getJoueur1().setNbrGrainesEnJeu( gameManagerAwale.getJoueur1().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
+				gameManagerAwale.getJoueur1().setNbrGraineJoueur( gameManagerAwale.getJoueur1().getNbrGraineJoueur() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
 			}
 			else {
-				gameManagerAwale.getJoueur2().setNbrGrainesEnJeu( gameManagerAwale.getJoueur2().getNbrGrainesEnJeu() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
+				gameManagerAwale.getJoueur2().setNbrGraineJoueur( gameManagerAwale.getJoueur2().getNbrGraineJoueur() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
 			}
 			//Modifier le score du joueur :
 			this.setScore(this.getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
