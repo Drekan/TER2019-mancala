@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class Principale {
 
 	public static void main(String[] args) {
-		GameManagerAwale ArbitreAwale = new GameManagerAwale();
+		GameManagerAwale arbitreAwale = new GameManagerAwale();
 		Scanner sc = new Scanner(System.in);
 		int gameMode;
 
@@ -21,15 +21,15 @@ public class Principale {
 
 		switch (gameMode){
 			//Partie sur console
-			case 0:	ArbitreAwale.lancerUneNouvellePartie();
+			case 0:	arbitreAwale.lancerUneNouvellePartie();
 					break;
 			//Partie graphique
-			case 1:	DrawingManagerAwale window = new DrawingManagerAwale(ArbitreAwale);
+			case 1:	DrawingManagerAwale window = new DrawingManagerAwale(arbitreAwale);
 					window.getFrmAwale().setVisible(true);
-					ArbitreAwale.lancerUneNouvellePartieGraphique(window);
+					arbitreAwale.lancerUneNouvellePartieGraphique(window);
 					break;
 		}
-		ArbitreAwale.getGagnant();
+		arbitreAwale.getGagnant();
 		sc.close();
 	}
 
