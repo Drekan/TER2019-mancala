@@ -46,6 +46,10 @@ public class JoueurAwaleIA extends JoueurAwale{
 	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGrainesEnJeu) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
 	}
+	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGrainesEnJeu,int difficulte) {
+		super(nomJoueur, score, numeroJoueur, min, max, nbrGrainesEnJeu);
+		setDifficulte(difficulte);
+	}
 	
 	//methods:
 	public int[] simulerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale)

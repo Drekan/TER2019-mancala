@@ -114,6 +114,14 @@ public class GameManagerAwale extends GameManager{
 			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5,24);
 		}
 	}
+	public void setJoueur1(String nomJoueur,int difficulte) {
+		if(getNbrJoueursHumain() == 0) {
+			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,5,24,difficulte);
+		}
+		else if(getNbrJoueursHumain() >= 1) {
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5,24);
+		}
+	}
 	
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
 	public void saveJoueur1(JoueurAwale joueur1) {
@@ -127,6 +135,14 @@ public class GameManagerAwale extends GameManager{
 	public void setJoueur2(String nomJoueur) {
 		if(getNbrJoueursHumain() <= 1) {
 			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11,24);
+		}
+		else if(getNbrJoueursHumain() == 2) {
+			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,11,24);
+		}
+	}
+	public void setJoueur2(String nomJoueur,int difficulte) {
+		if(getNbrJoueursHumain() <= 1) {
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11,24,difficulte);
 		}
 		else if(getNbrJoueursHumain() == 2) {
 			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,11,24);
@@ -155,6 +171,10 @@ public class GameManagerAwale extends GameManager{
 	}
 	
 	public void initJoueurs(String J1,String J2) {
+		setJoueur1(J1);
+		setJoueur2(J2);
+	}
+	public void initJoueurs(String J1,int difficulte1,String J2,) {
 		setJoueur1(J1);
 		setJoueur2(J2);
 	}
