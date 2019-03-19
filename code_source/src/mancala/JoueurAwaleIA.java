@@ -8,6 +8,9 @@ public class JoueurAwaleIA extends JoueurAwale{
 	//Pour calculer le nombre d'appels rÃ©cursifs de minimax
 	private int compteur = 0;
 	
+	//difficulte de l'IA
+	private int difficulte;
+	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
 	
@@ -29,6 +32,14 @@ public class JoueurAwaleIA extends JoueurAwale{
 	public void setTime(long time) 
 	{
 		this.time = time;
+	}
+	
+	public int getDifficulte() {
+		return difficulte;
+	}
+	
+	public void setDifficulte(int dif) {
+		this.difficulte=dif;
 	}
 	
 	//constructeurs :
@@ -195,7 +206,7 @@ public class JoueurAwaleIA extends JoueurAwale{
 	
 	/* Heuristique 4:
 	 * L'objectif de cet heuristique est de valoriser
-	 * les etats du jeu ou les graines sont a  droite
+	 * les etats du jeu ou les graines sont aï¿½ droite
 	 */
 	private double H4(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
