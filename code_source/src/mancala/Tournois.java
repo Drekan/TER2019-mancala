@@ -3,13 +3,16 @@ package mancala;
 public class Tournois {
 
 	static Awale partie;
-	private int nbrVictoiresJ1=0;
-	private int nbrVictoiresJ2=0;
+	private int nbrVictoiresJ1;
+	private int nbrVictoiresJ2;
 	private JoueurAwaleIA j1;
 	private JoueurAwaleIA j2;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
-		
+		this.nbrVictoiresJ1=0;
+		this.nbrVictoiresJ2=0;
+		this.setJ1(j1);
+		this.setJ2(j2);
 	}
 	
 	
