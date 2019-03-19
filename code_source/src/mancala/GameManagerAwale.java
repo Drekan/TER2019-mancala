@@ -39,7 +39,15 @@ public class GameManagerAwale extends GameManager{
 		this.tourActuel = tourActuel;
 		this.historique = new ArrayList<int[]>();
 		this.initJoueurs("joueur1","joueur2");
-		this.partie=new Awale("MonAwale","MesRegles",difficulte);
+		this.partie=new Awale("MonAwale","MesRegles",(difficulteValide(difficulte)?difficulte:0));
+		this.getPartie().initialisationJeu();
+	}
+	public GameManagerAwale(int modeJeu,int difficulte,int tourActuel,String j1,String j2){
+		this.nbrJoueursHumain=(modeDeJeuValide(modeJeu)?modeJeu:0);
+		this.tourActuel = tourActuel;
+		this.historique = new ArrayList<int[]>();
+		this.initJoueurs(j1,j2);
+		this.partie=new Awale("MonAwale","MesRegles",(difficulteValide(difficulte)?difficulte:0));
 		this.getPartie().initialisationJeu();
 	}
 	
