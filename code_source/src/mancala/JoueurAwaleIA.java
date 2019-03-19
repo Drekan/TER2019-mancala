@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 //les methodes de decision seront utilisees(MiniMax, Evalution...)
-public class JoueurAwaleIA extends JoueurAwale{
+public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//Pour calculer le nombre d'appels récursifs de minimax
 	private int compteur = 0;
 	
@@ -51,6 +51,18 @@ public class JoueurAwaleIA extends JoueurAwale{
 		setDifficulte(difficulte);
 	}
 	
+	public JoueurAwaleIA clone() {
+		JoueurAwaleIA clone=new JoueurAwaleIA(this.getNom(),
+													this.getScore(),
+													this.getNumeroJoueur(),
+													this.getMin(),
+													this.getMax(),
+													this.getNbrGrainesEnJeu(),
+													this.difficulte);
+		clone.compteur=this.compteur;
+		clone.time=this.time;
+		return clone;
+	}
 	//methods:
 	public int[] simulerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale)
 	{
