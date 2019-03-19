@@ -174,9 +174,9 @@ public class GameManagerAwale extends GameManager{
 		setJoueur1(J1);
 		setJoueur2(J2);
 	}
-	public void initJoueurs(String J1,int difficulte1,String J2,) {
-		setJoueur1(J1);
-		setJoueur2(J2);
+	public void initJoueurs(String J1,int difficulte1,String J2,int difficulte2) {
+		setJoueur1(J1,difficulte1);
+		setJoueur2(J2,difficulte2);
 	}
 	
 	/* Cette methode gere la mise en place de la difficulte
