@@ -180,12 +180,19 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	}
 	//GameManagerAwale(int modeJeu,int difficulte,int tourActuel,String j1,String j2)
 	
+	
+	/* Méthode qui produit une réplique de la partie en cours
+	 * chaque méthode clone() des attributs non primitifs est appelée
+	 * @see java.lang.Object#clone()
+	 */
 	public GameManagerAwale clone() {
 		GameManagerAwale clone=new GameManagerAwale(this.nbrJoueursHumain,this.tourActuel);
-		clone.historique=new ArrayList<int[]>();
 		clone.historique=(ArrayList<int[]>)this.historique.clone();
 		clone.partie=this.partie.clone();
 		
+		//On doit connaître le type des joueurs 1 et 2 avant de les cloner proprement
+		
+		//Joueur 1
 		if(this.joueur1.getClass()==new JoueurAwaleHumain().getClass()) {
 			clone.joueur1=(JoueurAwaleHumain)this.joueur1.clone();
 		}
@@ -193,6 +200,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			clone.joueur1=(JoueurAwaleIA)this.joueur1.clone();
 		}
 		
+		//Joueur2
 		if(this.joueur2.getClass()==new JoueurAwaleHumain().getClass()) {
 			clone.joueur2=(JoueurAwaleHumain)this.joueur2.clone();
 		}
