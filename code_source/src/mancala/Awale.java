@@ -1,7 +1,7 @@
 package mancala;
 
 //cette classe reconnait l'etat du jeu : nbr de graines, leur position dans le tableau
-public class Awale extends Jeu{
+public class Awale extends Jeu implements Cloneable{
 	private int nbrGraines;
 	private int plateau[] ;
 	
@@ -37,6 +37,11 @@ public class Awale extends Jeu{
 	
 	public void modifierPlateau(int[] plateau) {
 		this.plateau = plateau;
+	}
+	
+	public Awale clone() {
+		Awale clone=new Awale(this.getNomJeu(),this.getRegles(),this.getDifficulteChoisie());
+		return clone;
 	}
 	
 	//methods :
