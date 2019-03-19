@@ -36,7 +36,7 @@ public class GameManagerAwale extends GameManager{
 	}
 	public GameManagerAwale(int modeJeu,int difficulte,int tourActuel){
 		this.nbrJoueursHumain=(modeDeJeuValide(modeJeu)?modeJeu:0);
-		this.tourActuel = 0;
+		this.tourActuel = tourActuel;
 		this.historique = new ArrayList<int[]>();
 		this.initJoueurs("joueur1","joueur2");
 		this.partie=new Awale("MonAwale","MesRegles",difficulte);
@@ -49,6 +49,14 @@ public class GameManagerAwale extends GameManager{
 	 */
 	public boolean modeDeJeuValide(int modeJeu) {
 		return !(modeJeu<0 || modeJeu>2);
+	}
+	
+	/* Cette methode teste si une difficulte donnee
+	 *  en parametre est valide ou non. On peut donc gerer
+	 *  toutes les valeurs que l'on accepte, facilement
+	 */
+	public boolean difficulteValide(int difficulte) {
+		return (difficulte==0 || difficulte==1);
 	}
 	
 	/* Cette methode affiche les differents modes de jeux jouables,
