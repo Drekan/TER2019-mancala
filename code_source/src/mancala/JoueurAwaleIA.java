@@ -64,15 +64,17 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return clone;
 	}
 	//methods:
-	public int[] simulerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale)
+	public int[] simulerUnCoup(int caseJouee, GameManagerAwale arbitreAwale)
 	{
 		int plateauSimule[] = new int[12];
 		
 		for(int i = 0; i < 12; i++)
 		{
-			plateauSimule[i] = gameManagerAwale.getPartie().getPlateau()[i];
+			plateauSimule[i] = arbitreAwale.getPartie().getPlateau()[i];
 		}
 		miseAJourPlateauSimuler(plateauSimule, caseJouee);
+		
+		arbitreAwale.setTourActuel(arbitreAwale.getTourActuel() + 1);
 		
 		return plateauSimule;
 	}
