@@ -39,7 +39,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		this.tourActuel = tourActuel;
 		this.historique = new ArrayList<int[]>();
 		this.initJoueurs("joueur1","joueur2");
-		this.partie=new Awale("MonAwale","MesRegles",(difficulteValide(difficulte)?difficulte:0));
+		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
 	}
 	public GameManagerAwale(int modeJeu,int difficulte,int tourActuel,String j1,String j2){
@@ -47,7 +47,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		this.tourActuel = tourActuel;
 		this.historique = new ArrayList<int[]>();
 		this.initJoueurs(j1,j2);
-		this.partie=new Awale("MonAwale","MesRegles",(difficulteValide(difficulte)?difficulte:0));
+		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
 	}
 	
@@ -59,13 +59,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		return !(modeJeu<0 || modeJeu>2);
 	}
 	
-	/* Cette methode teste si une difficulte donnee
-	 *  en parametre est valide ou non. On peut donc gerer
-	 *  toutes les valeurs que l'on accepte, facilement
-	 */
-	public boolean difficulteValide(int difficulte) {
-		return (difficulte==0 || difficulte==1);
-	}
+
 	
 	/* Cette methode affiche les differents modes de jeux jouables,
 	 *  et demande � l'utilisateur d'en choisir un
@@ -211,24 +205,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		
 		return clone;
 	}
-	/* Cette methode gere la mise en place de la difficulte
-	 * 	NB: On n'a pas besoin d'assigner de difficulte lorsque deux
-	 * 		joueurs humains s'affrontent
-	 */
-	private int choisirDifficulte() {
-		int difficulte=0;
-		if(this.nbrJoueursHumain!=2) {
-			Scanner sc=new Scanner(System.in);
-			System.out.println("\n----Choisissez la difficulte de l'IA----");
-			System.out.println("0. IA naive (random)");
-			System.out.println("1. IA minimax");
-			do {
-				System.out.print("\nVotre choix >> ");
-				difficulte=sc.nextInt();
-			}while(difficulte<0 || difficulte>1);
-		}
-		return difficulte;
-	}
+
 
 	public void affichePlateau(){
 		//se pencher sur ce bout de code plus tard -Bastien (note a moi meme)--------------
@@ -287,7 +264,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	 */
 	public void lancerUneNouvellePartie(){
 		this.initJoueurs("joueur1","joueur2");
-		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
+		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
 		this.commencerPartie();
 
@@ -295,7 +272,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 	public void lancerUneNouvellePartieGraphique(DrawingManagerAwale window){
 		initJoueurs("joueur1","joueur2");
-		this.partie=new Awale("MonAwale","MesRegles",choisirDifficulte());
+		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
 		this.commencerPartieGraphique(window);
 

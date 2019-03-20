@@ -9,8 +9,8 @@ public class Awale extends Jeu implements Cloneable{
 
 	
 	//constructeur :
-	public Awale(String nomJeu, String regles, int difficulte){
-		super(nomJeu,regles,difficulte);
+	public Awale(String nomJeu, String regles){
+		super(nomJeu,regles);
 	}
 	//setters & getters :
 	public int getNbrGraines(){ 
@@ -40,7 +40,7 @@ public class Awale extends Jeu implements Cloneable{
 	}
 	
 	public Awale clone() {
-		Awale clone=new Awale(this.getNomJeu(),this.getRegles(),this.getDifficulteChoisie());
+		Awale clone=new Awale(this.getNomJeu(),this.getRegles());
 		clone.plateau=this.plateau.clone();
 		clone.nbrGraines = this.nbrGraines;
 		return clone;

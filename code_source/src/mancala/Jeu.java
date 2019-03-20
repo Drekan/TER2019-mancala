@@ -5,15 +5,11 @@ public abstract class Jeu {
 	
 	private String nomJeu;
 	private String regles;
-	private int difficulteChoisie;
-	
-	int Difficulte[]= {1,2,3};
 	
 	//constructeurs :
-	public Jeu(String nomJeu, String regles, int difficultechoisis){
+	public Jeu(String nomJeu, String regles){
 		this.nomJeu = nomJeu;
 		this.regles = regles;
-		this.difficulteChoisie = difficultechoisis;
 	}
 	
 	//setters & getters :
@@ -33,14 +29,6 @@ public abstract class Jeu {
 		this.regles = regles;
 	}
 	
-	public int getDifficulteChoisie(){ 
-		return this.difficulteChoisie;
-	}
-	
-	public void setDifficulteChoisie(int difficulteChoisie){	
-		this.difficulteChoisie = difficulteChoisie;
-	}
-
 	//methods :
 	public abstract void initialisationJeu();//permet de tout remettre a  0
 		

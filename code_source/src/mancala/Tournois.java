@@ -51,7 +51,7 @@ public class Tournois {
 		
 		ArbitreAwale.initJoueurs("joueur1","joueur2");
 
-		partie = new Awale("MonAwale","MesRegles",1 );
+		partie = new Awale("MonAwale","MesRegles");
 		ArbitreAwale.setPartie(partie);
 		
 		

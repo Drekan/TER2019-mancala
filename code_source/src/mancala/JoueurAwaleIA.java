@@ -2,6 +2,7 @@ package mancala;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 //les methodes de decision seront utilisees(MiniMax, Evalution...)
 public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
@@ -9,7 +10,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	private int compteur = 0;
 	
 	//difficulte de l'IA
-	private int difficulte;
+	private int difficulte=-1;
 	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
@@ -39,16 +40,20 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	public void setDifficulte(int dif) {
-		this.difficulte=dif;
+		this.difficulte=(difficulteValide(dif)?dif:0);
 	}
 	
 	//constructeurs :
 	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
+		choisirDifficulte();
 	}
 	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur,int difficulte) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
 		setDifficulte(difficulte);
+	}
+	public JoueurAwaleIA() {
+		
 	}
 	
 	public JoueurAwaleIA clone() {
@@ -63,6 +68,30 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		clone.time=this.time;
 		return clone;
 	}
+	
+	private void choisirDifficulte() {
+		int difficulte=0;
+		Scanner sc=new Scanner(System.in);
+		System.out.println("\n----Choisissez la difficulte de l'IA <"+this.getNom()+">----");
+		System.out.println("0. IA naive (random)");
+		System.out.println("1. IA minimax");
+		do {
+			System.out.print("\nVotre choix >> ");
+			difficulte=sc.nextInt();
+		}while(difficulte<0 || difficulte>1);
+		this.setDifficulte(difficulte);
+	}
+	
+	
+	/* Cette methode teste si une difficulte donnee
+	 *  en parametre est valide ou non. On peut donc gerer
+	 *  toutes les valeurs que l'on accepte, facilement
+	 */
+	public boolean difficulteValide(int difficulte) {
+		return (difficulte==0 || difficulte==1);
+	}
+	
+	
 	//methods:
 	public int[] simulerUnCoup(int caseJouee, GameManagerAwale arbitreAwale)
 	{
@@ -444,8 +473,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public int choisirUnCoup(GameManagerAwale arbitreAwale)
 	{
 		int caseJouee = -1;
-		int ia=arbitreAwale.getPartie().getDifficulteChoisie();
-		if(ia == 1) 
+		if(difficulte==1) 
 		{
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,4);
@@ -453,7 +481,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 
 			System.out.println("case jouee : " + caseJouee);
 		}
-		else if(ia == 0)
+		else if(difficulte==0)
 		{
 			Random rand = new Random();
 			do {
