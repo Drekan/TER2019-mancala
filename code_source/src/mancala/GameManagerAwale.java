@@ -1,8 +1,6 @@
 package mancala;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
 
 //gere le jeu en fonction des regles de l'awale
@@ -298,11 +296,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 					do {
 						coupJoue = window.getCoupActu();
 						window.setCoupActu(-1);
-						try {
-							Thread.sleep(1000/60);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
+						this.delay(1000/60);
 					}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
 				}
 			}
@@ -310,28 +304,35 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 				do {
 					coupJoue = window.getCoupActu();
 					window.setCoupActu(-1);
-					try {
-						Thread.sleep(1000/60);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+					this.delay(1000/60);
 				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
 			}
 
 			this.joueurActuel().jouerUnCoup(coupJoue,this);
 
-			window.getJ1_c1().setLabel("" + this.getPartie().etatActuel()[0]);
-			window.getJ1_c2().setLabel("" + this.getPartie().etatActuel()[1]);
-			window.getJ1_c3().setLabel("" + this.getPartie().etatActuel()[2]);
-			window.getJ1_c4().setLabel("" + this.getPartie().etatActuel()[3]);
-			window.getJ1_c5().setLabel("" + this.getPartie().etatActuel()[4]);
-			window.getJ1_c6().setLabel("" + this.getPartie().etatActuel()[5]);
-			window.getJ2_c1().setLabel("" + this.getPartie().etatActuel()[6]);
-			window.getJ2_c2().setLabel("" + this.getPartie().etatActuel()[7]);
-			window.getJ2_c3().setLabel("" + this.getPartie().etatActuel()[8]);
-			window.getJ2_c4().setLabel("" + this.getPartie().etatActuel()[9]);
-			window.getJ2_c5().setLabel("" + this.getPartie().etatActuel()[10]);
-			window.getJ2_c6().setLabel("" + this.getPartie().etatActuel()[11]);
+			window.getJ0().setLabel("" + this.getPartie().etatActuel()[0]);
+			this.delay(1000);
+			window.getJ1().setLabel("" + this.getPartie().etatActuel()[1]);
+			this.delay(1000);
+			window.getJ2().setLabel("" + this.getPartie().etatActuel()[2]);
+			this.delay(1000);
+			window.getJ3().setLabel("" + this.getPartie().etatActuel()[3]);
+			this.delay(1000);
+			window.getJ4().setLabel("" + this.getPartie().etatActuel()[4]);
+			this.delay(1000);
+			window.getJ5().setLabel("" + this.getPartie().etatActuel()[5]);
+			this.delay(1000);
+			window.getJ6().setLabel("" + this.getPartie().etatActuel()[6]);
+			this.delay(1000);
+			window.getJ7().setLabel("" + this.getPartie().etatActuel()[7]);
+			this.delay(1000);
+			window.getJ8().setLabel("" + this.getPartie().etatActuel()[8]);
+			this.delay(1000);
+			window.getJ9().setLabel("" + this.getPartie().etatActuel()[9]);
+			this.delay(1000);
+			window.getJ10().setLabel("" + this.getPartie().etatActuel()[10]);
+			this.delay(1000);
+			window.getJ11().setLabel("" + this.getPartie().etatActuel()[11]);
 
 			this.setTourActuel(getTourActuel()+1);
 
@@ -492,5 +493,13 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			}
 		}
 		return redondances;
+	}
+
+	public void delay(int temps){
+		try {
+			Thread.sleep(temps);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
