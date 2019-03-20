@@ -257,7 +257,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
 			this.affichePlateau();
-
+			
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 
 			int coupJoue = this.joueurActuel().choisirUnCoup(this);
@@ -267,6 +267,15 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			}
 
 			this.setTourActuel(getTourActuel()+1);
+			
+			//Pour attendre 1/2 minute 
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			// suspendu pendant 60 seconde (chiffre en millisecondes)
 		}
 		this.affichePlateau();
 	}
