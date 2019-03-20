@@ -1,5 +1,7 @@
 package mancala;
 
+import java.util.Scanner;
+
 public class Tournois {
 
 	static Awale partie;
@@ -7,6 +9,7 @@ public class Tournois {
 	private int nbrVictoiresJ2;
 	private JoueurAwaleIA j1;
 	private JoueurAwaleIA j2;
+	private static int nbrPartie;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
 		this.nbrVictoiresJ1=0;
@@ -47,20 +50,27 @@ public class Tournois {
 	}
 	
 	public static void main(String[] args) {
-		GameManagerAwale ArbitreAwale = new GameManagerAwale(0,0);
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Entrer le nombre de tournois que vous souhaitez faire >> ");
+		nbrPartie = sc.nextInt();
 		
-		ArbitreAwale.initJoueurs("joueur1","joueur2");
+		for(int i=0; i<nbrPartie; i++) {
+			GameManagerAwale ArbitreAwale = new GameManagerAwale(0,0);
+			
+			ArbitreAwale.initJoueurs("joueur1","joueur2");
 
-		partie = new Awale("MonAwale","MesRegles");
-		ArbitreAwale.setPartie(partie);
+			partie = new Awale("MonAwale","MesRegles");
+			ArbitreAwale.setPartie(partie);
+			
+			
+			ArbitreAwale.getPartie().initialisationJeu();
+			
+			
+			ArbitreAwale.commencerPartie();
+			
+			ArbitreAwale.getGagnant();
+		}
 		
-		
-		ArbitreAwale.getPartie().initialisationJeu();
-		
-		
-		ArbitreAwale.commencerPartie();
-		
-		ArbitreAwale.getGagnant();
 		
 	}
 	

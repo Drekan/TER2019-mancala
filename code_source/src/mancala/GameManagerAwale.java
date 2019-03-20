@@ -247,7 +247,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			
 			//Pour attendre 1/2 minute 
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(30);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
