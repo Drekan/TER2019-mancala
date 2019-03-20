@@ -5,11 +5,12 @@ import java.util.Scanner;
 public class Tournois {
 
 	static Awale partie;
-	private int nbrVictoiresJ1;
-	private int nbrVictoiresJ2;
+	private static int nbrVictoiresJ1;
+	private static int nbrVictoiresJ2;
 	private JoueurAwaleIA j1;
 	private JoueurAwaleIA j2;
 	private static int nbrPartie;
+	static int gagnant;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
 		this.nbrVictoiresJ1=0;
@@ -36,14 +37,14 @@ public class Tournois {
 	}
 	
 	public int getNbrVictoireJ1() {
-		return nbrVictoiresJ1;
+		return this.nbrVictoiresJ1;
 	}
 	public void setNbrVictoireJ1(int nbr) {
 		this.nbrVictoiresJ1=nbr;
 	}
 	
 	public int getNbrVictoireJ2() {
-		return nbrVictoiresJ2;
+		return this.nbrVictoiresJ2;
 	}
 	public void setNbrVictoireJ2(int nbr) {
 		this.nbrVictoiresJ2=nbr;
@@ -54,22 +55,30 @@ public class Tournois {
 		System.out.println("Entrer le nombre de tournois que vous souhaitez faire >> ");
 		nbrPartie = sc.nextInt();
 		
-		for(int i=0; i<nbrPartie; i++) {
-			GameManagerAwale ArbitreAwale = new GameManagerAwale(0,0);
-			
-			ArbitreAwale.initJoueurs("joueur1","joueur2");
+		GameManagerAwale ArbitreAwale = new GameManagerAwale(0,0);
+		
+		ArbitreAwale.initJoueurs("joueur1","joueur2");
 
-			partie = new Awale("MonAwale","MesRegles");
-			ArbitreAwale.setPartie(partie);
-			
-			
-			ArbitreAwale.getPartie().initialisationJeu();
-			
+		partie = new Awale("MonAwale","MesRegles");
+		ArbitreAwale.setPartie(partie);
+		
+		ArbitreAwale.getPartie().initialisationJeu();
+		
+		for(int i=0; i<nbrPartie; i++) {
 			
 			ArbitreAwale.commencerPartie();
 			
-			ArbitreAwale.getGagnant();
+			gagnant = ArbitreAwale.getGagnant();
+			if(gagnant == 1) {
+				nbrVictoiresJ1++;
+			}
+			else if(gagnant == 2) {
+				nbrVictoiresJ2++;
+			}
 		}
+		
+		System.out.println("Nombre de partie gagne par joueur 1 : " + nbrVictoiresJ1);
+		System.out.println("Nombre de partie gagne par joueur 2 : " + nbrVictoiresJ2);
 		
 		
 	}

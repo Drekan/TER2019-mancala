@@ -402,16 +402,23 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	}
 	
 	@Override
-	public void getGagnant() {
+	public int getGagnant() {
+		int gagnant = 0;
 		int score1 = getJoueur1().getScore();
 		int score2 = getJoueur2().getScore();
-		if( score1 == score2 )	
+		if( score1 == score2 )
 			System.out.println(" Score Egaux ! " + score1);
-		else if( score1 > score2 )	
+		else if( score1 > score2 ) {
 			System.out.println("Joueur 1 a gagne");
-		else	
+			gagnant = 1;
+		}
+		else {
 			System.out.println("Joueur 2 a gagne");
+			gagnant = 2;
+		}
+		
 		System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
+		return gagnant;
 	}
 	
 	
