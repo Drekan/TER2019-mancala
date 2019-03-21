@@ -378,7 +378,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		arbitreSimuleMinimax.stockerEtatMouvement(arbitreSimuleMinimax.getPartie().getPlateau());
 		
 		//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
-		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau())
+		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
 		
 		retourSimulerFinPartie = simulerFinPartie(historique, arbitreSimuleMinimax);
 	    
