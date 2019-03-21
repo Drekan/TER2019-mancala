@@ -356,7 +356,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
 		if( plateau[caseJouee] != 0 ) {
-			if( caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && interdictionAffamer(caseJouee, plateau) ) return true;
+			if( caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && interdictionAffamer(caseJouee) ) return true;
 		}
 		return false;
 	}
@@ -480,9 +480,9 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		return coupPossible;
 	}
 	
-	public boolean interdictionAffamer(int caseJouee, int[] plateau) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
+	public boolean interdictionAffamer(int caseJouee) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
 		if ( (this.joueurActuel() == this.getJoueur1() && this.getJoueur2().getNbrGraineJoueur() == 0) || ( this.joueurActuel() == this.getJoueur2() && this.getJoueur1().getNbrGraineJoueur() == 0 ) ) {
-			int nbrGrainesJouee = plateau[caseJouee];
+			int nbrGrainesJouee = this.getPartie().getPlateau()[caseJouee];
 			int resteADeposer = nbrGrainesJouee-(this.joueurActuel().getMax() - caseJouee);
 			if( resteADeposer <= 0 )
 				return false ;
