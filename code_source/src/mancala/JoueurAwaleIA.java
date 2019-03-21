@@ -75,10 +75,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		System.out.println("\n----Choisissez la difficulte de l'IA <"+this.getNom()+">----");
 		System.out.println("0. IA naive (random)");
 		System.out.println("1. IA minimax");
+		System.out.println("2. IA alphaBeta");
 		do {
 			System.out.print("\nVotre choix >> ");
 			difficulte=sc.nextInt();
-		}while(difficulte<0 || difficulte>1);
+		}while(difficulte<0 || difficulte>2);
 		this.setDifficulte(difficulte);
 	}
 	
@@ -88,7 +89,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 *  toutes les valeurs que l'on accepte, facilement
 	 */
 	public boolean difficulteValide(int difficulte) {
-		return (difficulte==0 || difficulte==1);
+		return (difficulte==0 || difficulte==1 || difficulte==2);
 	}
 	
 	
@@ -485,8 +486,10 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    }
 		}
 	    
-		if(arbitreAwale.getVocal()) {
-		
+		if(arbitreAwale.getVocal()) 
+		{
+			System.out.println();
+			
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
 			System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
 	
@@ -500,6 +503,138 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			time = System.currentTimeMillis() - time;
 			System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
 			
+			System.out.println();
+			
+			setCompteur(0);
+		}
+
+		return coup_optimise;
+	}
+	
+	public double alphaBeta(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax, double alpha, double beta)
+	{
+		long time = System.currentTimeMillis();
+		ArrayList coupPossible = new ArrayList<>();
+		ArrayList <int[]> historique = new ArrayList<>();
+		double alphaBeta = -1;
+		int retourSimulerFinPartie, score;
+		
+		//On simule un nouveau un GMA, c'est obligatoire, autrement c'est toujours l'arbitreAwaleSimule (le parametre que l'on donne) qui est modifie et donc la simulation n'est pas correcte
+		GameManagerAwale arbitreSimuleMinimax = arbitreAwaleSimule.clone();
+		
+		//Compte le nombre d'appels recursifs
+		setCompteur(getCompteur() + 1);
+		
+		//On modifie le plateau
+		arbitreSimuleMinimax.getPartie().modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
+		
+		//On rempli l'historique
+		arbitreSimuleMinimax.stockerEtatMouvement(arbitreSimuleMinimax.getPartie().getPlateau());
+		
+		//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
+		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
+		
+		retourSimulerFinPartie = simulerFinPartie(historique, arbitreSimuleMinimax);
+	    
+		if(retourSimulerFinPartie != -1)
+		{
+			alphaBeta = noeudTerminal(retourSimulerFinPartie, arbitreSimuleMinimax);
+		}
+        
+		/*On verifie que la liste des coupPossible est vide
+		Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
+		Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
+		if(coupPossible.isEmpty())
+		{
+			alphaBeta = 1000;
+			return alphaBeta;
+		}
+        
+		if(profondeurMax == 0)
+		{
+			alphaBeta = profondeurMaxAtteinte(arbitreSimuleMinimax);
+
+		    return alphaBeta;
+		}
+          
+		//Si le joueur est l'IA
+		if(joueurMax)
+		{
+		    for(int i = 0; i < coupPossible.size() ; i++)
+		    {
+				alpha = Math.max(alpha, alphaBeta((int)coupPossible.get(i), arbitreSimuleMinimax, profondeurMax-1, false, alpha, beta));
+				if(alpha >= beta)
+				{
+					return beta;
+				}
+		    }
+		}
+		else
+		{
+		    for(int i = 0; i < coupPossible.size(); i++)
+		    {
+				beta = Math.min(beta, alphaBeta((int)coupPossible.get(i), arbitreSimuleMinimax, profondeurMax-1, true, alpha, beta));
+				if(alpha >= beta)
+				{
+					return alpha;
+				}
+		    }
+		}
+	
+		time = System.currentTimeMillis() - time;
+		setTime(getTime() + time);
+
+		return beta;
+	}
+	
+	public int jouerAlphaBeta(GameManagerAwale arbitreAwale, int profondeurMax)
+	{
+		long time = System.currentTimeMillis();
+		double valeur_optimisee = -10000;
+		double valeur;
+		int nombre_appel = 0;
+		
+		//On simule un GMA pour ne pas modifier le GMA actuel du jeu
+		GameManagerAwale arbitreAwaleSimule;
+		
+		nombre_appel++;
+
+		ArrayList coupPossible = new ArrayList<>();
+		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
+		
+		arbitreAwaleSimule = arbitreAwale.clone();
+		
+		int coup_optimise = -1;
+  
+		for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
+		{
+		    valeur = alphaBeta((int)coupPossible.get(i), arbitreAwaleSimule, profondeurMax, true, -10000, 10000); 
+		    if(valeur > valeur_optimisee)
+		    {
+				valeur_optimisee = valeur;
+				coup_optimise = (int)coupPossible.get(i);
+		    }
+		}
+	    
+		if(arbitreAwale.getVocal()) 
+		{
+			System.out.println();
+			
+			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif d'alphaBeta
+			System.out.println("Nombre d'appels recursif d'alphaBeta : " + getCompteur());
+	
+			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution d'alphaBeta puis on remet le compteur à 0
+			System.out.println("Temps d'execution d'alphaBeta : " + getTime() + "ms.");
+			setTime(0);
+	
+			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + nombre_appel);
+			System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
+	
+			time = System.currentTimeMillis() - time;
+			System.out.println("Temps d'execution de jouerAlphaBeta : " + time + "ms.");
+			
+			System.out.println();
+			
 			setCompteur(0);
 		}
 
@@ -509,6 +644,16 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public int choisirUnCoup(GameManagerAwale arbitreAwale)
 	{
 		int caseJouee = -1;
+		
+		if(difficulte==2) 
+		{
+			do {
+				caseJouee = jouerAlphaBeta(arbitreAwale,4);
+			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
+			if(arbitreAwale.getVocal()) {
+				System.out.println("case jouee : " + caseJouee);
+			}
+		}
 		if(difficulte==1) 
 		{
 			do {
