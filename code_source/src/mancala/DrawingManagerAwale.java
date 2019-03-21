@@ -13,7 +13,7 @@ public class DrawingManagerAwale {
 
 	private JFrame frmAwale;
 	private int coupActu = -1;
-	private ArrayList<JButton> buttonList;
+	private ArrayList<SButton> buttonList;
 	private GameManagerAwale arbitreAwale;
 
 	public JFrame getFrmAwale() {
@@ -32,7 +32,7 @@ public class DrawingManagerAwale {
 		this.coupActu = coupActu;
 	}
 
-	public ArrayList<JButton> getButtonList() {
+	public ArrayList<SButton> getButtonList() {
 		return buttonList;
 	}
 
@@ -86,7 +86,7 @@ public class DrawingManagerAwale {
 		buttonList = new ArrayList<>();
 		for(int i = 0; i < 12; i++)
 		{
-			JButton btn = new SButton("4");
+			SButton btn = new SButton("4");
 			final int fi = i;
 			btn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {

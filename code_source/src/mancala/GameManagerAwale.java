@@ -294,6 +294,8 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 	public void commencerPartieGraphique(DrawingManagerAwale window) {
 		while( !this.finPartie() ) {
+			this.enableAll(window);
+			this.disableCaseNonValide(window);
 			this.affichePlateau();
 
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
@@ -522,5 +524,19 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		this.joueur2.reset();
 		this.tourActuel=0;
 		this.partie.initialisationJeu();
+	}
+
+	public void enableAll(DrawingManagerAwale window){
+		for (int i = 0 ; i < 12 ; i++){
+			window.getButtonList().get(i).setEnabled(true);
+		}
+	}
+
+	public void disableCaseNonValide(DrawingManagerAwale window){
+		for (int i = 0 ; i < 12 ; i++){
+			if (Integer.parseInt(window.getButtonList().get(i).getText()) == 0){
+				window.getButtonList().get(i).setEnabled(false);
+			}
+		}
 	}
 }
