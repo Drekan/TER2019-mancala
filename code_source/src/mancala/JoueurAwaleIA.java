@@ -175,7 +175,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		
 		for(int i = arbitreAwale.joueurActuel().getMin(); i <= arbitreAwale.joueurActuel().getMax(); i++) 
 		{
-			if(arbitreAwale.InterdictionAffamer(i, partieSimulee.getPlateau())) 
+			if(arbitreAwale.interdictionAffamer(i, partieSimulee.getPlateau())) 
 			{
 				affamerPartout = false;
 			}
