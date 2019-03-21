@@ -140,22 +140,6 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return difference;
 	}
 	
-	//Supprimer la redondance de code a l'occasion si possible
-	public int nbRedondanceHistorique(int profondeur, ArrayList<int []> historique, GameManagerAwale arbitreAwale) 
-	{
-		int redondance = 0;
-		int profondeurEffective = Math.min(historique.size()-1, profondeur);
-		for(int i = 0; i < profondeurEffective; i++) 
-		{
-			if(arbitreAwale.plateauxEgaux(historique.get(0), historique.get(i))) 
-			{
-				redondance++;
-			}
-		}
-		
-		return redondance;
-	}
-	
 	public int simulerFinPartie(ArrayList<int []> historique, GameManagerAwale arbitreAwaleSimule) 
 	{
 		int joueurGagnant = -1;
