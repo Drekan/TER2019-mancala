@@ -49,20 +49,22 @@ public class Tournois {
 	public void setNbrVictoireJ2(int nbr) {
 		this.nbrVictoiresJ2=nbr;
 	}
-	
-	
-	
-	
-	
-	
-	public void lancer() {
+	public void saisirNbrParties() {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("----Preparation du Tournois----");
 		do {
 			System.out.println("Nombre de parties à faire >>");
 			nbrPartie = sc.nextInt();
 		}while(nbrPartie<1);
-		
+	}
+	
+	public void print() {
+		System.out.println("Nombre de parties gagnees par <"+j1.getNom()+"> :"+ nbrVictoiresJ1);
+		System.out.println("Nombre de parties gagnees par <"+j2.getNom()+"> :"+ nbrVictoiresJ2);
+	}
+	
+	public void lancer() {
+		saisirNbrParties();
 		GameManagerAwale arbitre= new GameManagerAwale(0,0);
 		arbitre.saveJoueur1(j1);
 		arbitre.saveJoueur2(j2);
@@ -91,9 +93,6 @@ public class Tournois {
 			
 		}
 		System.out.println("");
-		System.out.println("Nombre de parties gagnees par joueur 1 : " + nbrVictoiresJ1);
-		System.out.println("Nombre de parties gagnees par joueur 2 : " + nbrVictoiresJ2);
-		
 		
 	}
 	
