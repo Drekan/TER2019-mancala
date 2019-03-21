@@ -452,20 +452,23 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    }
 		}
 	    
-		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
-		System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
-
-		//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
-		System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
-		setTime(0);
-
-		System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
-		System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
-
-		time = System.currentTimeMillis() - time;
-		System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
+		if(arbitreAwale.getVocal()) {
 		
-		setCompteur(0);
+			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
+			System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
+	
+			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
+			System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
+			setTime(0);
+	
+			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
+			System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
+	
+			time = System.currentTimeMillis() - time;
+			System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
+			
+			setCompteur(0);
+		}
 
 		return coup_optimise;
 	}
@@ -478,8 +481,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,4);
 			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
-
-			System.out.println("case jouee : " + caseJouee);
+			if(arbitreAwale.getVocal()) {
+				System.out.println("case jouee : " + caseJouee);
+			}
 		}
 		else if(difficulte==0)
 		{

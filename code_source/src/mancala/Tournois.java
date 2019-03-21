@@ -67,7 +67,7 @@ public class Tournois {
 		arbitre.saveJoueur1(j1);
 		arbitre.saveJoueur2(j2);
 		
-		System.out.println("Progression");
+		System.out.println("|----Progression----|");
 		System.out.println("|0%-- --50%-- --100%|");
 		System.out.print("|");
 		int progression=0;
