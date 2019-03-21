@@ -21,7 +21,6 @@ public abstract class Joueur {
 	}
 	
 	public Joueur() {
-		super();
 	}
 	
 	//getters & setters :
@@ -72,7 +71,11 @@ public abstract class Joueur {
 	public void setNbrGraineJoueur(int nbrGraineJoueur) {
 		this.nbrGraineJoueur = nbrGraineJoueur;
 	}
-
+	
+	public void reset() {
+		this.score=0;
+		this.nbrGraineJoueur=0;
+	}
 	//methods :
 	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a� jour des valeurs du plateau
 	public abstract int choisirUnCoup(GameManagerAwale gameManagerAwale);

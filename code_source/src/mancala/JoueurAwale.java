@@ -14,7 +14,7 @@ public class JoueurAwale extends Joueur implements Cloneable{
 	}
 	
 	public JoueurAwale clone() {
-		JoueurAwale clone=new JoueurAwaleHumain(this.getNom(),
+		JoueurAwale clone=new JoueurAwale(this.getNom(),
 												this.getScore(),
 												this.getNumeroJoueur(),
 												this.getMin(),

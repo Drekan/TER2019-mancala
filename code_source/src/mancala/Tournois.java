@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class Tournois {
 
-	static Awale partie;
-	private static int nbrVictoiresJ1;
-	private static int nbrVictoiresJ2;
-	private static JoueurAwaleIA j1;
-	private static JoueurAwaleIA j2;
-	private static int nbrPartie;
-	static JoueurAwale gagnant;
+	private Awale partie;
+	private int nbrVictoiresJ1;
+	private int nbrVictoiresJ2;
+	private JoueurAwaleIA j1;
+	private JoueurAwaleIA j2;
+	private int nbrPartie;
+	private JoueurAwale gagnant;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
 		this.nbrVictoiresJ1=0;
@@ -24,7 +24,7 @@ public class Tournois {
 		return this.j1;
 	}
 	
-	public static void setJ1(JoueurAwaleIA j) {
+	public void setJ1(JoueurAwaleIA j) {
 		j1=j;
 	}
 	
@@ -32,7 +32,7 @@ public class Tournois {
 		return this.j2;
 	}
 	
-	public static void setJ2(JoueurAwaleIA j) {
+	public void setJ2(JoueurAwaleIA j) {
 		j2=j;
 	}
 	
@@ -50,7 +50,12 @@ public class Tournois {
 		this.nbrVictoiresJ2=nbr;
 	}
 	
-	public static void main(String[] args) {
+	
+	
+	
+	
+	
+	public void setup() {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("Entrer le nombre de tournois que vous souhaitez faire >> ");
 		nbrPartie = sc.nextInt();

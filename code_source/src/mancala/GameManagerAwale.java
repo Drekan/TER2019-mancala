@@ -495,4 +495,12 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			e.printStackTrace();
 		}
 	}
+	
+	public void resetPartie() {
+		this.historique=new ArrayList<int[]>();
+		this.joueur1.reset();
+		this.joueur2.reset();
+		this.tourActuel=0;
+		this.partie.initialisationJeu();
+	}
 }
