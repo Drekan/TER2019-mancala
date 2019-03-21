@@ -283,7 +283,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 6:
-	 * On essaie d'avoir le plus de graines possible dans la case la plus à gauche
+	 * On essaie d'avoir le plus de graines possible dans la case la plus à gauche éê
 	 */
 	private double H6(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
@@ -294,6 +294,22 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			nombreGrainesJoueur++;
 		}
 		return (double)plateau[debut]/(double)nombreGrainesJoueur;
+	}
+	
+	/* Heuristique 7:
+	 * On essaie d'avoir le plus de cases jouables possibles éé
+	 */
+	private double H7(int numeroJoueur,int[] plateau) {
+		int nombreCasesJouables=0;
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==1?6:12);
+		
+		for(int i=debut;i<fin;i++) {
+			if(plateau[i]>0) {
+				nombreCasesJouables++;
+			}
+		}
+		return (1/6)*(double)nombreCasesJouables;
 	}
 	
 	/* evaluation d'un etat du jeu en fonction
