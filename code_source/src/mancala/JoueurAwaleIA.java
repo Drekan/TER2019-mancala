@@ -334,6 +334,29 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return valeur;
 	}
 	
+	double profondeurMaxAtteinte(GameManagerAwale arbitreSimule)
+	{
+		int scoreJoueur, scoreAdversaire, numeroJoueur;
+		double valeur = -1;
+		
+		if(arbitreSimule.joueurActuel() == arbitreSimule.getJoueur1())
+	    {
+			numeroJoueur = 1;
+			scoreJoueur = arbitreSimule.getJoueur1().getScore();
+			scoreAdversaire = arbitreSimule.getJoueur2().getScore();
+	    }
+	    else
+	    {
+			numeroJoueur = 2;
+			scoreJoueur = arbitreSimule.getJoueur1().getScore();
+			scoreAdversaire = arbitreSimule.getJoueur2().getScore();
+	    }
+		
+		valeur = evaluation(numeroJoueur, arbitreSimule.getPartie().getPlateau(), scoreJoueur, scoreAdversaire);
+		
+		return valeur;
+	}
+	
 	public double minimax(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax)
 	{
 		long time = System.currentTimeMillis();
@@ -371,20 +394,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
         
 		if(profondeurMax == 0)
 		{
-		    if(arbitreSimuleMinimax.joueurActuel() == arbitreSimuleMinimax.getJoueur1())
-		    {
-				numeroJoueur = 1;
-				scoreJoueur = arbitreSimuleMinimax.getJoueur1().getScore();
-				scoreAdversaire = arbitreSimuleMinimax.getJoueur2().getScore();
-		    }
-		    else
-		    {
-				numeroJoueur = 2;
-				scoreJoueur = arbitreSimuleMinimax.getJoueur1().getScore();
-				scoreAdversaire = arbitreSimuleMinimax.getJoueur2().getScore();
-		    }
-
-		    valeur = evaluation(numeroJoueur, arbitreSimuleMinimax.getPartie().getPlateau(), scoreJoueur, scoreAdversaire);
+		    valeur = profondeurMaxAtteinte(arbitreSimuleMinimax);
 
 		    return valeur;
 		}
