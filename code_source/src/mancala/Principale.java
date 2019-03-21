@@ -6,9 +6,10 @@ import java.util.Scanner;
 public class Principale {
 
 	public static void main(String[] args) {
+		
 		/*
-		JoueurAwaleIA j1=new JoueurAwaleIA("combattant1",0,1,0,5,24);
-		JoueurAwaleIA j2=new JoueurAwaleIA("combattant2",0,2,6,11,24);
+		JoueurAwaleIA j1=new JoueurAwaleIA("IA_TOURNOIS_1",0,1,0,5,24);
+		JoueurAwaleIA j2=new JoueurAwaleIA("IA_TOURNOIS_2",0,2,6,11,24);
 		Tournois tournois=new Tournois(j1,j2);
 		tournois.lancer(); 
 		*/
@@ -28,7 +29,7 @@ public class Principale {
 
 		switch (gameMode){
 			//Partie sur console
-			case 0:	arbitreAwale.lancerUneNouvellePartie();
+			case 0:	arbitreAwale.lancerUneNouvellePartie(true);
 					break;
 			//Partie graphique
 			case 1:	DrawingManagerAwale window = new DrawingManagerAwale(arbitreAwale);
@@ -38,6 +39,7 @@ public class Principale {
 		}
 		arbitreAwale.getGagnant();
 		sc.close();
+		
 	}
 
 }

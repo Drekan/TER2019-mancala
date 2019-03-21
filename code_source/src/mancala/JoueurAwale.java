@@ -67,16 +67,16 @@ public class JoueurAwale extends Joueur implements Cloneable{
 		return caseActuelle;
 	}
 	
-	@Override
-	public void jouerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale) {//mise a jour des valeurs du plateau
+
+	public void jouerUnCoup(int caseJouee, GameManagerAwale gameManagerAwale,boolean vocal) {//mise a jour des valeurs du plateau
 		int derniereCaseJouee=miseAJourPlateau(gameManagerAwale.getPartie().getPlateau(), caseJouee, gameManagerAwale);
 		//enlever les graines = 2 ou =3
 		// diminuer le nbr de graines du plateau et le nbr de graines pour l'adversaire
-		prendreGraines(derniereCaseJouee, gameManagerAwale);
+		prendreGraines(derniereCaseJouee, gameManagerAwale,vocal);
 		
 	}
 	
-	public void prendreGraines(int CaseActuelle, GameManagerAwale gameManagerAwale) {
+	public void prendreGraines(int CaseActuelle, GameManagerAwale gameManagerAwale,boolean vocal) {
 		//enlever les graines = 2 ou =3 et augmenter le score du joueur
 		int min,max;
 		if( getNumeroJoueur() == 2 ) {
@@ -97,14 +97,18 @@ public class JoueurAwale extends Joueur implements Cloneable{
 			}
 			//Modifier le score du joueur :
 			this.setScore(this.getScore() + gameManagerAwale.getPartie().getPlateau()[CaseActuelle]);
-			System.out.println("score joueur " + getNumeroJoueur() +": " + getScore());
+			
 			//Modifier le nombre de graines disponnible sur le plateau
 			gameManagerAwale.getPartie().setNbrGraines(gameManagerAwale.getPartie().getNbrGraines() - gameManagerAwale.getPartie().getPlateau()[CaseActuelle] );
-			System.out.println("nbr graines en jeu : " + gameManagerAwale.getPartie().getNbrGraines());
+
 			//prendre les graines 
 			gameManagerAwale.getPartie().setPlateau(0, CaseActuelle );
-			System.out.println("Les graines de la case " + CaseActuelle + " ont ete recuperees par le joueur " + gameManagerAwale.joueurActuel().getNumeroJoueur());
 			
+			if(vocal) {
+				System.out.println("score joueur " + getNumeroJoueur() +": " + getScore());
+				System.out.println("nbr graines en jeu : " + gameManagerAwale.getPartie().getNbrGraines());
+				System.out.println("Les graines de la case " + CaseActuelle + " ont ete recuperees par le joueur " + gameManagerAwale.joueurActuel().getNumeroJoueur());
+			}
 			CaseActuelle--;
 		}
 		

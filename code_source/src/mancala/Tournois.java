@@ -67,22 +67,30 @@ public class Tournois {
 		arbitre.saveJoueur1(j1);
 		arbitre.saveJoueur2(j2);
 		
+		System.out.println("Progression");
+		System.out.println("|0%-- --50%-- --100%|");
+		System.out.print("|");
+		int progression=0;
 		for(int i=0; i<nbrPartie; i++) {
 			
-			arbitre.commencerPartie();	
+			arbitre.commencerPartie(false);	
 			
 			//gagnant = ArbitreAwale.getGagnant();
-			if(arbitre.getGagnant() == j1) {
+			if(arbitre.getGagnant() == arbitre.getJoueur1()) {
 				nbrVictoiresJ1++;
 			}
-			else if(arbitre.getGagnant() == j2) {
+			else if(arbitre.getGagnant() == arbitre.getJoueur2()) {
 				nbrVictoiresJ2++;
 			}
-			
+			while(((double)(i+1)/this.nbrPartie*100)>progression) {
+				progression+=10;
+				System.out.print("-"+(progression==100?"|":"-"));
+			}
+
 			arbitre.resetPartie();
 			
 		}
-		
+		System.out.println("");
 		System.out.println("Nombre de parties gagnees par joueur 1 : " + nbrVictoiresJ1);
 		System.out.println("Nombre de parties gagnees par joueur 2 : " + nbrVictoiresJ2);
 		

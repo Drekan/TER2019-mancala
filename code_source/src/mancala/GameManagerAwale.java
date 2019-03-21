@@ -18,6 +18,8 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 	private int tourActuel ;
 	
+	private boolean vocal;//true pour parler, sinon chuuut
+	
 	//constructeurs :
 	public GameManagerAwale() {
 		this.nbrJoueursHumain=choisirModeJeu();
@@ -211,19 +213,23 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 	public void affichePlateau(){
 		//se pencher sur ce bout de code plus tard -Bastien (note a moi meme)--------------
-		System.out.println();
+
 		this.stockerEtatMouvement(this.getPartie().etatActuel());
-		for(int i = 11;i>5;i--) {
-			System.out.print(this.getPartie().etatActuel()[i] + " | ");
+		
+		if(vocal) {
+			System.out.println();
+			for(int i = 11;i>5;i--) {
+				System.out.print(this.getPartie().etatActuel()[i] + " | ");
+			}
+			System.out.println();
+			for(int i = 0;i<6;i++) {
+				System.out.print(this.getPartie().etatActuel()[i] + " | ");
+			}
+	
+			System.out.println();
+	
+			System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGraines());
 		}
-		System.out.println();
-		for(int i = 0;i<6;i++) {
-			System.out.print(this.getPartie().etatActuel()[i] + " | ");
-		}
-
-		System.out.println();
-
-		System.out.println("Nbr graines en jeu : " + this.getPartie().getNbrGraines());
 		//---------------------------------------------------------------------------------
 	}
 	
@@ -232,17 +238,19 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	 * les coups joues et par qui. Elle ne s'arrete que 
 	 * lorsqu'une (au moins) des conditions de fins de partie est remplie 
 	 */
-	public void commencerPartie() {
+	public void commencerPartie(boolean vocal) {
+		this.vocal=vocal;
 		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
 			this.affichePlateau();
 			
-			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
+			if(vocal)
+				System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
 
 			int coupJoue = this.joueurActuel().choisirUnCoup(this);
 
 			if(this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())){
-				this.joueurActuel().jouerUnCoup(coupJoue, this);
+				this.joueurActuel().jouerUnCoup(coupJoue, this,vocal);
 			}
 
 			this.setTourActuel(getTourActuel()+1);
@@ -264,11 +272,11 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	/*Methode qui instancie le plateau de jeu et
 	 * demarre la partie avec la difficulte adequate !
 	 */
-	public void lancerUneNouvellePartie(){
+	public void lancerUneNouvellePartie(boolean silence){
 		this.initJoueurs("joueur1","joueur2");
 		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
-		this.commencerPartie();
+		this.commencerPartie(silence);
 
 	}
 
@@ -311,7 +319,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
 			}
 
-			this.joueurActuel().jouerUnCoup(coupJoue,this);
+			this.joueurActuel().jouerUnCoup(coupJoue,this,true);
 
 			for (int i = 0 ; i < 12 ; i++){
 				window.getButtonList().get(i).setForeground(Color.WHITE);
@@ -384,9 +392,11 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		
 		if(finDePartie){
 			ajoutGains();
-			System.out.println();
-			System.out.println(messageFinDePartie);
-			System.out.println();
+			if(vocal) {
+				System.out.println();
+				System.out.println(messageFinDePartie);
+				System.out.println();
+			}
 		}
 		
 		return finDePartie;
@@ -402,18 +412,22 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		int gagnant = 0;
 		int score1 = getJoueur1().getScore();
 		int score2 = getJoueur2().getScore();
-		if( score1 == score2 )
-			System.out.println(" Score Egaux ! " + score1);
+		if( score1 == score2 ) {
+			if(vocal)
+				System.out.println(" Score Egaux ! " + score1);
+		}
 		else if( score1 > score2 ) {
-			System.out.println("Joueur 1 a gagne");
+			if(vocal)
+				System.out.println("Joueur 1 a gagne");
 			gagnant = 1;
 		}
 		else {
-			System.out.println("Joueur 2 a gagne");
+			if(vocal)
+				System.out.println("Joueur 2 a gagne");
 			gagnant = 2;
 		}
-		
-		System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
+		if(vocal)
+			System.out.println("Score joueur 1: "+ score1 + "\nScore joueur 2: " + score2);
 		if(gagnant == 1) {
 			return this.joueur1;
 		}
