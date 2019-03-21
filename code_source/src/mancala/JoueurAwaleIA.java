@@ -109,8 +109,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	//Permet de savoir qui gagne
-	public int vainqueur(int scoreJoueur1, int scoreJoueur2)
+	public int vainqueur(GameManagerAwale arbitreAwaleSimule)
 	{
+		arbitreAwaleSimule.ajoutGains();
+		
+		int scoreJoueur1 = arbitreAwaleSimule.getJoueur1().getScore(), 
+			scoreJoueur2 = arbitreAwaleSimule.getJoueur2().getScore();		
 		int joueurGagnant = -1;
 		
 		if(scoreJoueur1 > scoreJoueur2)
@@ -152,30 +156,32 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return redondance;
 	}
 	
-	public int simulerFinPartie(Awale partieSimulee, ArrayList<int []> historique, GameManagerAwale arbitreAwale) 
+	public int simulerFinPartie(ArrayList<int []> historique, GameManagerAwale arbitreAwaleSimule) 
 	{
 		int joueurGagnant = -1;
 		
-		if( partieSimulee.getNbrGraines() <= 1 ) 
+		GameManagerAwale arbitreSimule = arbitreAwaleSimule.clone();
+		
+		if(arbitreSimule.getPartie().getNbrGraines() <= 1) 
 		{
-			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
-		}
-
-		else if(nbRedondanceHistorique(36, historique, arbitreAwale) >= 3) 
-		{
-			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+			joueurGagnant = vainqueur(arbitreSimule);
 		}
 		
-		else if(arbitreAwale.joueurActuel().getNbrGraineJoueur() == 0 ) 
+		else if(arbitreSimule.NbRedondanceHistorique(36) >= 3) 
 		{
-			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+			joueurGagnant = vainqueur(arbitreSimule);
+		}
+		
+		else if(arbitreSimule.joueurActuel().getNbrGraineJoueur() == 0 ) 
+		{
+			joueurGagnant = vainqueur(arbitreSimule);
 		}
 		
 		boolean affamerPartout = true;
 		
-		for(int i = arbitreAwale.joueurActuel().getMin(); i <= arbitreAwale.joueurActuel().getMax(); i++) 
+		for(int i = arbitreSimule.joueurActuel().getMin(); i <= arbitreSimule.joueurActuel().getMax(); i++) 
 		{
-			if(arbitreAwale.interdictionAffamer(i, partieSimulee.getPlateau())) 
+			if(arbitreSimule.interdictionAffamer(i)) 
 			{
 				affamerPartout = false;
 			}
@@ -183,7 +189,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		
 		if(affamerPartout)
 		{
-			joueurGagnant = vainqueur(arbitreAwale.getJoueur1().getScore(), arbitreAwale.getJoueur2().getScore());
+			joueurGagnant = vainqueur(arbitreSimule);
 		}
 		
 		return joueurGagnant;
@@ -359,11 +365,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		setCompteur(getCompteur() + 1);
 		
 		arbitreSimuleMinimax.getPartie().modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
-		historique.add(arbitreSimuleMinimax.getPartie().getPlateau());
+		arbitreSimuleMinimax.stockerEtatMouvement(arbitreSimuleMinimax.getPartie().getPlateau());
 
 		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
 		
-		retourSimulerFinPartie = simulerFinPartie(arbitreSimuleMinimax.getPartie(), historique, arbitreSimuleMinimax);
+		retourSimulerFinPartie = simulerFinPartie(historique, arbitreSimuleMinimax);
 	    
 		if(retourSimulerFinPartie != -1)
 		{
