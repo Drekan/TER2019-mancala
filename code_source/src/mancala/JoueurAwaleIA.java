@@ -371,10 +371,14 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		//Compte le nombre d'appels recursifs
 		setCompteur(getCompteur() + 1);
 		
+		//On modifie le plateau
 		arbitreSimuleMinimax.getPartie().modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
+		
+		//On rempli l'historique
 		arbitreSimuleMinimax.stockerEtatMouvement(arbitreSimuleMinimax.getPartie().getPlateau());
-
-		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
+		
+		//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
+		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau())
 		
 		retourSimulerFinPartie = simulerFinPartie(historique, arbitreSimuleMinimax);
 	    
