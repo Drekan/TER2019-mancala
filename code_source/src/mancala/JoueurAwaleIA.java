@@ -452,7 +452,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    }
 		}
 	    
-		if(arbitreAwale.verbose()) {
+		if(arbitreAwale.getVocal()) {
 		
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
 			System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
@@ -481,7 +481,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,4);
 			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
-			if(arbitreAwale.verbose()) {
+			if(arbitreAwale.getVocal()) {
 				System.out.println("case jouee : " + caseJouee);
 			}
 		}

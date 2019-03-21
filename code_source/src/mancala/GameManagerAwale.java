@@ -85,7 +85,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		return modeDeJeu;
 	}
 	//getters & setters :
-	public boolean verbose() {
+	public boolean getVocal() {
 		return this.vocal;
 	}
 	
