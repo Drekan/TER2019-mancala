@@ -389,11 +389,15 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		
 		boolean affamerPartout=true;
 		for(int i=this.joueurActuel().getMin();i<=joueurActuel().getMax();i++) {
-			if(InterdictionAffamer(i, this.getPartie().getPlateau())) {
+			if(InterdictionAffamer(i)) {
 				affamerPartout=false;
 			}
+		}
+		
+		if(affamerPartout) {
 			messageFinDePartie="Adversaire affame.";
 		}
+		
 		finDePartie=finDePartie||affamerPartout;
 		
 		if(finDePartie){
