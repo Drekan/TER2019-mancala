@@ -74,7 +74,7 @@ public abstract class Joueur {
 	
 	public void reset() {
 		this.score=0;
-		this.nbrGraineJoueur=0;
+		this.nbrGraineJoueur=24;
 	}
 	//methods :
 	public abstract void jouerUnCoup(int caseJouee,GameManagerAwale gameManagerAwale);//mise a� jour des valeurs du plateau

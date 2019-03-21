@@ -28,6 +28,8 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		this.nbrJoueursHumain = nbrJoueursHumain;
 		this.tourActuel = tourActuel ;
 		this.historique = new ArrayList<int[]>();
+		this.partie=new Awale("MonAwale","MesRegles");
+		this.getPartie().initialisationJeu();
 	}
 	public GameManagerAwale(int modeJeu) {
 		this.nbrJoueursHumain=(modeDeJeuValide(modeJeu)?modeJeu:0);

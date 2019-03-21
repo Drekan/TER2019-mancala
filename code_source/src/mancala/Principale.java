@@ -6,6 +6,13 @@ import java.util.Scanner;
 public class Principale {
 
 	public static void main(String[] args) {
+		/*
+		JoueurAwaleIA j1=new JoueurAwaleIA("combattant1",0,1,0,5,24);
+		JoueurAwaleIA j2=new JoueurAwaleIA("combattant2",0,2,6,11,24);
+		Tournois tournois=new Tournois(j1,j2);
+		tournois.lancer(); 
+		*/
+		
 		GameManagerAwale arbitreAwale = new GameManagerAwale();
 		Scanner sc = new Scanner(System.in);
 		int gameMode;
