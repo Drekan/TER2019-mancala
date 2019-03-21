@@ -170,10 +170,11 @@ public class DrawingManagerAwale {
 		frmAwale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAwale.getContentPane().setLayout(new BorderLayout(0, 0));
 
-		JPanel menu = new JPanel();
+		JPanel menu = new SPanel();
 		frmAwale.getContentPane().add(menu, BorderLayout.NORTH);
 
 		JLabel titre = new JLabel("Bienvenue au jeu d'Awale !");
+		titre.setForeground(Color.WHITE);
 		menu.add(titre);
 
 		JPanel game = new SPanel();

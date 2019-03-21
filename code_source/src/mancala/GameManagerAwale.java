@@ -280,9 +280,6 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 	public void commencerPartieGraphique(DrawingManagerAwale window) {
 		while( !this.finPartie() ) {
-			for (int i = 0 ; i < 12 ; i++){
-				window.getButtonList().get(i).setForeground(Color.BLACK);
-			}
 			this.affichePlateau();
 
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
@@ -313,6 +310,10 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			}
 
 			this.joueurActuel().jouerUnCoup(coupJoue,this);
+
+			for (int i = 0 ; i < 12 ; i++){
+				window.getButtonList().get(i).setForeground(Color.WHITE);
+			}
 
 			window.getButtonList().get(coupJoue).setForeground(Color.RED);
 
