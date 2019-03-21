@@ -1,5 +1,7 @@
 package mancala;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -277,8 +279,10 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	}
 
 	public void commencerPartieGraphique(DrawingManagerAwale window) {
-		Scanner sc=new Scanner(System.in);
 		while( !this.finPartie() ) {
+			for (int i = 0 ; i < 12 ; i++){
+				window.getButtonList().get(i).setForeground(Color.BLACK);
+			}
 			this.affichePlateau();
 
 			System.out.println("JOUEUR ACTUEL : "+joueurActuel().getNom());
@@ -310,29 +314,17 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 			this.joueurActuel().jouerUnCoup(coupJoue,this);
 
-			window.getJ0().setLabel("" + this.getPartie().etatActuel()[0]);
-			this.delay(1000);
-			window.getJ1().setLabel("" + this.getPartie().etatActuel()[1]);
-			this.delay(1000);
-			window.getJ2().setLabel("" + this.getPartie().etatActuel()[2]);
-			this.delay(1000);
-			window.getJ3().setLabel("" + this.getPartie().etatActuel()[3]);
-			this.delay(1000);
-			window.getJ4().setLabel("" + this.getPartie().etatActuel()[4]);
-			this.delay(1000);
-			window.getJ5().setLabel("" + this.getPartie().etatActuel()[5]);
-			this.delay(1000);
-			window.getJ6().setLabel("" + this.getPartie().etatActuel()[6]);
-			this.delay(1000);
-			window.getJ7().setLabel("" + this.getPartie().etatActuel()[7]);
-			this.delay(1000);
-			window.getJ8().setLabel("" + this.getPartie().etatActuel()[8]);
-			this.delay(1000);
-			window.getJ9().setLabel("" + this.getPartie().etatActuel()[9]);
-			this.delay(1000);
-			window.getJ10().setLabel("" + this.getPartie().etatActuel()[10]);
-			this.delay(1000);
-			window.getJ11().setLabel("" + this.getPartie().etatActuel()[11]);
+			window.getButtonList().get(coupJoue).setForeground(Color.RED);
+
+			for (int i = coupJoue ; i < 12 ; i++) {
+				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
+				this.delay(500);
+			}
+			for (int i = 0 ; i < coupJoue ; i++) {
+				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
+				this.delay(500);
+			}
+
 
 			this.setTourActuel(getTourActuel()+1);
 
