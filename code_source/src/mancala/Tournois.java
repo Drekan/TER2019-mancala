@@ -1,18 +1,23 @@
 package mancala;
 
+import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Tournois {
 
 	private Awale partie;
 	private int nbrVictoiresJ1;
 	private int nbrVictoiresJ2;
+	private ArrayList<String> gagnants;
 	private JoueurAwaleIA j1;
 	private JoueurAwaleIA j2;
 	private int nbrPartie;
-	private JoueurAwale gagnant;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
+		gagnants=new ArrayList<String>();
 		this.nbrVictoiresJ1=0;
 		this.nbrVictoiresJ2=0;
 		this.setJ1(j1);
@@ -80,20 +85,55 @@ public class Tournois {
 			//gagnant = ArbitreAwale.getGagnant();
 			if(arbitre.getGagnant() == arbitre.getJoueur1()) {
 				nbrVictoiresJ1++;
+				gagnants.add(0,this.j1.getNom());
 			}
 			else if(arbitre.getGagnant() == arbitre.getJoueur2()) {
 				nbrVictoiresJ2++;
+				gagnants.add(0,this.j2.getNom());
 			}
+			else {
+				gagnants.add(0,"NULL");
+			}
+			
 			while(((double)(i+1)/this.nbrPartie*100)>progression) {
 				progression+=10;
 				System.out.print("-"+(progression==100?"|":"-"));
 			}
 
-			arbitre.resetPartie();
-			
+			arbitre.resetPartie();	
 		}
+		
 		System.out.println("");
 		
+	}
+	
+	boolean saveCSV(String nomFichier) {
+		boolean ok=true;
+		String nomF=(nomFichier==null)?"resultats_tournois.csv":nomFichier;
+		File fichier=new File(nomF);
+		FileWriter bufferEcriture=null;
+		
+		try {
+			bufferEcriture=new FileWriter(fichier);
+			bufferEcriture.write("match,gagnant\n");
+			for(int i=0;i<this.gagnants.size();i++) {
+				bufferEcriture.write(i+","+this.gagnants.get(i)+"\n");
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+			ok=false;
+		}
+		finally {
+			try {
+				bufferEcriture.close();
+			}
+			catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ok;
 	}
 	
 	

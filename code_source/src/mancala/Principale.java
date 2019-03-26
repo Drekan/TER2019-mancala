@@ -45,7 +45,8 @@ public class Principale {
 			JoueurAwaleIA j1=new JoueurAwaleIA("IA_TOURNOIS_1",0,1,0,5,24);
 			JoueurAwaleIA j2=new JoueurAwaleIA("IA_TOURNOIS_2",0,2,6,11,24);
 			Tournois tournois=new Tournois(j1,j2);
-			tournois.lancer(); 
+			tournois.lancer();
+			tournois.saveCSV(null);
 		}
 		sc.close();
 	}
