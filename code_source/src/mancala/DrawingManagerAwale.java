@@ -14,6 +14,8 @@ public class DrawingManagerAwale {
 	private JFrame frmAwale;
 	private int coupActu = -1;
 	private ArrayList<SButton> buttonList;
+	private ArrayList<JLabel> nameList;
+	private ArrayList<JLabel> scoreList;
 	private GameManagerAwale arbitreAwale;
 
 	public JFrame getFrmAwale() {
@@ -34,6 +36,14 @@ public class DrawingManagerAwale {
 
 	public ArrayList<SButton> getButtonList() {
 		return buttonList;
+	}
+
+	public ArrayList<JLabel> getNameList() {
+		return nameList;
+	}
+
+	public ArrayList<JLabel> getScoreList() {
+		return scoreList;
 	}
 
 	public GameManagerAwale getArbitreAwale() {
@@ -74,6 +84,7 @@ public class DrawingManagerAwale {
 
 		JPanel j2_info = new SPanel();
 		j2.add(j2_info);
+		j2_info.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		JPanel j2_score = new SPanel();
 		j2.add(j2_score);
@@ -96,6 +107,18 @@ public class DrawingManagerAwale {
 			buttonList.add(btn);
 		}
 
+		nameList = new ArrayList<>();
+		for(int i = 0; i < 2; i++){
+			JLabel nomJoueur = new JLabel("Joueur " + (i+1));
+			nameList.add(nomJoueur);
+		}
+
+		scoreList = new ArrayList<>();
+		for(int i = 0; i < 2; i++){
+			JLabel scoreJoueur = new JLabel("0");
+			scoreList.add(scoreJoueur);
+		}
+
 		JPanel j1 = new SPanel();
 		game.add(j1);
 		j1.setLayout(new GridLayout(0, 1, 0, 5));
@@ -110,6 +133,7 @@ public class DrawingManagerAwale {
 
 		JPanel j1_info = new SPanel();
 		j1.add(j1_info);
+		j1_info.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		// Ajouter cases J2
 		for(int i = 11; i > 5; i--) {
@@ -120,5 +144,13 @@ public class DrawingManagerAwale {
 		for(int i = 0; i < 6; i++) {
 			j1_cases.add(buttonList.get(i));
 		}
+
+		j2_info.add(nameList.get(1));
+
+		j2_info.add(scoreList.get(1));
+
+		j1_info.add(nameList.get(0));
+
+		j1_info.add(scoreList.get(0));
 	}
 }
