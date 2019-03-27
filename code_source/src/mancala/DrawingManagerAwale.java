@@ -147,10 +147,10 @@ public class DrawingManagerAwale {
 
 		j2_info.add(nameList.get(1));
 
-		//j2_info.add(scoreList.get(1));
+		j2_info.add(scoreList.get(1));
 
 		j1_info.add(nameList.get(0));
 
-		//j1_info.add(scoreList.get(0));
+		j1_info.add(scoreList.get(0));
 	}
 }
