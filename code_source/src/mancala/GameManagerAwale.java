@@ -289,6 +289,17 @@ public class GameManagerAwale extends GameManager implements Cloneable{
         window.getNameList().get(0).setText(this.joueur1.getNom());
         window.getNameList().get(1).setText(this.joueur2.getNom());
 		while( !this.finPartie() ) {
+		    if(this.joueurActuel() == this.joueur1)
+            {
+                window.getNameList().get(0).setForeground(Color.RED);
+                window.getNameList().get(1).setForeground(Color.BLACK);
+            }
+		    else
+            {
+                window.getNameList().get(0).setForeground(Color.BLACK);
+                window.getNameList().get(1).setForeground(Color.RED);
+            }
+
             window.getScoreList().get(0).setText(String.valueOf(this.joueur1.getScore()));
             window.getScoreList().get(1).setText(String.valueOf(this.joueur2.getScore()));
 			this.enableAll(window);
