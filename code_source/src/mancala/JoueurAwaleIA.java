@@ -43,6 +43,26 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		this.difficulte=(difficulteValide(dif)?dif:0);
 	}
 	
+	public void setNomParDefaut() {
+		switch(this.difficulte) {
+		case 0:
+			this.setNomJoueur("IA_RANDOM_J"+this.getNumeroJoueur());
+			break;
+			
+		case 1:
+			this.setNomJoueur("IA_MINMAX_J"+this.getNumeroJoueur());
+			break;
+			
+		case 2:
+			this.setNomJoueur("IA_ALPHABETA_J"+this.getNumeroJoueur());
+			break;
+			
+		default:
+			this.setNomJoueur("IA_J"+this.getNumeroJoueur());
+			break;
+		}
+	}
+	
 	//constructeurs :
 	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
@@ -654,7 +674,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				System.out.println("case jouee : " + caseJouee);
 			}
 		}
-		if(difficulte==1) 
+		else if(difficulte==1) 
 		{
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,4);

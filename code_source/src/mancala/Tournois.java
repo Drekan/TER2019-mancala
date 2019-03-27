@@ -70,7 +70,12 @@ public class Tournois {
 	
 	public void lancer() {
 		saisirNbrParties();
+		
 		GameManagerAwale arbitre= new GameManagerAwale(0,0);
+		
+		j1.setNomParDefaut();
+		j2.setNomParDefaut();
+		
 		arbitre.saveJoueur1(j1);
 		arbitre.saveJoueur2(j2);
 		
