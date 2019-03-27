@@ -43,6 +43,26 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		this.difficulte=(difficulteValide(dif)?dif:0);
 	}
 	
+	public void setNomParDefaut() {
+		switch(this.difficulte) {
+		case 0:
+			this.setNomJoueur("IA_RANDOM_J"+this.getNumeroJoueur());
+			break;
+			
+		case 1:
+			this.setNomJoueur("IA_MINMAX_J"+this.getNumeroJoueur());
+			break;
+			
+		case 2:
+			this.setNomJoueur("IA_ALPHABETA_J"+this.getNumeroJoueur());
+			break;
+			
+		default:
+			this.setNomJoueur("IA_J"+this.getNumeroJoueur());
+			break;
+		}
+	}
+	
 	//constructeurs :
 	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
@@ -311,6 +331,36 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			}
 		}
 		return (1/6)*(double)nombreCasesJouables;
+	}
+	
+	/* Heuristique 8:
+	 * L'objectif de cet heuristique est de valoriser
+	 * les etats du jeu où les cases de droites sont jouées régulièrement
+	 */
+	private double H8(int numeroJoueur,int[] plateau) {
+		int nombreGrainesJoueur=0;
+		double valeurH8=0;
+		
+		double[] poids= {1,4/5,3/5,2/5,1/5,0};
+		
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==1?6:12);
+		
+		for(int i=debut;i<fin;i++) {
+			nombreGrainesJoueur++;
+		}
+		
+		if(nombreGrainesJoueur!=0) {
+			int poidsActuel=0;
+			for(int i=debut;i<fin;i++) {
+				
+				valeurH8+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
+				poidsActuel++;
+			}
+		}
+		
+		return valeurH8;
+		
 	}
 	
 	/* evaluation d'un etat du jeu en fonction
@@ -654,7 +704,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				System.out.println("case jouee : " + caseJouee);
 			}
 		}
-		if(difficulte==1) 
+		else if(difficulte==1) 
 		{
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,4);
