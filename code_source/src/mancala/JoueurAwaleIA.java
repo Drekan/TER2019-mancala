@@ -152,7 +152,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			joueurGagnant = vainqueur(arbitreSimule);
 		}
 		
-		else if(arbitreSimule.NbRedondanceHistorique(36) >= 3) 
+		else if(arbitreSimule.nbRedondanceHistorique(36) >= 3)
 		{
 			joueurGagnant = vainqueur(arbitreSimule);
 		}
