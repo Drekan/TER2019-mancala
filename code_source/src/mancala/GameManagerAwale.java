@@ -1,6 +1,5 @@
 package mancala;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -258,15 +257,9 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			}
 
 			this.setTourActuel(getTourActuel()+1);
-			
-			//Pour attendre 1/2 minute 
-			try {
-				Thread.sleep(30);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			// suspendu pendant 60 seconde (chiffre en millisecondes)
+
+			//Pour attendre un peu
+			this.delay(60);
 		}
 		this.affichePlateau();
 	}
@@ -324,7 +317,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 					this.delay(1000/60);
 				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
 			}
-
+			//enableAll(window);
 			this.joueurActuel().jouerUnCoup(coupJoue,this,true);
 
 			for (int i = 0 ; i < 12 ; i++){
@@ -334,10 +327,20 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			window.getButtonList().get(coupJoue).setForeground(Color.RED);
 
 			for (int i = coupJoue ; i < 12 ; i++) {
+				//TODO si c'est pas 0 -> enable
+				if (this.getPartie().etatActuel()[i] != 0)
+				{
+					window.getButtonList().get(i).setEnabled(true);
+				}
 				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
 			}
 			for (int i = 0 ; i < coupJoue ; i++) {
+				//TODO si c'est pas 0 -> enable
+				if (this.getPartie().etatActuel()[i] != 0)
+				{
+					window.getButtonList().get(i).setEnabled(true);
+				}
 				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
 			}
@@ -378,7 +381,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		}
 		//2*6*3 = 36, 2 pour les 2 joueurs, 6 pour le nombre de cases d'un cote, 3 pour le nombre de tour de plateau
 		//36 >= 3 fois le tour du plateau redondant 
-		else if(NbRedondanceHistorique(36)>=3) {
+		else if(nbRedondanceHistorique(36)>=3) {
 			messageFinDePartie="Redondances dans les coups joues. La partie s'arrete.";
 			finDePartie=true;
 		}
@@ -503,7 +506,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 		return equal;
 	}
 	
-	public int NbRedondanceHistorique(int profondeur) {
+	public int nbRedondanceHistorique(int profondeur) {
 		int redondances=0;
 		int profondeurEffective=Math.min(this.historique.size()-1,profondeur);
 		for(int i=0;i<profondeurEffective;i++) {
