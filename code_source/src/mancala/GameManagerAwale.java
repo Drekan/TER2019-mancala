@@ -318,6 +318,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
 			}
 			//enableAll(window);
+            int grainesRestantes = this.getPartie().etatActuel()[coupJoue];
 			this.joueurActuel().jouerUnCoup(coupJoue,this,true);
 
 			for (int i = 0 ; i < 12 ; i++){
@@ -328,21 +329,31 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 			for (int i = coupJoue ; i < 12 ; i++) {
 				//TODO si c'est pas 0 -> enable
+                if(grainesRestantes >= 0 && i != coupJoue)
+                {
+                    window.getButtonList().get(i).setForeground(Color.BLUE);
+                }
 				if (this.getPartie().etatActuel()[i] != 0)
 				{
 					window.getButtonList().get(i).setEnabled(true);
 				}
 				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
+				grainesRestantes--;
 			}
 			for (int i = 0 ; i < coupJoue ; i++) {
 				//TODO si c'est pas 0 -> enable
+                if(grainesRestantes >= 0 && i != coupJoue)
+                {
+                    window.getButtonList().get(i).setForeground(Color.BLUE);
+                }
 				if (this.getPartie().etatActuel()[i] != 0)
 				{
 					window.getButtonList().get(i).setEnabled(true);
 				}
 				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
+                grainesRestantes--;
 			}
 
 
