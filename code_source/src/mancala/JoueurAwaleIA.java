@@ -12,6 +12,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//difficulte de l'IA
 	private int difficulte=-1;
 	
+	//heuristiques actives
+	private boolean[] heuristique= {true,true,true,true,true,false,false,false};
+	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
 	
@@ -367,17 +370,20 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 * de la ponderation de chaque heuristique
 	 */
 	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
-		double[] poids= {0.3,0.19,0.37,0.41,0.56};
+		double[] poids= {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
 		double[] heuristiques= {
-				H1(numeroJoueur,plateau),
-				H2(numeroJoueur,plateau),
-				H3(numeroJoueur,plateau),
-				H4(numeroJoueur,plateau),
-				H5(scoreJoueur,scoreAdversaire)			
+				(this.heuristique[0]?H1(numeroJoueur,plateau):0),
+				(this.heuristique[1]?H2(numeroJoueur,plateau):0),
+				(this.heuristique[2]?H3(numeroJoueur,plateau):0),
+				(this.heuristique[3]?H4(numeroJoueur,plateau):0),
+				(this.heuristique[4]?H5(scoreJoueur,scoreAdversaire):0),
+				(this.heuristique[5]?H6(numeroJoueur,plateau):0),
+				(this.heuristique[6]?H7(numeroJoueur,plateau):0),
+				(this.heuristique[7]?H8(numeroJoueur,plateau):0)
 		};
 		
 		double valeurEvaluation=0;
-		for(int i=0;i<5;i++) {
+		for(int i=0;i<8;i++) {
 			valeurEvaluation+=heuristiques[i]*poids[i];
 		}
 		
