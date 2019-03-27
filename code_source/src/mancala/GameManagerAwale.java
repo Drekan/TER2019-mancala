@@ -278,7 +278,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	}
 
 	public void lancerUneNouvellePartieGraphique(DrawingManagerAwale window){
-		initJoueurs("joueur1","joueur2");
+		initJoueurs("Estelle","Chahinez");
 		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
 		this.commencerPartieGraphique(window);
@@ -286,6 +286,8 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 	}
 
 	public void commencerPartieGraphique(DrawingManagerAwale window) {
+        window.getNameList().get(0).setText(this.joueur1.getNom());
+        window.getNameList().get(1).setText(this.joueur2.getNom());
 		while( !this.finPartie() ) {
 			this.enableAll(window);
 			this.disableCaseNonValide(window);
@@ -318,7 +320,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
 			}
 			//enableAll(window);
-            int grainesRestantes = this.getPartie().etatActuel()[coupJoue];
+            int graineRestante = this.getPartie().etatActuel()[coupJoue];
 			this.joueurActuel().jouerUnCoup(coupJoue,this,true);
 
 			for (int i = 0 ; i < 12 ; i++){
@@ -329,7 +331,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 
 			for (int i = coupJoue ; i < 12 ; i++) {
 				//TODO si c'est pas 0 -> enable
-                if(grainesRestantes >= 0 && i != coupJoue)
+                if(graineRestante >= 0 && i != coupJoue)
                 {
                     window.getButtonList().get(i).setForeground(Color.BLUE);
                 }
@@ -339,11 +341,11 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 				}
 				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
-				grainesRestantes--;
+				graineRestante--;
 			}
 			for (int i = 0 ; i < coupJoue ; i++) {
 				//TODO si c'est pas 0 -> enable
-                if(grainesRestantes >= 0 && i != coupJoue)
+                if(graineRestante >= 0 && i != coupJoue)
                 {
                     window.getButtonList().get(i).setForeground(Color.BLUE);
                 }
@@ -353,7 +355,7 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 				}
 				window.getButtonList().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
-                grainesRestantes--;
+                graineRestante--;
 			}
 
 
