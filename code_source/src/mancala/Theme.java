@@ -14,14 +14,14 @@ public class Theme
     public static final Font FONT_DEFAULT_BIG       = new Font("Cambria", Font.PLAIN, 48);
 
     // Custom Colors
-    public static final Color BACKGROUND_COLOR = new Color(10, 10, 10);
+    public static final Color BACKGROUND_COLOR = new Color(255, 237, 183);
     public static final Color CHIBHBLACK = new Color(33, 33, 33);
-    public static final Color GREEN_EMERALD = new Color(39, 174, 96);
+    public static final Color GREEN_EMERALD = new Color(174, 84, 10);
 
 
     private static final int THEME = 1; // 0 plain, 1 Dracula
     // Font Colors
-    public static final Color FONT_DEFAULT_COLOR = (THEME == 1)? Color.WHITE : Color.WHITE;
+    public static final Color FONT_DEFAULT_COLOR = new Color(245, 255, 248);
     public static final Color FONT_INPUT_COLOR = (THEME == 1)? Color.WHITE : Color.BLACK;
     public static final Color FONT_WARNING_COLOR = (THEME == 1)? Color.RED : Color.RED;
     public static final Color FONT_SUCCESS_COLOR = (THEME == 1)? Color.GREEN : Color.GREEN;
