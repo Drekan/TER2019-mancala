@@ -10,23 +10,25 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
-public class MenuInterface {
+public class ChoixJoueur {
     private JFrame frame;
     private JTextField nomJoueur1;
     private JTextField nomJoueur2;
 
     public static void main(String[] args) {
-        MenuInterface window = new MenuInterface();
+        ChoixJoueur window = new ChoixJoueur();
         window.frame.setVisible(true);
     }
 
-    public MenuInterface() {
+    public ChoixJoueur() {
         initialize();
     }
 
     private void initialize() {
         frame = new JFrame();
-        frame.setBounds(100, 100, 450, 300);
+        frame.setTitle("Awale - Choix joueurs");
+        frame.setSize(450, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
