@@ -333,6 +333,36 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return (1/6)*(double)nombreCasesJouables;
 	}
 	
+	/* Heuristique 8:
+	 * L'objectif de cet heuristique est de valoriser
+	 * les etats du jeu où les cases de droites sont jouées régulièrement
+	 */
+	private double H8(int numeroJoueur,int[] plateau) {
+		int nombreGrainesJoueur=0;
+		double valeurH8=0;
+		
+		double[] poids= {1,4/5,3/5,2/5,1/5,0};
+		
+		int debut=(numeroJoueur==1?0:6);
+		int fin=(numeroJoueur==1?6:12);
+		
+		for(int i=debut;i<fin;i++) {
+			nombreGrainesJoueur++;
+		}
+		
+		if(nombreGrainesJoueur!=0) {
+			int poidsActuel=0;
+			for(int i=debut;i<fin;i++) {
+				
+				valeurH8+=poids[poidsActuel]*((double)(plateau[i])/(double)(nombreGrainesJoueur));
+				poidsActuel++;
+			}
+		}
+		
+		return valeurH8;
+		
+	}
+	
 	/* evaluation d'un etat du jeu en fonction
 	 * de la ponderation de chaque heuristique
 	 */
