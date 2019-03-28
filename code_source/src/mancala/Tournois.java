@@ -64,8 +64,8 @@ public class Tournois {
 	}
 	
 	public void print() {
-		System.out.println("Nombre de parties gagnees par <"+j1.getNom()+"> :"+ nbrVictoiresJ1);
-		System.out.println("Nombre de parties gagnees par <"+j2.getNom()+"> :"+ nbrVictoiresJ2);
+		System.out.println("Parties gagnees par <"+j1.getNom()+"> :"+ 100*(double)nbrVictoiresJ1/this.nbrPartie+"%");
+		System.out.println("Parties gagnees par <"+j2.getNom()+"> :"+ 100*(double)nbrVictoiresJ2/this.nbrPartie+"%");
 	}
 	
 	public void lancer() {
@@ -111,7 +111,7 @@ public class Tournois {
 			arbitre.resetPartie();	
 		}
 		
-		System.out.println("");
+		System.out.println("\n--Le tournois est terminé--");print();
 		
 	}
 	

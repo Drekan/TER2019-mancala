@@ -379,7 +379,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public void printHeuristique() {
 		for(int i=0;i<8;i++) {
-			System.out.print((this.heuristique[i]?"1":"0")+":");
+			System.out.print((this.heuristique[i]?"1":"0"));
 		}
 	}
 	
@@ -388,11 +388,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			Scanner sc=new Scanner(System.in);
 			String saisie;
 			do {
-				System.out.println("Heuristiques à activer (exemple: 11110110)\n >>");
+				System.out.println("Heuristiques à activer pour <"+this.getNom()+"> (exemple: 11110110)\n >>");
 				saisie=sc.nextLine();
 			}while(saisie.length()!=8);
 			setHeuristique(saisie);
-			System.out.println("Voici les nouvelles heuristiques : ");
+			System.out.print("Voici les nouvelles heuristiques : ");
 			printHeuristique();
 			System.out.println();
 		}
