@@ -105,13 +105,13 @@ public class Tournois {
 			
 			while(((double)(i+1)/this.nbrPartie*100)>progression) {
 				progression+=10;
-				System.out.print("-"+(progression==100?"|":"-"));
+				System.out.print("-"+(progression==100?"":"-"));
 			}
 
 			arbitre.resetPartie();	
 		}
-		
-		System.out.println("\n--Le tournois est terminé--");print();
+		System.out.println("|");
+		System.out.println("--Le tournois est terminé--");print();
 		
 	}
 	
@@ -123,6 +123,11 @@ public class Tournois {
 		
 		try {
 			bufferEcriture=new FileWriter(fichier);
+			if(this.j1.getDifficulte()==0 && this.j2.getDifficulte()>0){
+				bufferEcriture.write("masque,% reussite\n");
+				bufferEcriture.write(j2.getMasque()+","+100*(double)nbrVictoiresJ2/this.nbrPartie+"\n");		
+			}
+			
 			bufferEcriture.write("match,gagnant\n");
 			for(int i=0;i<this.gagnants.size();i++) {
 				bufferEcriture.write(i+","+this.gagnants.get(i)+"\n");

@@ -383,6 +383,14 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 	}
 	
+	public String getMasque() {
+		String retour="/";
+		for(int i=0;i<8;i++) {
+			retour+=(heuristique[i]?"1":"0");
+		}
+		return retour;
+	}
+	
 	public void demanderHeuristique() {
 		if(this.difficulte!=0) {
 			Scanner sc=new Scanner(System.in);
