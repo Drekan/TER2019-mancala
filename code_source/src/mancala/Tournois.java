@@ -79,6 +79,9 @@ public class Tournois {
 		arbitre.saveJoueur1(j1);
 		arbitre.saveJoueur2(j2);
 		
+		j1.demanderHeuristique();
+		j2.demanderHeuristique();
+		
 		System.out.println("|----Progression----|");
 		System.out.println("|0%-- --50%-- --100%|");
 		System.out.print("|");

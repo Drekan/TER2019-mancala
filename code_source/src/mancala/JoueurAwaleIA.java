@@ -13,7 +13,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	private int difficulte=-1;
 	
 	//heuristiques actives
-	private boolean[] heuristique= {false,false,false,true,false,false,false,false};
+	private boolean[] heuristique= {false,false,false,false,true,false,false,false};
 	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
@@ -368,8 +368,10 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public void setHeuristique(String string) {
 		if(string.length()==8) {
 			for(int i=0;i<8;i++) {
-				if(Integer.valueOf(string.charAt(i))==1) {
+				if(string.charAt(i)=='1') {
 					this.heuristique[i]=true;
+				}else {
+					this.heuristique[i]=false;
 				}
 			}
 		}
@@ -392,6 +394,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			setHeuristique(saisie);
 			System.out.println("Voici les nouvelles heuristiques : ");
 			printHeuristique();
+			System.out.println();
 		}
 	}
 	
