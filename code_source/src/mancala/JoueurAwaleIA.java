@@ -18,6 +18,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
 	
+	//profondeur maximum
+	private int profondeurMax=-1;
+	
 	public int getCompteur() 
 	{
 		return compteur;
@@ -384,6 +387,10 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 	}
 	
+	public void setProfondeur(int p) {
+		this.profondeurMax=p;
+	}
+	
 	public void printHeuristique() {
 		for(int i=0;i<this.heuristique.length;i++) {
 			System.out.print((this.heuristique[i]?"1":"0"));
@@ -410,6 +417,18 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.print("Voici les nouvelles heuristiques : ");
 			printHeuristique();
 			System.out.println();
+		}
+	}
+	
+	public void demanderProfondeur() {
+		if(this.difficulte==2) {
+			Scanner sc=new Scanner(System.in);
+			int saisie;
+			do {
+				System.out.print("Entrer une profondeur max>>");
+				saisie=sc.nextInt();
+			}while(saisie<1);
+			setProfondeur(saisie);
 		}
 	}
 	
@@ -752,7 +771,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		if(difficulte==2) 
 		{
 			do {
-				caseJouee = jouerAlphaBeta(arbitreAwale,4);
+				caseJouee = jouerAlphaBeta(arbitreAwale,this.profondeurMax==-1?4:this.profondeurMax);
 			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 			if(arbitreAwale.getVocal()) {
 				System.out.println("case jouee : " + caseJouee);

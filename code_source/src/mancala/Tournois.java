@@ -116,6 +116,9 @@ public class Tournois {
 		j1.demanderHeuristique();
 		j2.demanderHeuristique();
 		
+		j1.demanderProfondeur();
+		j2.demanderProfondeur();
+		
 		System.out.println("|----Progression----|");
 		System.out.println("|0%-- --50%-- --100%|");
 		System.out.print("|");
