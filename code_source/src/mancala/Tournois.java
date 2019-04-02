@@ -16,6 +16,7 @@ public class Tournois {
 	private JoueurAwaleIA j1;
 	private JoueurAwaleIA j2;
 	private int nbrPartie;
+	private int dureeLimite=0;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
 		gagnants=new ArrayList<String>();
@@ -60,7 +61,7 @@ public class Tournois {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("----Preparation du Tournois----");
 		do {
-			System.out.println("Nombre de parties à faire >>");
+			System.out.print("Nombre de parties à faire >>");
 			nbrPartie = sc.nextInt();
 		}while(nbrPartie<1);
 	}
@@ -70,8 +71,39 @@ public class Tournois {
 		System.out.println("Parties gagnees par <"+j2.getNom()+"> :"+ 100*(double)nbrVictoiresJ2/this.nbrPartie+"%");
 	}
 	
+	public int choisirLimite() {
+		Scanner sc=new Scanner(System.in);
+		int choix;
+		System.out.println("0.Saisir un nombre de parties\n1.Saisir une durée limite (en secondes)");
+		do {
+			System.out.print("Votre choix>>");
+			choix=sc.nextInt();
+		}while(choix<0 || choix>1);
+		return choix;
+	}
+	
+	public void saisirDureeLimite() {
+		Scanner sc=new Scanner(System.in);
+		do {
+			System.out.print("Durée du tournois (secondes)>>");
+			this.dureeLimite=sc.nextInt();
+		}while(this.dureeLimite<1);
+	}
+	
 	public void lancer() {
-		saisirNbrParties();
+		int choix=choisirLimite();
+		switch(choix) {
+		case 0:
+			saisirNbrParties();
+			break;
+		case 1:
+			saisirDureeLimite();
+			this.nbrPartie=200000;
+			break;
+		default:
+			break;
+		}
+		//saisirNbrParties();
 		
 		GameManagerAwale arbitre= new GameManagerAwale(0,0);
 		
@@ -88,8 +120,11 @@ public class Tournois {
 		System.out.println("|0%-- --50%-- --100%|");
 		System.out.print("|");
 		int progression=0;
-		for(int i=0; i<nbrPartie; i++) {
-			
+		long time=System.currentTimeMillis();
+		int i=0;
+		int nbEffectifParties=0;
+		while(i<nbrPartie && (this.dureeLimite==0?true:((System.currentTimeMillis()-time)/1000)<this.dureeLimite)) {
+			//System.out.println((System.currentTimeMillis()-time)/1000);
 			arbitre.commencerPartie(false);	
 			
 			//gagnant = ArbitreAwale.getGagnant();
@@ -105,17 +140,30 @@ public class Tournois {
 			}
 			else {
 				gagnants.add(0,"NULL");
+				scores.add(0,this.j1.getScore());
 			}
-			
-			while(((double)(i+1)/this.nbrPartie*100)>progression) {
-				progression+=10;
-				System.out.print("-"+(progression==100?"":"-"));
+			if(this.dureeLimite==0) {
+				while(((double)(i+1)/this.nbrPartie*100)>progression) {
+					progression+=10;
+					System.out.print("-"+(progression==100?"":"-"));
+				}
+			}else {
+				while(((100*(System.currentTimeMillis()-time)/1000)/this.dureeLimite)>progression) {
+					progression+=10;
+					System.out.print("-"+(progression==100?"":"-"));
+				}
 			}
-
+			nbEffectifParties++;
+			i++;
 			arbitre.resetPartie();	
 		}
+		this.nbrPartie=nbEffectifParties;
+		long tempsTournois=System.currentTimeMillis()-time;
 		System.out.println("|");
 		System.out.println("--Le tournois est terminé--");print();
+		if(this.dureeLimite!=0) {
+			System.out.println("(temps : "+tempsTournois/1000+"s)");
+		}
 		
 	}
 	
@@ -127,11 +175,26 @@ public class Tournois {
 		
 		try {
 			bufferEcriture=new FileWriter(fichier);
-			if(this.j1.getDifficulte()==0 && this.j2.getDifficulte()>0){
-				bufferEcriture.write("masque,% reussite\n");
-				bufferEcriture.write(j2.getMasque()+","+100*(double)nbrVictoiresJ2/this.nbrPartie+"\n");
-				
+			bufferEcriture.write("Nom IA,heuristiques,% reussite\n");
+			bufferEcriture.write(j1.getNom()+",");
+			
+			if(this.j1.getDifficulte()>0){
+				bufferEcriture.write(j1.getMasque());
+			}else {
+				bufferEcriture.write("N/A");
 			}
+			
+			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ1/this.nbrPartie)+"\n");
+			
+			bufferEcriture.write(j2.getNom()+",");
+			
+			if(this.j2.getDifficulte()>0){
+				bufferEcriture.write(j2.getMasque());
+			}else {
+				bufferEcriture.write("N/A");
+			}
+			
+			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ2/this.nbrPartie)+"\n");
 			
 			bufferEcriture.write("match,gagnant,score gagnant\n");
 			for(int i=0;i<this.gagnants.size();i++) {
