@@ -12,12 +12,14 @@ public class Tournois {
 	private int nbrVictoiresJ1;
 	private int nbrVictoiresJ2;
 	private ArrayList<String> gagnants;
+	private ArrayList<Integer> scores;
 	private JoueurAwaleIA j1;
 	private JoueurAwaleIA j2;
 	private int nbrPartie;
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
 		gagnants=new ArrayList<String>();
+		scores=new ArrayList<Integer>();
 		this.nbrVictoiresJ1=0;
 		this.nbrVictoiresJ2=0;
 		this.setJ1(j1);
@@ -94,10 +96,12 @@ public class Tournois {
 			if(arbitre.getGagnant() == arbitre.getJoueur1()) {
 				nbrVictoiresJ1++;
 				gagnants.add(0,this.j1.getNom());
+				scores.add(0,this.j1.getScore());
 			}
 			else if(arbitre.getGagnant() == arbitre.getJoueur2()) {
 				nbrVictoiresJ2++;
 				gagnants.add(0,this.j2.getNom());
+				scores.add(0,this.j2.getScore());
 			}
 			else {
 				gagnants.add(0,"NULL");
@@ -125,12 +129,14 @@ public class Tournois {
 			bufferEcriture=new FileWriter(fichier);
 			if(this.j1.getDifficulte()==0 && this.j2.getDifficulte()>0){
 				bufferEcriture.write("masque,% reussite\n");
-				bufferEcriture.write(j2.getMasque()+","+100*(double)nbrVictoiresJ2/this.nbrPartie+"\n");		
+				bufferEcriture.write(j2.getMasque()+","+100*(double)nbrVictoiresJ2/this.nbrPartie+"\n");
+				
 			}
 			
-			bufferEcriture.write("match,gagnant\n");
+			bufferEcriture.write("match,gagnant,score gagnant\n");
 			for(int i=0;i<this.gagnants.size();i++) {
-				bufferEcriture.write(i+","+this.gagnants.get(i)+"\n");
+				bufferEcriture.write(i+","+this.gagnants.get(i));
+				bufferEcriture.write(","+this.scores.get(i)+"\n");
 			}
 		}
 		catch (IOException e) {
