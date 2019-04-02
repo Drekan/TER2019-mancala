@@ -13,7 +13,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	private int difficulte=-1;
 	
 	//heuristiques actives
-	private boolean[] heuristique= {false,false,false,false,true,false,false,false};
+	private boolean[] heuristique= {false,false,false,false,true,false,false,false,false};
 	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
@@ -301,13 +301,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 * le score de l'adversaire
 	 */
 	private double H5(int scoreJoueur,int scoreAdversaire) {
-		return ((scoreJoueur+scoreAdversaire!=0)?
-					(double)(scoreJoueur)/(double)(scoreJoueur+scoreAdversaire)
-					:0);
+		return 1-((double)scoreAdversaire*((double)1/48));
 	}
 	
 	/* Heuristique 6:
-	 * On essaie d'avoir le plus de graines possible dans la case la plus à gauche éê
+	 * On essaie d'avoir le plus de graines possible dans la case la plus à gauche 
 	 */
 	private double H6(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
@@ -321,7 +319,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 7:
-	 * On essaie d'avoir le plus de cases jouables possibles éé
+	 * On essaie d'avoir le plus de cases jouables possibles 
 	 */
 	private double H7(int numeroJoueur,int[] plateau) {
 		int nombreCasesJouables=0;
@@ -338,7 +336,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	/* Heuristique 8:
 	 * L'objectif de cet heuristique est de valoriser
-	 * les etats du jeu où les cases de droites sont jouées régulièrement
+	 * les etats du jeu où les cases de droites sont jouées
 	 */
 	private double H8(int numeroJoueur,int[] plateau) {
 		int nombreGrainesJoueur=0;
@@ -365,9 +363,18 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return valeurH8;
 		
 	}
+	
+	/* Heuristique 9:
+	 * L'objectif de cet heuristique est de maximiser
+	 * le score du joueur
+	 */
+	private double H9(int scoreJoueur,int scoreAdversaire) {
+		return ((double)scoreJoueur*((double)1/48));
+	}
+	
 	public void setHeuristique(String string) {
-		if(string.length()==8) {
-			for(int i=0;i<8;i++) {
+		if(string.length()==this.heuristique.length) {
+			for(int i=0;i<this.heuristique.length;i++) {
 				if(string.charAt(i)=='1') {
 					this.heuristique[i]=true;
 				}else {
@@ -378,14 +385,14 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	public void printHeuristique() {
-		for(int i=0;i<8;i++) {
+		for(int i=0;i<this.heuristique.length;i++) {
 			System.out.print((this.heuristique[i]?"1":"0"));
 		}
 	}
 	
 	public String getMasque() {
 		String retour="/";
-		for(int i=0;i<8;i++) {
+		for(int i=0;i<this.heuristique.length;i++) {
 			retour+=(heuristique[i]?"1":"0");
 		}
 		return retour;
@@ -396,9 +403,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			Scanner sc=new Scanner(System.in);
 			String saisie;
 			do {
-				System.out.println("Heuristiques à activer pour <"+this.getNom()+"> (exemple: 11110110)\n >>");
+				System.out.println("Heuristiques à activer pour <"+this.getNom()+"> (exemple: 111101100)\n >>");
 				saisie=sc.nextLine();
-			}while(saisie.length()!=8);
+			}while(saisie.length()!=this.heuristique.length);
 			setHeuristique(saisie);
 			System.out.print("Voici les nouvelles heuristiques : ");
 			printHeuristique();
@@ -410,7 +417,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 * de la ponderation de chaque heuristique
 	 */
 	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
-		double[] poids= {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
+		double[] poids= {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
 		double[] heuristiques= {
 				(this.heuristique[0]?H1(numeroJoueur,plateau):0),
 				(this.heuristique[1]?H2(numeroJoueur,plateau):0),
@@ -419,11 +426,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				(this.heuristique[4]?H5(scoreJoueur,scoreAdversaire):0),
 				(this.heuristique[5]?H6(numeroJoueur,plateau):0),
 				(this.heuristique[6]?H7(numeroJoueur,plateau):0),
-				(this.heuristique[7]?H8(numeroJoueur,plateau):0)
+				(this.heuristique[7]?H8(numeroJoueur,plateau):0),
+				(this.heuristique[8]?H9(scoreJoueur,scoreAdversaire):0)
 		};
 		
 		double valeurEvaluation=0;
-		for(int i=0;i<8;i++) {
+		for(int i=0;i<this.heuristique.length;i++) {
 			valeurEvaluation+=heuristiques[i]*poids[i];
 		}
 		
