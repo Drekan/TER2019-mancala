@@ -1,7 +1,7 @@
 package mancala;
 
 //contient les regles du jeu, le mode de difficulte et le nom du Jeu
-public abstract class Jeu {
+public abstract class Jeu implements java.io.Serializable{
 	
 	private String nomJeu;
 	private String regles;

@@ -2,9 +2,11 @@ package mancala;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
 
 //gere le jeu en fonction des regles de l'awale
 //il enregistre aussi l'historique de la partie
@@ -572,12 +575,16 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		}
 	}
 	
-	public void checkDossierSauvegarde() {
+	public boolean checkDossierSauvegarde() {
+		boolean retour=true;
 		Path sauvegardes=Paths.get("saves");
 		File dossier=new File(sauvegardes.toString());
 		if(!Files.exists(sauvegardes)) {
 			dossier.mkdir();
+			retour=false;
 		}
+		
+		return retour;
 	}
 	
 	public String getDateStr() {
@@ -598,5 +605,58 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public static GameManagerAwale chargerPartie() {
+		GameManagerAwale retour=new GameManagerAwale(0,0);
+		Path sauvegardes=Paths.get("saves");
+		File dossier=new File(sauvegardes.toString());
+		boolean existePartie=false;
+		if(!Files.exists(sauvegardes)) {
+			dossier.mkdir();
+			existePartie=false;
+		}
+		
+		String[] fichiers=dossier.list();
+		for(int i=0;i<fichiers.length;i++) {
+			if(fichiers[i].matches(".*.save")) {
+				existePartie=true;
+				
+			}
+		}
+		
+		if(existePartie) {
+			int nombreParties=0;
+			for(int i=0;i<fichiers.length;i++) {
+				if(fichiers[i].matches(".*.save")) {
+					System.out.println(i+". "+fichiers[i]);
+					nombreParties++;
+				}
+			}
+			Scanner sc=new Scanner(System.in);
+			int choix=-1;
+			do {
+				System.out.print("charger quelle partie ? >>");
+				choix=sc.nextInt();
+			}while(choix<0 || choix>=nombreParties);
+			
+			try {
+				FileInputStream fichierIN=new FileInputStream("saves/"+fichiers[choix]);
+				ObjectInputStream objetIN=new ObjectInputStream(fichierIN);
+				retour=(GameManagerAwale) objetIN.readObject();
+				objetIN.close();
+				fichierIN.close();
+				System.out.println("tour recup : "+retour.getTourActuel());
+			}catch(IOException e) {
+				e.printStackTrace();
+			}catch (ClassNotFoundException c) {
+		         c.printStackTrace();
+		    }
+			
+		}else {
+			System.out.println("Aucune sauvegarde disponible");
+		}
+		
+		return retour;
 	}
 }
