@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class Tournois {
 
@@ -233,6 +235,12 @@ public class Tournois {
 		}else {
 			dossier.mkdir();
 		}
+	}
+	
+	public String getDateStr() {
+		SimpleDateFormat date_format=new SimpleDateFormat("yyyy-dd-MM-HH-mm-ss");
+		String date_string=date_format.format(new Date());
+		return date_string;
 	}
 	
 }
