@@ -5,6 +5,9 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Tournois {
 
@@ -167,6 +170,7 @@ public class Tournois {
 		if(this.dureeLimite!=0) {
 			System.out.println("(temps : "+tempsTournois/1000+"s)");
 		}
+		System.out.println("Score gagnant : "+this.scores.get(0));
 		
 	}
 	
@@ -221,5 +225,14 @@ public class Tournois {
 		return ok;
 	}
 	
+	public void checkDossierSauvegarde() {
+		Path sauvegardes=Paths.get("saves");
+		File dossier=new File(sauvegardes.toString());
+		if(Files.exists(sauvegardes)) {
+			System.out.println("Le dossier de sauvegarde existe");
+		}else {
+			dossier.mkdir();
+		}
+	}
 	
 }
