@@ -138,7 +138,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	}
 	
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
-	public void saveJoueur1(JoueurAwale joueur1) {
+	public void loadJoueur1(JoueurAwale joueur1) {
 		this.joueur1 = joueur1;
 	}
 	
@@ -164,7 +164,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	}
 	
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
-	public void saveJoueur2(JoueurAwale joueur2) {
+	public void loadJoueur2(JoueurAwale joueur2) {
 		this.joueur2 = joueur2;
 	}
 	

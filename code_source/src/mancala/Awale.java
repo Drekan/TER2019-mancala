@@ -48,8 +48,8 @@ public class Awale extends Jeu implements Cloneable,java.io.Serializable{
 	
 	//methods :
 	public void stockerJoueur(JoueurAwale joueur1,JoueurAwale joueur2) {// pouvoir reprendre une partie plus tard
-		gameManagerAwale.saveJoueur1(joueur1);
-		gameManagerAwale.saveJoueur2(joueur2);
+		gameManagerAwale.loadJoueur1(joueur1);
+		gameManagerAwale.loadJoueur2(joueur2);
 	}
 	public int[] etatActuel() {//permet de savoir la disposition du plateau actuel
 		return this.getPlateau();

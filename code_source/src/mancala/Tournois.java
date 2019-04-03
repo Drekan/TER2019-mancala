@@ -5,23 +5,23 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class Tournois {
 
-	private Awale partie;
+	//----Informations sur j1 et j2----
+	private JoueurAwaleIA j1;
 	private int nbrVictoiresJ1;
+	
+	private JoueurAwaleIA j2;
 	private int nbrVictoiresJ2;
+
+	private int nbrPartiesEffectuees=0;
+	
+	//----Informations mises à jour tout au long du tournois----
 	private ArrayList<String> gagnants;
 	private ArrayList<Integer> scores;
-	private JoueurAwaleIA j1;
-	private JoueurAwaleIA j2;
-	private int nbrPartie;
-	private int dureeLimite=0;
+
+	
 	
 	public Tournois(JoueurAwaleIA j1,JoueurAwaleIA j2) {
 		gagnants=new ArrayList<String>();
@@ -49,34 +49,64 @@ public class Tournois {
 		j2=j;
 	}
 	
-	public int getNbrVictoireJ1() {
-		return this.nbrVictoiresJ1;
+	/*Donne le nombre de victoire du joueur, identifié par son numéro
+	 * @param numeroJoueur numéro du joueur, valeurs dans {1,2}
+	 */
+	public int getNbrVictoire(int numeroJoueur) {
+		int nbVictoire=-1;
+		if(numeroJoueur==1 || numeroJoueur==2)
+			nbVictoire=(numeroJoueur==1?this.nbrVictoiresJ1:this.nbrVictoiresJ2);
+		return nbVictoire;
 	}
-	public void setNbrVictoireJ1(int nbr) {
-		this.nbrVictoiresJ1=nbr;
+	public void incrementNbrVictoire(int nombreJoueur) {
+		if(nombreJoueur==1) {
+			this.nbrVictoiresJ1++;
+		}else {
+			this.nbrVictoiresJ2++;
+		}
 	}
-	
-	public int getNbrVictoireJ2() {
-		return this.nbrVictoiresJ2;
-	}
-	public void setNbrVictoireJ2(int nbr) {
-		this.nbrVictoiresJ2=nbr;
-	}
-	public void saisirNbrParties() {
+
+	public int saisirNbrParties() {
+		int nbrParties=0;
 		Scanner sc=new Scanner(System.in);
 		System.out.println("----Preparation du Tournois----");
 		do {
 			System.out.print("Nombre de parties à faire >>");
-			nbrPartie = sc.nextInt();
-		}while(nbrPartie<1);
+			nbrParties = sc.nextInt();
+		}while(nbrParties<1);
+		return nbrParties;
 	}
 	
-	public void print() {
-		System.out.println("Parties gagnees par <"+j1.getNom()+"> :"+ 100*(double)nbrVictoiresJ1/this.nbrPartie+"%");
-		System.out.println("Parties gagnees par <"+j2.getNom()+"> :"+ 100*(double)nbrVictoiresJ2/this.nbrPartie+"%");
+	public void printResultats(long time) {
+		long tempsTournois=System.currentTimeMillis()-time;
+		System.out.println("|");
+		System.out.println("--Le tournois est terminé--");
+		System.out.println("Parties gagnees par <"+j1.getNom()+"> :"+ 100*(double)nbrVictoiresJ1/this.nbrPartiesEffectuees+"%");
+		System.out.println("Parties gagnees par <"+j2.getNom()+"> :"+ 100*(double)nbrVictoiresJ2/this.nbrPartiesEffectuees+"%");
+		System.out.println("Score gagnant : "+this.scores.get(0));
+		System.out.println("(temps : "+tempsTournois/1000+"s)");		
 	}
 	
-	public int choisirLimite() {
+	
+	
+	public int saisirValeurLimite(String modeTournois) {
+		int valeurLimite=0;
+		Scanner sc=new Scanner(System.in);
+		if(modeTournois=="nombre-parties") {
+			System.out.println("Entrez un nombre de parties");
+		}else {
+			System.out.println("Entrez une durée limite (en s)");
+		}
+		
+		do {
+			System.out.print(">>");
+			valeurLimite=sc.nextInt();
+		}while(valeurLimite<1);
+		
+		return valeurLimite;
+	}
+	
+	public String choisirModeTournois() {
 		Scanner sc=new Scanner(System.in);
 		int choix;
 		System.out.println("0.Saisir un nombre de parties\n1.Saisir une durée limite (en secondes)");
@@ -84,96 +114,80 @@ public class Tournois {
 			System.out.print("Votre choix>>");
 			choix=sc.nextInt();
 		}while(choix<0 || choix>1);
-		return choix;
+		return (choix==0?"nombre-parties":"duree");
 	}
-	
-	public void saisirDureeLimite() {
-		Scanner sc=new Scanner(System.in);
-		do {
-			System.out.print("Durée du tournois (secondes)>>");
-			this.dureeLimite=sc.nextInt();
-		}while(this.dureeLimite<1);
-	}
-	
-	public void lancer() {
-		int choix=choisirLimite();
-		switch(choix) {
-		case 0:
-			saisirNbrParties();
-			break;
-		case 1:
-			saisirDureeLimite();
-			this.nbrPartie=200000;
-			break;
-		default:
-			break;
-		}
-		//saisirNbrParties();
-		
-		GameManagerAwale arbitre= new GameManagerAwale(0,0);
-		
+	public void initialiserJoueurs() {
 		j1.setNomParDefaut();
 		j2.setNomParDefaut();
-		
-		arbitre.saveJoueur1(j1);
-		arbitre.saveJoueur2(j2);
 		
 		j1.demanderHeuristique();
 		j2.demanderHeuristique();
 		
 		j1.demanderProfondeur();
 		j2.demanderProfondeur();
+	}
+	
+	public void updateTrace(JoueurAwale gagnant) {
+		if(gagnant!=null) {
+			gagnants.add(0,gagnant.getNom());
+			scores.add(0,gagnant.getScore());
+			incrementNbrVictoire(gagnant.getNumeroJoueur());
+		}else {
+			gagnants.add(0,"NULL");
+			scores.add(0,this.j1.getScore());
+		}
+	}
+	
+	/* Méthode qui lance un tournois, cad :
+	 *  -initialisation de la partie et chargement des joueurs dans GMA
+	 *  -affichage dynamique de la progression
+	 *  -suivi des parties jouées grâce à scores[] et gagnants[]
+	 *  -affichage des résultats du tournois
+	 */
+	public void lancer() {
+		//saisie du mode de Tournois
+		String limite=choisirModeTournois();
+		int valeurLimite=saisirValeurLimite(limite);
+		
+		//initialisation des joueurs et de l'arbitre
+		initialiserJoueurs();
+		
+		GameManagerAwale arbitre= new GameManagerAwale(0,0);
+		arbitre.loadJoueur1(j1);
+		arbitre.loadJoueur2(j2);	
+
+		int valeurEffective=0;
+		int nbrParties=0;
+		long time=System.currentTimeMillis();//calculer la durée du tournois
 		
 		System.out.println("|----Progression----|");
 		System.out.println("|0%-- --50%-- --100%|");
-		System.out.print("|");
-		int progression=0;
-		long time=System.currentTimeMillis();
-		int i=0;
-		int nbEffectifParties=0;
-		while(i<nbrPartie && (this.dureeLimite==0?true:((System.currentTimeMillis()-time)/1000)<this.dureeLimite)) {
-			//System.out.println((System.currentTimeMillis()-time)/1000);
-			arbitre.commencerPartie(false);	
-			
-			//gagnant = ArbitreAwale.getGagnant();
-			if(arbitre.getGagnant() == arbitre.getJoueur1()) {
-				nbrVictoiresJ1++;
-				gagnants.add(0,this.j1.getNom());
-				scores.add(0,this.j1.getScore());
-			}
-			else if(arbitre.getGagnant() == arbitre.getJoueur2()) {
-				nbrVictoiresJ2++;
-				gagnants.add(0,this.j2.getNom());
-				scores.add(0,this.j2.getScore());
-			}
-			else {
-				gagnants.add(0,"NULL");
-				scores.add(0,this.j1.getScore());
-			}
-			if(this.dureeLimite==0) {
-				while(((double)(i+1)/this.nbrPartie*100)>progression) {
-					progression+=10;
-					System.out.print("-"+(progression==100?"":"-"));
-				}
-			}else {
-				while(((100*(System.currentTimeMillis()-time)/1000)/this.dureeLimite)>progression) {
-					progression+=10;
-					System.out.print("-"+(progression==100?"":"-"));
-				}
-			}
-			nbEffectifParties++;
-			i++;
-			arbitre.resetPartie();	
-		}
-		this.nbrPartie=nbEffectifParties;
-		long tempsTournois=System.currentTimeMillis()-time;
-		System.out.println("|");
-		System.out.println("--Le tournois est terminé--");print();
-		if(this.dureeLimite!=0) {
-			System.out.println("(temps : "+tempsTournois/1000+"s)");
-		}
-		System.out.println("Score gagnant : "+this.scores.get(0));
+		System.out.print(  "|");
+		int progressionAffichee=0;//pourcentage de progression qui a été affiché
 		
+		while(valeurEffective<=valeurLimite) {
+			arbitre.commencerPartie(false);
+			updateTrace(arbitre.getGagnant());
+			nbrParties++;
+			
+			//on augmente le nombre de parties ou le temps écoulé
+			switch(limite) {
+			case "nombre-parties":
+				valeurEffective++;
+				break;
+			case "duree":
+				valeurEffective+=(System.currentTimeMillis()-time)/1000;
+				break;
+			}
+			
+			while(progressionAffichee<((valeurEffective*100)/valeurLimite)) {
+				progressionAffichee+=10;
+				System.out.print("-"+(progressionAffichee==100?"":"-"));
+			}
+			arbitre.resetPartie();
+		}
+		this.nbrPartiesEffectuees=nbrParties;
+		printResultats(time);	
 	}
 	
 	boolean saveCSV(String nomFichier) {
@@ -193,7 +207,7 @@ public class Tournois {
 				bufferEcriture.write("N/A");
 			}
 			
-			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ1/this.nbrPartie)+"\n");
+			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ1/this.nbrPartiesEffectuees)+"\n");
 			
 			bufferEcriture.write(j2.getNom()+",");
 			
@@ -203,7 +217,7 @@ public class Tournois {
 				bufferEcriture.write("N/A");
 			}
 			
-			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ2/this.nbrPartie)+"\n");
+			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ2/this.nbrPartiesEffectuees)+"\n");
 			
 			bufferEcriture.write("match,gagnant,score gagnant\n");
 			for(int i=0;i<this.gagnants.size();i++) {
