@@ -1,12 +1,22 @@
 package mancala;
 
 import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 //gere le jeu en fonction des regles de l'awale
 //il enregistre aussi l'historique de la partie
-public class GameManagerAwale extends GameManager implements Cloneable{
+public class GameManagerAwale extends GameManager implements Cloneable,java.io.Serializable{
 	
 	private int nbrJoueursHumain;
 	private ArrayList<int[]> historique;
@@ -559,6 +569,34 @@ public class GameManagerAwale extends GameManager implements Cloneable{
 			if (Integer.parseInt(window.getButtonList().get(i).getText()) == 0){
 				window.getButtonList().get(i).setEnabled(false);
 			}
+		}
+	}
+	
+	public void checkDossierSauvegarde() {
+		Path sauvegardes=Paths.get("saves");
+		File dossier=new File(sauvegardes.toString());
+		if(!Files.exists(sauvegardes)) {
+			dossier.mkdir();
+		}
+	}
+	
+	public String getDateStr() {
+		SimpleDateFormat date_format=new SimpleDateFormat("yyyy-dd-MM-HH-mm-ss");
+		String date_string=date_format.format(new Date());
+		return date_string;
+	}
+	
+	public void sauvegarder(String nom) {
+		checkDossierSauvegarde();
+		try {
+			String nomSauvegarde="saves/"+(nom==null?"sauvegarde":nom)+"_"+getDateStr()+".save";
+			FileOutputStream ecritureSauvegarde=new FileOutputStream(nomSauvegarde);
+			ObjectOutputStream streamOut=new ObjectOutputStream(ecritureSauvegarde);
+			streamOut.writeObject(this);
+			streamOut.close();
+			ecritureSauvegarde.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

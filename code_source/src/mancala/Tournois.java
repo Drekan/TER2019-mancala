@@ -227,20 +227,6 @@ public class Tournois {
 		return ok;
 	}
 	
-	public void checkDossierSauvegarde() {
-		Path sauvegardes=Paths.get("saves");
-		File dossier=new File(sauvegardes.toString());
-		if(Files.exists(sauvegardes)) {
-			System.out.println("Le dossier de sauvegarde existe");
-		}else {
-			dossier.mkdir();
-		}
-	}
 	
-	public String getDateStr() {
-		SimpleDateFormat date_format=new SimpleDateFormat("yyyy-dd-MM-HH-mm-ss");
-		String date_string=date_format.format(new Date());
-		return date_string;
-	}
 	
 }

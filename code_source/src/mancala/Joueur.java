@@ -2,7 +2,7 @@ package mancala;
 
 //Contient le nom du joueur, son score.
 //c'est ici que se feront les methodes pour jouer un coup
-public abstract class Joueur {
+public abstract class Joueur implements java.io.Serializable{
 	private String nomJoueur;
 	private int score;
 	private int numeroJoueur;
