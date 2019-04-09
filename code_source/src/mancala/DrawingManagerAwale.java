@@ -10,20 +10,13 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class DrawingManagerAwale {
-
-	private JFrame frmAwale;
 	private int coupActu = -1;
 	private ArrayList<SButton> buttonList;
 	private ArrayList<JLabel> nameList;
 	private ArrayList<JLabel> scoreList;
-	private GameManagerAwale arbitreAwale;
 
 	public JFrame getFrmAwale() {
-		return frmAwale;
-	}
-
-	public void setFrmAwale(JFrame frmAwale) {
-		this.frmAwale = frmAwale;
+		return MainWindow.getInstance();
 	}
 
 	public int getCoupActu() {
@@ -46,36 +39,27 @@ public class DrawingManagerAwale {
 		return scoreList;
 	}
 
-	public GameManagerAwale getArbitreAwale() {
-		return arbitreAwale;
-	}
-
 	public JButton getButtonIndice(int i) {
 		return buttonList.get(i);
 	}
 
-	public DrawingManagerAwale(GameManagerAwale arbitreAwale) {
-		this.arbitreAwale = arbitreAwale;
-		initialize();
+	public DrawingManagerAwale(String nomJ1, String nomJ2) {
+		initialize(nomJ1, nomJ2);
 	}
 
-	private void initialize() {
-		frmAwale = new JFrame();
-		frmAwale.setTitle("Awale");
-		frmAwale.setSize(450, 300);
-		frmAwale.setLocationRelativeTo(null);
-		frmAwale.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmAwale.getContentPane().setLayout(new BorderLayout(0, 0));
+	private void initialize(String nomJ1, String nomJ2) {
+		JPanel all = new JPanel(new BorderLayout(0, 0));
+		MainWindow.getInstance().setContentPane(all);
 
 		JPanel menu = new SPanel();
-		frmAwale.getContentPane().add(menu, BorderLayout.NORTH);
+		all.add(menu, BorderLayout.NORTH);
 
 		JLabel titre = new JLabel("Bienvenue au jeu d'Awale !");
 		titre.setForeground(Color.WHITE);
 		menu.add(titre);
 
 		JPanel game = new SPanel();
-		frmAwale.getContentPane().add(game);
+		all.add(game);
 		game.setLayout(new GridLayout(2, 1, 0, 5));
 
 		JPanel j2 = new SPanel();
@@ -152,5 +136,6 @@ public class DrawingManagerAwale {
 		j1_info.add(nameList.get(0));
 
 		j1_info.add(scoreList.get(0));
+		MainWindow.getInstance().setVisible(true);
 	}
 }

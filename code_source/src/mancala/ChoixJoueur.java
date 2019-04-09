@@ -1,23 +1,17 @@
 package mancala;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.SwingConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ChoixJoueur {
-    private JFrame frame;
     private JTextField nomJoueur1;
     private JTextField nomJoueur2;
 
     public static void main(String[] args) {
-        ChoixJoueur window = new ChoixJoueur();
-        window.frame.setVisible(true);
+        new ChoixJoueur();
     }
 
     public ChoixJoueur() {
@@ -25,15 +19,10 @@ public class ChoixJoueur {
     }
 
     private void initialize() {
-        frame = new JFrame();
-        frame.setTitle("Awale - Choix joueurs");
-        frame.setSize(450, 300);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new BorderLayout(0, 0));
-
+        JPanel all = new JPanel(new BorderLayout(0, 0));
+        MainWindow.getInstance().setContentPane(all);
         JPanel menu1 = new JPanel();
-        frame.getContentPane().add(menu1);
+        all.add(menu1);
         menu1.setLayout(new GridLayout(0, 2, 0, 0));
 
         JPanel j1 = new JPanel();
@@ -44,13 +33,17 @@ public class ChoixJoueur {
         Joueur1.setHorizontalAlignment(SwingConstants.CENTER);
         j1.add(Joueur1);
 
-        JRadioButton j1Humain = new JRadioButton("Humain");
+        JRadioButton j1Humain = new JRadioButton("Humain", true);
         j1Humain.setHorizontalAlignment(SwingConstants.CENTER);
         j1.add(j1Humain);
 
         JRadioButton j1IA = new JRadioButton("IA");
         j1IA.setHorizontalAlignment(SwingConstants.CENTER);
         j1.add(j1IA);
+
+        ButtonGroup j1Radio = new ButtonGroup();
+        j1Radio.add(j1Humain);
+        j1Radio.add(j1IA);
 
         nomJoueur1 = new JTextField();
         nomJoueur1.setHorizontalAlignment(SwingConstants.CENTER);
@@ -66,13 +59,17 @@ public class ChoixJoueur {
         joueur2.setHorizontalAlignment(SwingConstants.CENTER);
         j2.add(joueur2);
 
-        JRadioButton j2Humain = new JRadioButton("Humain");
+        JRadioButton j2Humain = new JRadioButton("Humain", true);
         j2Humain.setHorizontalAlignment(SwingConstants.CENTER);
         j2.add(j2Humain);
 
         JRadioButton j2IA = new JRadioButton("IA");
         j2IA.setHorizontalAlignment(SwingConstants.CENTER);
         j2.add(j2IA);
+
+        ButtonGroup j2Radio = new ButtonGroup();
+        j2Radio.add(j2Humain);
+        j2Radio.add(j2IA);
 
         nomJoueur2 = new JTextField();
         nomJoueur2.setHorizontalAlignment(SwingConstants.CENTER);
@@ -81,9 +78,25 @@ public class ChoixJoueur {
         nomJoueur2.setColumns(10);
 
         JPanel okPanel = new JPanel();
-        frame.getContentPane().add(okPanel, BorderLayout.SOUTH);
+        all.add(okPanel, BorderLayout.SOUTH);
 
         JButton okSelectionJoueurs = new JButton("Suivant");
+        okSelectionJoueurs.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                String nomJ1 = nomJoueur1.getText(), nomJ2 = nomJoueur2.getText();
+                boolean j1IAKHRA = j1IA.isSelected(), j2IAKHRA = j2IA.isSelected();
+                if(j1IAKHRA && j2IAKHRA){//2 IA
+                    new ChoixDifficulte(nomJ1, nomJ2, 2);
+                }
+                else if(j1IAKHRA || j2IAKHRA){//1 IA
+                    new ChoixDifficulte(nomJ1, nomJ2, 1);
+                }
+                else{//0 IA
+                    new DrawingManagerAwale(nomJ1, nomJ2);
+                }
+            }
+        });
         okPanel.add(okSelectionJoueurs);
+        MainWindow.getInstance().setVisible(true);
     }
 }

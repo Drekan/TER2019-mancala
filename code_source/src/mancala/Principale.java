@@ -33,9 +33,10 @@ public class Principale {
 				case 0:	arbitreAwale.lancerUneNouvellePartie(true);
 						break;
 				//Partie graphique
-				case 1:	DrawingManagerAwale window = new DrawingManagerAwale(arbitreAwale);
-						window.getFrmAwale().setVisible(true);
-						arbitreAwale.lancerUneNouvellePartieGraphique(window);
+				case 1:	//DrawingManagerAwale window = new DrawingManagerAwale();
+						//window.getFrmAwale().setVisible(true);
+						DrawingManager drawer = new DrawingManager();
+						arbitreAwale.lancerUneNouvellePartieGraphique(drawer.lancerWindow());
 						break;
 			}
 			arbitreAwale.getGagnant();
