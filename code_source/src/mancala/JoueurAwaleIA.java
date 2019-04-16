@@ -387,7 +387,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 	}
 	
-	public void setProfondeur(int p) {
+	public void setProfondeurMax(int p) {
 		this.profondeurMax=p;
 	}
 	
@@ -421,14 +421,14 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	public void demanderProfondeur() {
-		if(this.difficulte==2) {
+		if(this.difficulte==2 || this.difficulte==1) {
 			Scanner sc=new Scanner(System.in);
 			int saisie;
 			do {
-				System.out.print("Entrer une profondeur max>>");
+				System.out.print("Entrez une profondeur max <"+this.getNom()+">>");
 				saisie=sc.nextInt();
 			}while(saisie<1);
-			setProfondeur(saisie);
+			setProfondeurMax(saisie);
 		}
 	}
 	
@@ -780,7 +780,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		else if(difficulte==1) 
 		{
 			do {
-				caseJouee = jouerMinimax(arbitreAwale,4);
+				caseJouee = jouerMinimax(arbitreAwale,this.profondeurMax==-1?4:this.profondeurMax);
 			}while( !arbitreAwale.verifierCoupValide(arbitreAwale.joueurActuel(), caseJouee, arbitreAwale.getPartie().getPlateau()) );
 			if(arbitreAwale.getVocal()) {
 				System.out.println("case jouee : " + caseJouee);
