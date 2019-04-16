@@ -403,7 +403,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public void printPoids() {
 		for(int i=0;i<this.heuristique.length;i++) {
-			System.out.print(this.poids[i]+":");
+			if(this.heuristique[i]) {
+				System.out.print(this.poids[i]+":");
+			}
+			else {
+				System.out.print("--:");
+			}
 		}
 	}
 	
@@ -447,11 +452,13 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			Scanner sc=new Scanner(System.in);
 			double saisie;
 			for(int i=0;i<this.poids.length;i++) {
-				do {
-					System.out.print("Entrez un poid [0;1] pour h"+(i+1)+" <"+this.getNom()+">>");
-					saisie=sc.nextDouble();
-				}while(saisie>1 || saisie<0);
-				this.poids[i]=saisie;
+				if(this.heuristique[i]) {
+					do {
+						System.out.print("Entrez un poid [0;1] pour h"+(i+1)+" <"+this.getNom()+">>");
+						saisie=sc.nextDouble();
+					}while(saisie>1 || saisie<0);
+					this.poids[i]=saisie;
+				}
 			}
 			System.out.print("Voici les nouveaux poids : ");
 			printPoids();

@@ -120,14 +120,8 @@ public class Tournois {
 		Scanner sc=new Scanner(System.in);
 		char ouiNon;
 		j1.setNomParDefaut();
-		j2.setNomParDefaut();
-		
 		j1.demanderHeuristique();
-		j2.demanderHeuristique();
-		
 		j1.demanderProfondeur();
-		j2.demanderProfondeur();
-		
 		if(j1.getDifficulte()>0) {
 			do {
 				System.out.println("Saisir les poids de "+j1.getNom()+" ? (o/n)");
@@ -135,9 +129,12 @@ public class Tournois {
 			}while(ouiNon!='o' && ouiNon!='n');
 			if(ouiNon=='o') {
 				j1.demanderPoids();
+				System.out.println();
 			}
 		}
-		
+		j2.setNomParDefaut();
+		j2.demanderHeuristique();
+		j2.demanderProfondeur();
 		if(j2.getDifficulte()>0) {
 			do {
 				System.out.println("Saisir les poids de "+j2.getNom()+" ? (o/n)");
@@ -145,8 +142,10 @@ public class Tournois {
 			}while(ouiNon!='o' && ouiNon!='n');
 			if(ouiNon=='o') {
 				j2.demanderPoids();
+				System.out.println();
 			}
 		}
+		
 	}
 	
 	public void updateTrace(JoueurAwale gagnant) {
@@ -167,12 +166,15 @@ public class Tournois {
 	 *  -affichage des résultats du tournois
 	 */
 	public void lancer() {
+		
+		//initialisation des joueurs et de l'arbitre
+		initialiserJoueurs();
+		
 		//saisie du mode de Tournois
 		String limite=choisirModeTournois();
 		int valeurLimite=saisirValeurLimite(limite);
 		
-		//initialisation des joueurs et de l'arbitre
-		initialiserJoueurs();
+		
 		
 		GameManagerAwale arbitre= new GameManagerAwale(0,0);
 		arbitre.loadJoueur1(j1);
@@ -182,7 +184,7 @@ public class Tournois {
 		int nbrParties=0;
 		long time=System.currentTimeMillis();//calculer la durée du tournois
 		
-		System.out.println("\n|----Progression----|");
+		System.out.println("|----Progression----|");
 		System.out.println("|0%-- --50%-- --100%|");
 		System.out.print(  "|");
 		int progressionAffichee=0;//pourcentage de progression qui a été affiché
