@@ -14,12 +14,16 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	//heuristiques actives
 	private boolean[] heuristique= {false,false,false,false,true,false,false,false,false};
+	//leur poids
+	double[] poids= {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
 	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
 	
 	//profondeur maximum
 	private int profondeurMax=-1;
+	
+	
 	
 	public int getCompteur() 
 	{
@@ -397,6 +401,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 	}
 	
+	public void printPoids() {
+		for(int i=0;i<this.heuristique.length;i++) {
+			System.out.print(this.poids[i]+":");
+		}
+	}
+	
 	public String getMasque() {
 		String retour="/";
 		for(int i=0;i<this.heuristique.length;i++) {
@@ -432,11 +442,27 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 	}
 	
+	public void demanderPoids() {
+		if(this.difficulte==2 || this.difficulte==1) {
+			Scanner sc=new Scanner(System.in);
+			double saisie;
+			for(int i=0;i<this.poids.length;i++) {
+				do {
+					System.out.print("Entrez un poid [0;1] pour h"+(i+1)+" <"+this.getNom()+">>");
+					saisie=sc.nextDouble();
+				}while(saisie>1 || saisie<0);
+				this.poids[i]=saisie;
+			}
+			System.out.print("Voici les nouveaux poids : ");
+			printPoids();
+		}
+	}
+	
 	/* evaluation d'un etat du jeu en fonction
 	 * de la ponderation de chaque heuristique
 	 */
 	public double evaluation(int numeroJoueur,int[] plateau,int scoreJoueur,int scoreAdversaire) {
-		double[] poids= {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
+		
 		double[] heuristiques= {
 				(this.heuristique[0]?H1(numeroJoueur,plateau):0),
 				(this.heuristique[1]?H2(numeroJoueur,plateau):0),
@@ -451,7 +477,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		
 		double valeurEvaluation=0;
 		for(int i=0;i<this.heuristique.length;i++) {
-			valeurEvaluation+=heuristiques[i]*poids[i];
+			valeurEvaluation+=heuristiques[i]*this.poids[i];
 		}
 		
 		return valeurEvaluation;

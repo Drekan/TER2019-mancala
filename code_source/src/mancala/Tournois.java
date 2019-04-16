@@ -125,6 +125,9 @@ public class Tournois {
 		
 		j1.demanderProfondeur();
 		j2.demanderProfondeur();
+		
+		j1.demanderPoids();
+		j2.demanderPoids();
 	}
 	
 	public void updateTrace(JoueurAwale gagnant) {
@@ -160,7 +163,7 @@ public class Tournois {
 		int nbrParties=0;
 		long time=System.currentTimeMillis();//calculer la durée du tournois
 		
-		System.out.println("|----Progression----|");
+		System.out.println("\n|----Progression----|");
 		System.out.println("|0%-- --50%-- --100%|");
 		System.out.print(  "|");
 		int progressionAffichee=0;//pourcentage de progression qui a été affiché
