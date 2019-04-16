@@ -117,6 +117,8 @@ public class Tournois {
 		return (choix==0?"nombre-parties":"duree");
 	}
 	public void initialiserJoueurs() {
+		Scanner sc=new Scanner(System.in);
+		char ouiNon;
 		j1.setNomParDefaut();
 		j2.setNomParDefaut();
 		
@@ -126,8 +128,25 @@ public class Tournois {
 		j1.demanderProfondeur();
 		j2.demanderProfondeur();
 		
-		j1.demanderPoids();
-		j2.demanderPoids();
+		if(j1.getDifficulte()>0) {
+			do {
+				System.out.println("Saisir les poids de "+j1.getNom()+" ? (o/n)");
+				ouiNon=sc.nextLine().charAt(0);
+			}while(ouiNon!='o' && ouiNon!='n');
+			if(ouiNon=='o') {
+				j1.demanderPoids();
+			}
+		}
+		
+		if(j2.getDifficulte()>0) {
+			do {
+				System.out.println("Saisir les poids de "+j2.getNom()+" ? (o/n)");
+				ouiNon=sc.nextLine().charAt(0);
+			}while(ouiNon!='o' && ouiNon!='n');
+			if(ouiNon=='o') {
+				j2.demanderPoids();
+			}
+		}
 	}
 	
 	public void updateTrace(JoueurAwale gagnant) {
