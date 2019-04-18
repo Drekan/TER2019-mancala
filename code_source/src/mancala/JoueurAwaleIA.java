@@ -215,7 +215,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 1:
-	 * L'objectif de cet heuristique est de minimiser
+	 * L'objectif de cette heuristique est de minimiser
 	 * le nombre de cases vulnerables
 	 */
 	private double H1(int numeroJoueur,int[] plateau) {
@@ -235,7 +235,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 2:
-	 * L'objectif de cet heuristique est de maximiser
+	 * L'objectif de cette heuristique est de maximiser
 	 * notre nombre de graines
 	 */
 	private double H2(int numeroJoueur,int[] plateau) {
@@ -257,7 +257,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 3:
-	 * L'objectif de cet heuristique est de minimiser
+	 * L'objectif de cette heuristique est de minimiser
 	 * le nombre de cases vides
 	 */
 	private double H3(int numeroJoueur,int[] plateau) {
@@ -277,7 +277,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 4:
-	 * L'objectif de cet heuristique est de valoriser
+	 * L'objectif de cette heuristique est de valoriser
 	 * les etats du jeu ou les graines sont a� droite
 	 */
 	private double H4(int numeroJoueur,int[] plateau) {
@@ -308,7 +308,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	
 	/* Heuristique 5:
-	 * L'objectif de cet heuristique est de minimiser
+	 * L'objectif de cette heuristique est de minimiser
 	 * le score de l'adversaire
 	 */
 	private double H5(int scoreJoueur,int scoreAdversaire) {
@@ -346,7 +346,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 8:
-	 * L'objectif de cet heuristique est de valoriser
+	 * L'objectif de cette heuristique est de valoriser
 	 * les etats du jeu où les cases de droites sont jouées
 	 */
 	private double H8(int numeroJoueur,int[] plateau) {
@@ -376,7 +376,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	/* Heuristique 9:
-	 * L'objectif de cet heuristique est de maximiser
+	 * L'objectif de cette heuristique est de maximiser
 	 * le score du joueur
 	 */
 	private double H9(int scoreJoueur,int scoreAdversaire) {

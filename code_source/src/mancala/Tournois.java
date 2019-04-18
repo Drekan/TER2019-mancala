@@ -116,6 +116,8 @@ public class Tournois {
 		}while(choix<0 || choix>1);
 		return (choix==0?"nombre-parties":"duree");
 	}
+	
+	
 	public void initialiserJoueurs() {
 		Scanner sc=new Scanner(System.in);
 		char ouiNon;
@@ -189,7 +191,7 @@ public class Tournois {
 		System.out.print(  "|");
 		int progressionAffichee=0;//pourcentage de progression qui a été affiché
 		
-		while(valeurEffective<=valeurLimite) {
+		while(valeurEffective<valeurLimite) {
 			arbitre.commencerPartie(false);
 			updateTrace(arbitre.getGagnant());
 			nbrParties++;
@@ -243,11 +245,18 @@ public class Tournois {
 			
 			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ2/this.nbrPartiesEffectuees)+"\n");
 			
-			bufferEcriture.write("match,gagnant,score gagnant\n");
+			bufferEcriture.write("match,gagnant,score <"+j1.getNom()+">,score <"+j2.getNom()+">\n");
 			for(int i=0;i<this.gagnants.size();i++) {
 				bufferEcriture.write(i+","+this.gagnants.get(i));
-				bufferEcriture.write(","+this.scores.get(i)+"\n");
+				if(this.gagnants.get(i)==j1.getNom()) {
+					bufferEcriture.write(","+this.scores.get(i)+","+(48-this.scores.get(i))+"\n");
+				}else {
+					bufferEcriture.write(","+(48-this.scores.get(i))+","+this.scores.get(i)+"\n");
+				}
 			}
+			
+			bufferEcriture.write("score moyen <"+j1.getNom()+">,"+this.getScoreMoyenJ1()/this.nbrPartiesEffectuees+"\n");
+			bufferEcriture.write("score moyen <"+j2.getNom()+">,"+this.getScoreMoyenJ2()/this.nbrPartiesEffectuees+"\n");
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -265,6 +274,33 @@ public class Tournois {
 		return ok;
 	}
 	
+	public double getScoreMoyenJ1() {
+		double scoreMoyen=0;
+		for(int i=0;i<this.gagnants.size();i++) {
+			if(this.gagnants.get(i)==j1.getNom()) {
+				scoreMoyen+=this.scores.get(i);
+			}
+			else {
+				scoreMoyen+=48-this.scores.get(i);
+			}
+		}
+		
+		return scoreMoyen;
+	}
+	
+	public double getScoreMoyenJ2() {
+		double scoreMoyen=0;
+		for(int i=0;i<this.gagnants.size();i++) {
+			if(this.gagnants.get(i)==j2.getNom()) {
+				scoreMoyen+=this.scores.get(i);
+			}
+			else {
+				scoreMoyen+=48-this.scores.get(i);
+			}
+		}
+		
+		return scoreMoyen;
+	}
 	
 	
 }
