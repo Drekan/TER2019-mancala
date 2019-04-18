@@ -222,13 +222,13 @@ public class Tournois {
 		
 		try {
 			bufferEcriture=new FileWriter(fichier);
-			bufferEcriture.write("Nom IA,heuristiques,% reussite\n");
+			bufferEcriture.write("Nom IA,heuristiques,poids,profondeur,% reussite\n");
 			bufferEcriture.write(j1.getNom()+",");
 			
 			if(this.j1.getDifficulte()>0){
-				bufferEcriture.write(j1.getMasque());
+				bufferEcriture.write(j1.getMasque()+","+j1.getPoids()+","+j1.getProfondeurMax());
 			}else {
-				bufferEcriture.write("N/A");
+				bufferEcriture.write("N/A,N/A,N/A");
 			}
 			
 			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ1/this.nbrPartiesEffectuees)+"\n");
@@ -236,9 +236,9 @@ public class Tournois {
 			bufferEcriture.write(j2.getNom()+",");
 			
 			if(this.j2.getDifficulte()>0){
-				bufferEcriture.write(j2.getMasque());
+				bufferEcriture.write(j2.getMasque()+","+j2.getPoids()+","+j2.getProfondeurMax());
 			}else {
-				bufferEcriture.write("N/A");
+				bufferEcriture.write("N/A,N/A,N/A");
 			}
 			
 			bufferEcriture.write(","+String.format("%.0f",100*(double)nbrVictoiresJ2/this.nbrPartiesEffectuees)+"\n");

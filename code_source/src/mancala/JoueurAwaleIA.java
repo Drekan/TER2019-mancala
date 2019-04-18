@@ -1,6 +1,8 @@
 package mancala;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -23,7 +25,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//profondeur maximum
 	private int profondeurMax=-1;
 	
-	
+	public int getProfondeurMax(){
+		return this.profondeurMax;
+	}
 	
 	public int getCompteur() 
 	{
@@ -417,6 +421,16 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		for(int i=0;i<this.heuristique.length;i++) {
 			retour+=(heuristique[i]?"1":"0");
 		}
+		return retour;
+	}
+	
+	public String getPoids() {
+		NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+		String retour="{";
+		for(int i=0;i<this.poids.length;i++) {
+			retour+=(heuristique[i]?String.format(Locale.US,"%s",this.poids[i]):"--")+";";
+		}
+		retour+="}";
 		return retour;
 	}
 	
