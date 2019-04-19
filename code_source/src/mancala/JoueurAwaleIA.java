@@ -17,7 +17,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//heuristiques actives
 	private boolean[] heuristique= {false,false,false,false,true,false,false,false,false};
 	//leur poids
-	double[] poids= {0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5,0.5};
+	double[] poids= {0.5,0.19,0.5,0.5,0.5659,0.1986,0.3707,0.4188,1};
 	
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
@@ -290,7 +290,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		int fin=(numeroJoueur==1?6:12);
 		
 		for(int i=debut;i<fin;i++) {
-			nombreGrainesJoueur++;
+			nombreGrainesJoueur+=plateau[i];
 		}
 		
 		if(nombreGrainesJoueur!=0) {
@@ -324,7 +324,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		int fin=(numeroJoueur==1?6:12);
 		
 		for(int i=debut;i<fin;i++) {
-			nombreGrainesJoueur++;
+			nombreGrainesJoueur+=plateau[i];
 		}
 		return (double)plateau[debut]/(double)nombreGrainesJoueur;
 	}
@@ -359,7 +359,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		int fin=(numeroJoueur==1?6:12);
 		
 		for(int i=debut;i<fin;i++) {
-			nombreGrainesJoueur++;
+			nombreGrainesJoueur+=plateau[i];
 		}
 		
 		if(nombreGrainesJoueur!=0) {
