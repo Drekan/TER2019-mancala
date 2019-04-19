@@ -22,6 +22,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//Pour calculer le temps d'execution de minimax
 	private long time = 0;
 	
+	//Pour calculer le temps d'execution total au cours d'une partie de minimax
+	private long totalTime = 0;
+	
+	//Pour calculer le nombre de coup joue par minimax au cours d'une partie
+	private int nombreDeCoup = 0;
+	
 	//profondeur maximum
 	private int profondeurMax=-1;
 	
@@ -47,6 +53,26 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public void setTime(long time) 
 	{
 		this.time = time;
+	}
+	
+	public long getTotalTime() 
+	{
+		return totalTime;
+	}
+
+	public void setTotalTime(long totalTime) 
+	{
+		this.totalTime = totalTime;
+	}
+	
+	public int getNombreDeCoup() 
+	{
+		return nombreDeCoup;
+	}
+
+	public void setNombreDeCoup(int nombreDeCoup) 
+	{
+		this.nombreDeCoup = nombreDeCoup;
 	}
 	
 	public int getDifficulte() {
@@ -623,6 +649,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 		time = System.currentTimeMillis() - time;
 		setTime(getTime() + time);
+		setTotalTime(getTotalTime() + time);
 
 		return valeur;
 	}
@@ -665,6 +692,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
 			System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
+			System.out.println();
 			setTime(0);
 	
 			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
@@ -675,9 +703,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			
 			System.out.println();
 			
+			setTotalTime(getTotalTime() + time);
 			setCompteur(0);
 		}
-
+		
+		setNombreDeCoup(getNombreDeCoup() + 1);
+		
 		return coup_optimise;
 	}
 	
@@ -753,6 +784,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 		time = System.currentTimeMillis() - time;
 		setTime(getTime() + time);
+		setTotalTime(getTotalTime() + time);
 
 		return beta;
 	}
@@ -795,6 +827,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution d'alphaBeta puis on remet le compteur à 0
 			System.out.println("Temps d'execution d'alphaBeta : " + getTime() + "ms.");
+			System.out.println();
 			setTime(0);
 	
 			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + nombre_appel);
@@ -805,9 +838,12 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			
 			System.out.println();
 			
+			setTotalTime(getTotalTime() + time);
 			setCompteur(0);
 		}
-
+		
+		setNombreDeCoup(getNombreDeCoup() + 1);
+		
 		return coup_optimise;
 	}
      
