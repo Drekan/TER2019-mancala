@@ -435,23 +435,6 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 			ajoutGains();
 			if(vocal) {
 				System.out.println();
-				
-				if(this.joueur1 instanceof JoueurAwaleIA)
-				{
-					System.out.println("Temps de calcul moyen d'un coup : " + ((JoueurAwaleIA)this.joueur1).getTotalTime()/((JoueurAwaleIA)this.joueur1).getNombreDeCoup());
-					((JoueurAwaleIA)this.joueur1).setTotalTime(0);
-					((JoueurAwaleIA)this.joueur1).setNombreDeCoup(0);
-					System.out.println();
-				}
-				
-				if(this.joueur2 instanceof JoueurAwaleIA)
-				{
-					System.out.println("Temps de calcul moyen d'un coup : " + ((JoueurAwaleIA)this.joueur2).getTotalTime()/((JoueurAwaleIA)this.joueur2).getNombreDeCoup());
-					((JoueurAwaleIA)this.joueur2).setTotalTime(0);
-					((JoueurAwaleIA)this.joueur2).setNombreDeCoup(0);
-					System.out.println();
-				}
-				
 				System.out.println(messageFinDePartie);
 				System.out.println();
 			}
@@ -623,7 +606,27 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 			e.printStackTrace();
 		}
 	}
-	
+	public static ArrayList<String> getSavedGames(){
+		ArrayList<String> savedGames=new ArrayList<String>();
+		Path sauvegardes=Paths.get("saves");
+		File dossier=new File(sauvegardes.toString());
+		boolean existePartie=false;
+		if(!Files.exists(sauvegardes)) {
+			dossier.mkdir();
+			existePartie=false;
+		}
+		
+		String[] fichiers=dossier.list();
+		for(int i=0;i<fichiers.length;i++) {
+			if(fichiers[i].matches(".*.save")) {
+				existePartie=true;
+				savedGames.add(fichiers[i]);
+			}
+		}
+
+		return savedGames;
+	}
+
 	public static GameManagerAwale chargerPartie() {
 		GameManagerAwale retour=new GameManagerAwale(0,0);
 		Path sauvegardes=Paths.get("saves");
