@@ -28,6 +28,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//Pour calculer le nombre de coup joue par minimax au cours d'une partie
 	private int nombreDeCoup = 0;
 	
+	//Pour calculer le nombre total de noeuds parcourus au cours d'une partie
+	private int totalNode = 0;
+	
 	//profondeur maximum
 	private int profondeurMax=-1;
 	
@@ -73,6 +76,16 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public void setNombreDeCoup(int nombreDeCoup) 
 	{
 		this.nombreDeCoup = nombreDeCoup;
+	}
+	
+	public int getTotalNode() 
+	{
+		return totalNode;
+	}
+
+	public void setTotalNode(int totalNode) 
+	{
+		this.totalNode = totalNode;
 	}
 	
 	public int getDifficulte() {
@@ -698,7 +711,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
 	
 			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
-			System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
+			System.out.println("Nombre d'appels recursifs total (minimax + jouerMinimax) : " + (nombre_appel + getCompteur()));
 	
 			time = System.currentTimeMillis() - time;
 			System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
@@ -706,6 +719,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println();
 			
 			setTotalTime(getTotalTime() + time);
+			setTotalNode(getTotalNode() + nombre_appel + getCompteur());
 			setCompteur(0);
 		}
 		
@@ -823,7 +837,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println("Nombre d'appels recursif d'alphaBeta : " + getCompteur());
 	
 			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + nombre_appel);
-			System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
+			System.out.println("Nombre d'appels recursifs total (alphaBeta + jouerAlphaBeta) : " + (nombre_appel + getCompteur()));
 	
 			time = System.currentTimeMillis() - time;
 			System.out.println("Temps d'execution de jouerAlphaBeta : " + time + "ms.");
@@ -831,6 +845,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println();
 			
 			setTotalTime(getTotalTime() + time);
+			setTotalNode(getTotalNode() + nombre_appel + getCompteur());
 			setCompteur(0);
 		}
 		
