@@ -46,6 +46,14 @@ public abstract class Joueur implements java.io.Serializable{
 	
 	public void setNumeroJoueur(int numeroJoueur) {	
 		this.numeroJoueur = numeroJoueur;
+		if(numeroJoueur==1) {
+			setMin(0);
+			setMax(5);
+		}
+		else if(numeroJoueur==2) {
+			setMin(6);
+			setMax(11);
+		}
 	}
 	
 	public int getMin() {

@@ -421,6 +421,18 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 	}
 	
+	public String getHeuristique() {
+		String h="";
+		for(int i=0;i<this.heuristique.length;i++) {
+			if(this.heuristique[i]) {
+				h+="1";
+			}else {
+				h+="0";
+			}
+		}
+		return h;
+	}
+	
 	public void setProfondeurMax(int p) {
 		this.profondeurMax=p;
 	}

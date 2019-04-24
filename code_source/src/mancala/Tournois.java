@@ -315,5 +315,66 @@ public class Tournois {
 		return retour;
 	}
 	
+	public String meilleureHeuristique(int profondeur) {
+		this.j1.setProfondeurMax(profondeur);
+		this.j2.setProfondeurMax(profondeur);
+		int champion=1;
+		int heuristiqueActuelle=2;
+		int nbVictoireJ1=0,nbVictoireJ2=0; 
+		
+		j2.setHeuristique(formatBinary(Integer.toBinaryString(champion)));
+		
+		GameManagerAwale arbitre= new GameManagerAwale(0,0);
+		
+		
+		
+		while(heuristiqueActuelle!=10) {
+			j1.setHeuristique(formatBinary(Integer.toBinaryString(heuristiqueActuelle)));
+			//faire combattre J1 et J2 (J1 vs J2 puis J2 vs J1)
+			j1.setNumeroJoueur(1);
+			j2.setNumeroJoueur(2);
+			arbitre.loadJoueur1(j1);
+			arbitre.loadJoueur2(j2);	
+			arbitre.commencerPartie(false);
+			
+			if(arbitre.getGagnant()!=null) {
+				if(arbitre.getGagnant()==j1) {
+					nbVictoireJ1++;
+				}else if(arbitre.getGagnant()==j2) {
+					nbVictoireJ2++;
+				}
+			}
+			
+			
+			arbitre.resetPartie();
+			
+			j2.setNumeroJoueur(1);
+			j1.setNumeroJoueur(2);
+			
+			arbitre.loadJoueur1(j2);
+			arbitre.loadJoueur2(j1);
+			
+			arbitre.commencerPartie(false);
+			
+			if(arbitre.getGagnant()!=null) {
+				if(arbitre.getGagnant()==j1) {
+					nbVictoireJ1++;
+				}else if(arbitre.getGagnant()==j2) {
+					nbVictoireJ2++;
+				}
+			}
+			
+			arbitre.resetPartie();
+			
+			//regarder le résultat et changer le champion en fonction
+			if(nbVictoireJ1==2 || (nbVictoireJ1==1 && nbVictoireJ2==0)) {
+				champion=Integer.parseInt(j1.getHeuristique(),2);
+				j2.setHeuristique(formatBinary(Integer.toBinaryString(champion)));
+			}
+			
+			heuristiqueActuelle++;
+		}
+		return j2.getHeuristique();
+	}
 	
 }
