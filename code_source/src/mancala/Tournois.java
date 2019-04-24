@@ -302,5 +302,18 @@ public class Tournois {
 		return scoreMoyen;
 	}
 	
+	public static String formatBinary(String binaire) {
+		String retour="";
+		if(binaire.length()<=9) {
+			retour=binaire;
+			for(int i=0;i<9-binaire.length();i++) {
+				retour="0"+retour;
+			}
+		}else {
+			retour=binaire.substring(binaire.length()-9,binaire.length());
+		}
+		return retour;
+	}
+	
 	
 }

@@ -666,17 +666,23 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	//une partie sauvegardé, en console
 	public static GameManagerAwale chargerPartieConsole() {
 		ArrayList<String> savedGames=getSavedGames();
-		
-		for(int i=0;i<savedGames.size();i++) {
-			System.out.println("Sauvegarde "+i+" : "+savedGames.get(i));
+		GameManagerAwale retour=new GameManagerAwale();
+		if(savedGames.size()!=0) {
+			for(int i=0;i<savedGames.size();i++) {
+				System.out.println("Sauvegarde "+i+" : "+savedGames.get(i));
+			}
+			Scanner sc=new Scanner(System.in);
+			int choix=-1;
+			do {
+				System.out.print("charger quelle partie ? >>");
+				choix=sc.nextInt();
+			}while(choix<0 || choix>=savedGames.size());
+			
+			retour=loadGame(choix);
+		}else {
+			System.out.println("Aucune sauvegarde disponible");
 		}
-		Scanner sc=new Scanner(System.in);
-		int choix=-1;
-		do {
-			System.out.print("charger quelle partie ? >>");
-			choix=sc.nextInt();
-		}while(choix<0 || choix>=savedGames.size());
 		
-		return (loadGame(choix));
+		return retour;
 	}
 }
