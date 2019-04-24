@@ -662,56 +662,21 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		return retour;
 	}
 
-	public static GameManagerAwale chargerPartie() {
-		GameManagerAwale retour=new GameManagerAwale(0,0);
-		Path sauvegardes=Paths.get("saves");
-		File dossier=new File(sauvegardes.toString());
-		boolean existePartie=false;
-		if(!Files.exists(sauvegardes)) {
-			dossier.mkdir();
-			existePartie=false;
-		}
+	//cette méthode ne concerne pas la partie graphique, elle utilise seulement loadGame et getSavedGame pour charger
+	//une partie sauvegardé, en console
+	public static GameManagerAwale chargerPartieConsole() {
+		ArrayList<String> savedGames=getSavedGames();
 		
-		String[] fichiers=dossier.list();
-		for(int i=0;i<fichiers.length;i++) {
-			if(fichiers[i].matches(".*.save")) {
-				existePartie=true;
-				
-			}
+		for(int i=0;i<savedGames.size();i++) {
+			System.out.println("Sauvegarde "+i+" : "+savedGames.get(i));
 		}
+		Scanner sc=new Scanner(System.in);
+		int choix=-1;
+		do {
+			System.out.print("charger quelle partie ? >>");
+			choix=sc.nextInt();
+		}while(choix<0 || choix>=savedGames.size());
 		
-		if(existePartie) {
-			int nombreParties=0;
-			for(int i=0;i<fichiers.length;i++) {
-				if(fichiers[i].matches(".*.save")) {
-					System.out.println(i+". "+fichiers[i]);
-					nombreParties++;
-				}
-			}
-			Scanner sc=new Scanner(System.in);
-			int choix=-1;
-			do {
-				System.out.print("charger quelle partie ? >>");
-				choix=sc.nextInt();
-			}while(choix<0 || choix>=nombreParties);
-			
-			try {
-				FileInputStream fichierIN=new FileInputStream("saves/"+fichiers[choix]);
-				ObjectInputStream objetIN=new ObjectInputStream(fichierIN);
-				retour=(GameManagerAwale) objetIN.readObject();
-				objetIN.close();
-				fichierIN.close();
-				System.out.println("tour recup : "+retour.getTourActuel());
-			}catch(IOException e) {
-				e.printStackTrace();
-			}catch (ClassNotFoundException c) {
-		         c.printStackTrace();
-		    }
-			
-		}else {
-			System.out.println("Aucune sauvegarde disponible");
-		}
-		
-		return retour;
+		return (loadGame(choix));
 	}
 }
