@@ -438,6 +438,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 				if(this.joueur1 instanceof JoueurAwaleIA)
 				{
 					System.out.println("Temps de calcul moyen d'un coup : " + ((JoueurAwaleIA)this.joueur1).getTotalTime()/((JoueurAwaleIA)this.joueur1).getNombreDeCoup());
+					System.out.println("Nombre de noeuds parcourus en moyenne pour le calcul d'un coup : " + ((JoueurAwaleIA)this.joueur1).getTotalNode()/((JoueurAwaleIA)this.joueur1).getNombreDeCoup());
 					((JoueurAwaleIA)this.joueur1).setTotalTime(0);
 					((JoueurAwaleIA)this.joueur1).setNombreDeCoup(0);
 					System.out.println();
@@ -446,6 +447,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 				if(this.joueur2 instanceof JoueurAwaleIA)
 				{
 					System.out.println("Temps de calcul moyen d'un coup : " + ((JoueurAwaleIA)this.joueur2).getTotalTime()/((JoueurAwaleIA)this.joueur2).getNombreDeCoup());
+					System.out.println("Nombre de noeuds parcourus en moyenne pour le calcul d'un coup : " + ((JoueurAwaleIA)this.joueur2).getTotalNode()/((JoueurAwaleIA)this.joueur2).getNombreDeCoup());
 					((JoueurAwaleIA)this.joueur2).setTotalTime(0);
 					((JoueurAwaleIA)this.joueur2).setNombreDeCoup(0);
 					System.out.println();
