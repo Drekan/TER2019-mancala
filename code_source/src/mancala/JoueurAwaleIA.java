@@ -716,7 +716,6 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public double alphaBeta(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax, double alpha, double beta)
 	{
-		long time = System.currentTimeMillis();
 		ArrayList coupPossible = new ArrayList<>();
 		ArrayList <int[]> historique = new ArrayList<>();
 		double alphaBeta = -1;
@@ -783,11 +782,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				}
 		    }
 		}
-	
-		time = System.currentTimeMillis() - time;
-		setTime(getTime() + time);
-		setTotalTime(getTotalTime() + time);
-
+		
 		return beta;
 	}
 	
@@ -826,11 +821,6 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif d'alphaBeta
 			System.out.println("Nombre d'appels recursif d'alphaBeta : " + getCompteur());
-	
-			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution d'alphaBeta puis on remet le compteur à 0
-			System.out.println("Temps d'execution d'alphaBeta : " + getTime() + "ms.");
-			System.out.println();
-			setTime(0);
 	
 			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + nombre_appel);
 			System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
