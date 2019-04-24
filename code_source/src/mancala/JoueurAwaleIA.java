@@ -597,7 +597,6 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public double minimax(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax)
 	{
-		long time = System.currentTimeMillis();
 		ArrayList coupPossible = new ArrayList<>();
 		ArrayList <int[]> historique = new ArrayList<>();
 		double valeur = -1;
@@ -658,11 +657,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				valeur = Math.min(valeur, minimax((int)coupPossible.get(i), arbitreSimuleMinimax, profondeurMax-1, true));
 		    }
 		}
-	
-		time = System.currentTimeMillis() - time;
-		setTime(getTime() + time);
-		setTotalTime(getTotalTime() + time);
-
+		
 		return valeur;
 	}
   
@@ -701,11 +696,6 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
 			System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
-	
-			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le temps d'execution de minimax puis on remet le compteur à 0
-			System.out.println("Temps d'execution de minimax : " + getTime() + "ms.");
-			System.out.println();
-			setTime(0);
 	
 			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
 			System.out.println("Nombre d'appels recursifs total : " + (nombre_appel + getCompteur()));
