@@ -59,12 +59,13 @@ public class Principale {
 				tournois.lancer();
 				tournois.saveCSV(null);
 			}else {
+				System.out.println("Tester combien d'heuristique ?");
+				do {
+					System.out.print("\nVotre choix >> ");
+					choix = sc.nextInt();
+				}while(choix < 0 || choix > 512);
 				System.out.println("---Les parties sont en train d'être générées---\n");
-				System.out.println("Pour l'instant, cette fonctionnalité est encore expérimentale. Seules les 10 premières heuristiques sont testés.\n");
-				System.out.println("à venir :");
-				System.out.println("-sauvegarde propre dans un csv pour exploiter les résultats");
-				System.out.println("-amélioration de la structure de l'algo\n");
-				System.out.println(tournois.meilleureHeuristique(4));
+				System.out.println("Gagnant : "+tournois.meilleureHeuristique(choix,4));
 			}
 				
 		}
