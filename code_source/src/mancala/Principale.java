@@ -62,11 +62,9 @@ public class Principale {
 				System.out.println("---Les parties sont en train d'être générées---\n");
 				System.out.println("Pour l'instant, cette fonctionnalité est encore expérimentale. Seules les 10 premières heuristiques sont testés.\n");
 				System.out.println("à venir :");
-				System.out.println("-suivi des matchs en temps réel");
 				System.out.println("-sauvegarde propre dans un csv pour exploiter les résultats");
 				System.out.println("-amélioration de la structure de l'algo\n");
-				System.out.print("Heuristique gagnante : ");
-				System.out.println(tournois.meilleureHeuristique(8));
+				System.out.println(tournois.meilleureHeuristique(4));
 			}
 				
 		}

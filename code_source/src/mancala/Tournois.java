@@ -327,25 +327,31 @@ public class Tournois {
 		GameManagerAwale arbitre= new GameManagerAwale(0,0);
 		
 		
-		
-		while(heuristiqueActuelle!=10) {
+		int numeroMatch=1;
+		while(heuristiqueActuelle!=15) {
 			j1.setHeuristique(formatBinary(Integer.toBinaryString(heuristiqueActuelle)));
 			//faire combattre J1 et J2 (J1 vs J2 puis J2 vs J1)
 			j1.setNumeroJoueur(1);
 			j2.setNumeroJoueur(2);
 			arbitre.loadJoueur1(j1);
-			arbitre.loadJoueur2(j2);	
+			arbitre.loadJoueur2(j2);
+			
+			System.out.print("("+ numeroMatch + ")  H1<"+ j1.getHeuristique()+"> VS H2<"+j2.getHeuristique()+">  --> ");
 			arbitre.commencerPartie(false);
 			
 			if(arbitre.getGagnant()!=null) {
 				if(arbitre.getGagnant()==j1) {
+					System.out.println("<"+j1.getHeuristique()+">");
 					nbVictoireJ1++;
 				}else if(arbitre.getGagnant()==j2) {
+					System.out.println("<"+j2.getHeuristique()+">");
 					nbVictoireJ2++;
 				}
+			}else {
+				System.out.println("NULL");
 			}
 			
-			
+			numeroMatch++;
 			arbitre.resetPartie();
 			
 			j2.setNumeroJoueur(1);
@@ -354,25 +360,35 @@ public class Tournois {
 			arbitre.loadJoueur1(j2);
 			arbitre.loadJoueur2(j1);
 			
+			System.out.print("("+ numeroMatch + ")  H1<"+ j1.getHeuristique()+"> VS H2<"+j2.getHeuristique()+">  --> ");
 			arbitre.commencerPartie(false);
 			
 			if(arbitre.getGagnant()!=null) {
 				if(arbitre.getGagnant()==j1) {
+					System.out.println("<"+j1.getHeuristique()+">");
 					nbVictoireJ1++;
 				}else if(arbitre.getGagnant()==j2) {
+					System.out.println("<"+j2.getHeuristique()+">");
 					nbVictoireJ2++;
 				}
+			}else {
+				System.out.println("NULL");
 			}
 			
+			numeroMatch++;
 			arbitre.resetPartie();
 			
 			//regarder le résultat et changer le champion en fonction
 			if(nbVictoireJ1==2 || (nbVictoireJ1==1 && nbVictoireJ2==0)) {
+				System.out.println("Nouveau champion : <"+j1.getHeuristique()+">"+nbVictoireJ1);
 				champion=Integer.parseInt(j1.getHeuristique(),2);
 				j2.setHeuristique(formatBinary(Integer.toBinaryString(champion)));
 			}
 			
 			heuristiqueActuelle++;
+			nbVictoireJ1=0;
+			nbVictoireJ2=0;
+			System.out.println();
 		}
 		return j2.getHeuristique();
 	}
