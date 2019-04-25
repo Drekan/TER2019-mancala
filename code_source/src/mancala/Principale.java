@@ -17,8 +17,6 @@ public class Principale {
 		}while(choix < 0 || choix > 1);
 		
 		if(choix==0) {
-			GameManagerAwale arbitreAwale = new GameManagerAwale();
-	
 			System.out.println("\n----Choisissez le mode d'affichage----");
 			System.out.println("0. Console");
 			System.out.println("1. Graphique");
@@ -27,20 +25,24 @@ public class Principale {
 				System.out.print("\nVotre choix >> ");
 				choix = sc.nextInt();
 			}while(choix < 0 || choix > 1);
+
+			GameManagerAwale arbitreAwale = new GameManagerAwale(choix);
 	
 			switch (choix){
 				//Partie sur console
-				case 0:	arbitreAwale.lancerUneNouvellePartie(true);
-						break;
+				case 0:
+					arbitreAwale.lancerUneNouvellePartie(true);
+					break;
 				//Partie graphique
-				case 1:	//DrawingManagerAwale window = new DrawingManagerAwale();
-						//window.getFrmAwale().setVisible(true);
-						DrawingManager drawer = new DrawingManager();
-						arbitreAwale.lancerUneNouvellePartieGraphique(drawer.lancerWindow());
-						break;
+				case 1:
+					//DrawingManagerAwale window = new DrawingManagerAwale();
+					//window.getFrmAwale().setVisible(true);
+					new ChoixJoueur(arbitreAwale);
+					//DrawingManager drawer = new DrawingManager();
+					//arbitreAwale.lancerUneNouvellePartieGraphique(drawer.lancerWindow());
+					break;
 			}
 			arbitreAwale.getGagnant();
-			
 		}
 		else {
 			System.out.println("\n----Choisissez le mode de tournois----");
@@ -71,5 +73,4 @@ public class Principale {
 		}
 		sc.close();
 	}
-
 }

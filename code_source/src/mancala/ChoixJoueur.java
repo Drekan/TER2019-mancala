@@ -9,12 +9,10 @@ import java.awt.event.ActionListener;
 public class ChoixJoueur {
     private JTextField nomJoueur1;
     private JTextField nomJoueur2;
+    private GameManagerAwale arbitre;
 
-    public static void main(String[] args) {
-        new ChoixJoueur();
-    }
-
-    public ChoixJoueur() {
+    public ChoixJoueur(GameManagerAwale arbitre) {
+        this.arbitre = arbitre;
         initialize();
     }
 
@@ -86,17 +84,30 @@ public class ChoixJoueur {
                 String nomJ1 = nomJoueur1.getText(), nomJ2 = nomJoueur2.getText();
                 boolean j1IAKHRA = j1IA.isSelected(), j2IAKHRA = j2IA.isSelected();
                 if(j1IAKHRA && j2IAKHRA){//2 IA
-                    new ChoixDifficulte(nomJ1, nomJ2, 2);
+                    arbitre.setNbrJoueursHumain(0);
+                    new ChoixDifficulte(nomJ1, nomJ2, 2, arbitre);
                 }
                 else if(j1IAKHRA || j2IAKHRA){//1 IA
-                    new ChoixDifficulte(nomJ1, nomJ2, 1);
+                    arbitre.setNbrJoueursHumain(1);
+                    new ChoixDifficulte(nomJ1, nomJ2, 1, arbitre);
                 }
                 else{//0 IA
-                    new DrawingManagerAwale(nomJ1, nomJ2);
+                    arbitre.setNbrJoueursHumain(2);
+                    arbitre.initJoueurs(nomJ1, nomJ2);
+                    DrawingManagerAwale test = new DrawingManagerAwale(nomJ1, nomJ2);
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            arbitre.lancerUneNouvellePartieGraphique(test);
+                            arbitre.getGagnant();
+                        }
+                    });
+                    t.start();
                 }
             }
         });
         okPanel.add(okSelectionJoueurs);
         MainWindow.getInstance().setVisible(true);
+
     }
 }

@@ -1,17 +1,15 @@
 package mancala;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 public class DrawingManagerAwale {
 	private int coupActu = -1;
-	private ArrayList<SButton> buttonList;
+	private ArrayList<SButton> buttonListGame;
+	private ArrayList<SButton> buttonListMenu;
 	private ArrayList<JLabel> nameList;
 	private ArrayList<JLabel> scoreList;
 
@@ -27,8 +25,8 @@ public class DrawingManagerAwale {
 		this.coupActu = coupActu;
 	}
 
-	public ArrayList<SButton> getButtonList() {
-		return buttonList;
+	public ArrayList<SButton> getButtonListGame() {
+		return buttonListGame;
 	}
 
 	public ArrayList<JLabel> getNameList() {
@@ -39,8 +37,12 @@ public class DrawingManagerAwale {
 		return scoreList;
 	}
 
-	public JButton getButtonIndice(int i) {
-		return buttonList.get(i);
+	public SButton getButtonGame(int i) {
+		return buttonListGame.get(i);
+	}
+
+	public SButton getButtonMenu(int i) {
+		return buttonListMenu.get(i);
 	}
 
 	public DrawingManagerAwale(String nomJ1, String nomJ2) {
@@ -48,17 +50,73 @@ public class DrawingManagerAwale {
 	}
 
 	private void initialize(String nomJ1, String nomJ2) {
+		//Game panel
 		JPanel all = new JPanel(new BorderLayout(0, 0));
 		MainWindow.getInstance().setContentPane(all);
 
+		//Menu panel
 		JPanel menu = new SPanel();
+		menu.setLayout(new GridLayout(1, 3, 55, 0));
 		all.add(menu, BorderLayout.NORTH);
 
-		JLabel titre = new JLabel("Bienvenue au jeu d'Awale !");
-		titre.setForeground(Color.WHITE);
-		menu.add(titre);
+		buttonListMenu = new ArrayList<>();
+		for(int i = 0; i < 3; i++)
+		{
+			SButton btn = new SButton("0");
+			buttonListMenu.add(btn);
+		}
 
-		JPanel game = new SPanel();
+		getButtonMenu(0).setText("New");
+		getButtonMenu(1).setText("Save");
+		getButtonMenu(2).setText("Quit");
+
+		getButtonMenu(0).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane save = new JOptionPane();
+				String nom = save.showInputDialog(null, "Save?", "Haha habeltni hambuk ruh", JOptionPane.QUESTION_MESSAGE);
+				if(nom != null)
+				{
+					GameManagerAwale.getInstance().sauvegarder(nom);
+				}
+				GameManagerAwale.getInstance().resetPartie();
+				new ChoixJoueur(GameManagerAwale.getInstance());
+			}
+		});
+
+		getButtonMenu(1).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane save = new JOptionPane();
+				String nom = save.showInputDialog(null, "Save?", "Haha habeltni hambuk ruh", JOptionPane.QUESTION_MESSAGE);
+				if(nom != null)
+				{
+					GameManagerAwale.getInstance().sauvegarder(nom);
+				}
+			}
+		});
+
+		getButtonMenu(2).addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JOptionPane save = new JOptionPane();
+				String nom = save.showInputDialog(null, "Save?", "Haha habeltni hambuk ruh", JOptionPane.QUESTION_MESSAGE);
+				if(nom != null)
+				{
+					GameManagerAwale.getInstance().sauvegarder(nom);
+				}
+				GameManagerAwale.getInstance().resetPartie();
+				System.exit(0);
+			}
+		});
+
+		for(int i = 0; i < 3; i++) {
+			menu.add(getButtonMenu(i));
+		}
+
+		//JLabel titre = new JLabel("Bienvenue au jeu d'Awale !");
+		//titre.setForeground(Color.BLACK);
+		//menu.add(titre);
+
+		//Game panel
+		SPanel game = new SPanel();
 		all.add(game);
 		game.setLayout(new GridLayout(2, 1, 0, 5));
 
@@ -78,7 +136,7 @@ public class DrawingManagerAwale {
 		j2.add(j2_cases);
 		j2_cases.setLayout(new GridLayout(1, 6, 10, 0));
 
-		buttonList = new ArrayList<>();
+		buttonListGame = new ArrayList<>();
 		for(int i = 0; i < 12; i++)
 		{
 			SButton btn = new SButton("4");
@@ -88,7 +146,7 @@ public class DrawingManagerAwale {
 					setCoupActu(fi);
 				}
 			});
-			buttonList.add(btn);
+			buttonListGame.add(btn);
 		}
 
 		nameList = new ArrayList<>();
@@ -96,6 +154,8 @@ public class DrawingManagerAwale {
 			JLabel nomJoueur = new JLabel("Joueur " + (i+1));
 			nameList.add(nomJoueur);
 		}
+		nameList.get(0).setText(nomJ1);
+		nameList.get(1).setText(nomJ2);
 
 		scoreList = new ArrayList<>();
 		for(int i = 0; i < 2; i++){
@@ -121,12 +181,12 @@ public class DrawingManagerAwale {
 
 		// Ajouter cases J2
 		for(int i = 11; i > 5; i--) {
-			j2_cases.add(buttonList.get(i));
+			j2_cases.add(getButtonGame(i));
 		}
 
 		// Ajouter cases J1
 		for(int i = 0; i < 6; i++) {
-			j1_cases.add(buttonList.get(i));
+			j1_cases.add(getButtonGame(i));
 		}
 
 		j2_info.add(nameList.get(1));
@@ -134,7 +194,6 @@ public class DrawingManagerAwale {
 		j2_info.add(scoreList.get(1));
 
 		j1_info.add(nameList.get(0));
-
 		j1_info.add(scoreList.get(0));
 		MainWindow.getInstance().setVisible(true);
 	}

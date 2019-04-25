@@ -10,5 +10,4 @@ public class DrawingManager {
         windowAwale.getFrmAwale().setVisible(true);
         return windowAwale;
     }
-	
 }
