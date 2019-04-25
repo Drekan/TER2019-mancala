@@ -19,6 +19,12 @@ public class ChoixJoueur {
     private void initialize() {
         JPanel all = new JPanel(new BorderLayout(0, 0));
         MainWindow.getInstance().setContentPane(all);
+
+        JPanel loadPanel = new JPanel();
+        all.add(loadPanel, BorderLayout.NORTH);
+        JButton loadBtn = new JButton("Charger une partie");
+        loadPanel.add(loadBtn);
+
         JPanel menu1 = new JPanel();
         all.add(menu1);
         menu1.setLayout(new GridLayout(0, 2, 0, 0));

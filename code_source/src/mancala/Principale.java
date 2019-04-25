@@ -32,6 +32,7 @@ public class Principale {
 				//Partie sur console
 				case 0:
 					arbitreAwale.lancerUneNouvellePartie(true);
+					arbitreAwale.getGagnant();
 					break;
 				//Partie graphique
 				case 1:
@@ -42,7 +43,6 @@ public class Principale {
 					//arbitreAwale.lancerUneNouvellePartieGraphique(drawer.lancerWindow());
 					break;
 			}
-			arbitreAwale.getGagnant();
 		}
 		else {
 			System.out.println("\n----Choisissez le mode de tournois----");

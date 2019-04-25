@@ -174,8 +174,11 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		setJoueur1(J1,difficulte1);
 		setJoueur2(J2,difficulte2);
 	}
-	//GameManagerAwale(int modeJeu,int difficulte,int tourActuel,String j1,String j2)
-	
+
+	public void initJoueurs(String J1,int difficulte1,String J2,int difficulte2, int profondeur1, int profondeur2) {
+		setJoueur1(J1,difficulte1);
+		setJoueur2(J2,difficulte2);
+	}
 	
 	/* Methode qui produit une replique de la partie en cours
 	 * chaque methode clone() des attributs non primitifs est appelee
@@ -340,7 +343,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 					window.getButtonListGame().get(i).setEnabled(true);
 				}
 				window.getButtonListGame().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
-				this.delay(500);
+				//this.delay(500);
 				graineRestante--;
 			}
 			for (int i = 0 ; i < coupJoue ; i++) {
@@ -351,7 +354,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 					window.getButtonListGame().get(i).setEnabled(true);
 				}
 				window.getButtonListGame().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
-				this.delay(500);
+				//this.delay(500);
                 graineRestante--;
 			}
 
@@ -416,6 +419,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 				System.out.println();
 				if(this.joueur1 instanceof JoueurAwaleIA && ((JoueurAwaleIA) this.joueur1).getDifficulte() != 0)
 				{
+					//DivByZero
 					System.out.println("Temps de calcul moyen d'un coup : " + ((JoueurAwaleIA)this.joueur1).getTotalTime()/((JoueurAwaleIA)this.joueur1).getNombreDeCoup());
 					System.out.println("Nombre de noeuds parcourus en moyenne pour le calcul d'un coup : " + ((JoueurAwaleIA)this.joueur1).getTotalNode()/((JoueurAwaleIA)this.joueur1).getNombreDeCoup());
 					((JoueurAwaleIA)this.joueur1).setTotalTime(0);
