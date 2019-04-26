@@ -4,8 +4,8 @@ package mancala;
 //c'est ici que se feront les methodes pour jouer un coup
 public abstract class Joueur implements java.io.Serializable{
 	private String nomJoueur;
-	private int score;
-	private int numeroJoueur;
+	protected int score;
+	protected int numeroJoueur;
 	private int min;
 	private int max;
 	private int nbrGraineJoueur;

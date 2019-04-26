@@ -166,6 +166,10 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		this.tourActuel = tourActuel;
 	}
 	
+	public int[] getPlateau() {
+		return this.partie.getPlateau();
+	}
+	
 	public void initJoueurs(String J1,String J2) {
 		setJoueur1(J1);
 		setJoueur2(J2);
@@ -500,8 +504,8 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 			System.out.println();System.out.println();
 		}
 	}
-	public ArrayList determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
-		ArrayList coupPossible = new ArrayList<>();
+	public ArrayList<Integer> determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
+		ArrayList<Integer> coupPossible = new ArrayList<Integer>();
 		for(int i = joueur.getMin(); i <=joueur.getMax(); i++) {
 			if( verifierCoupValide(joueur,i,plateau)) {
 				coupPossible.add(i);

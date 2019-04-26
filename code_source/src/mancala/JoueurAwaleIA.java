@@ -551,7 +551,6 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		for(int i=0;i<this.heuristique.length;i++) {
 			valeurEvaluation+=heuristiques[i]*this.poids[i];
 		}
-		
 		return valeurEvaluation;
 	}
     
@@ -884,5 +883,59 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    }while( !arbitreAwale.verifierCoupValide(this,caseJouee,arbitreAwale.getPartie().getPlateau()) );
 		}
 		return caseJouee;
+	}
+	
+	/* algo MinMax basé sur le pseudo code trouvable sur Wikipédia
+	 * lien : https://en.wikipedia.org/wiki/Minimax#Pseudocode
+	 * retour : couple (valeur,coup) où valeur est la valeur de minmax, et coup est le meilleur coup pour la profondeur p
+	 */
+	public double[] testMM(GameManagerAwale a,int p,boolean max){
+		double[] retour= {0,0};int valeur=0,coup=1;
+		
+		//si on est sur une fin de partie (ou profondeur nulle) on renvoie la valeur du plateau
+		if(p==0 || a.finPartie()) {
+			JoueurAwale adversaire=(a.getJoueur1()==this?a.getJoueur2():a.getJoueur1());
+			retour[valeur]=this.evaluation(numeroJoueur,a.getPlateau(),this.score,adversaire.getScore());
+			retour[coup]=-1;
+		}
+		
+		//on n'est pas sur une fin de partie, on va devoir simuler des coups possibles
+		else {
+			ArrayList<Integer> coupsPossibles=a.determinerCoupPossible(this,a.getPlateau()); //on récupère les coups possibles
+			GameManagerAwale clone;
+			double[] retourMM;
+			
+			
+			if(max) {//le joueur actuel est celui à l'origine de l'appel à minmax, on doit donc maximiser minmax
+				retour[valeur]=-1000;
+				for(int i=0;i<coupsPossibles.size();i++) {//pour chaque coup possible, on appelle recursivement minmax dessus
+					clone=a.clone();
+					this.simulerUnCoup(coupsPossibles.get(i),clone);
+					retourMM=testMM(clone,p-1,false);
+					
+					//si le coup simulé nous donne une meilleure valeur, on la récupère et on enregistre le coup à l'origine de la valeur
+					if(retour[valeur]<retourMM[valeur]){
+						retour[valeur]=retourMM[valeur];
+						retour[coup]=coupsPossibles.get(i);
+					}
+				}
+			}
+			//le joueur actuel est l'adversaire, on doit minimiser minmax
+			//(même fonctionnement que juste au dessus)
+			else {
+				retour[valeur]=1000;
+				for(int i=0;i<coupsPossibles.size();i++) {
+					clone=a.clone();
+					this.simulerUnCoup(coupsPossibles.get(i),clone);
+					retourMM=testMM(clone,p-1,false);
+					
+					if(retour[valeur]>retourMM[valeur]){
+						retour[valeur]=retourMM[valeur];
+						retour[coup]=coupsPossibles.get(i);
+					}
+				}
+			}
+		}
+		return retour;
 	}
 }
