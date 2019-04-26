@@ -453,7 +453,6 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		int gagnant = 0;
 		int score1 = getJoueur1().getScore();
 		int score2 = getJoueur2().getScore();
-		System.out.println("blabla");
 		if( score1 == score2 ) {
 			if(vocal)
 				System.out.println(" Score Egaux ! " + score1);
