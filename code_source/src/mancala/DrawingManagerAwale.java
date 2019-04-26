@@ -14,8 +14,13 @@ public class DrawingManagerAwale extends JFrame {
     }
 
     private DrawingManagerAwale(){
+        Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        int hauteur = (int)tailleEcran.getHeight();
+        int largeur = (int)tailleEcran.getWidth();
+
         this.setTitle("Awale");
-        this.setSize(450, 300);
+        this.setSize(largeur/2, hauteur/2);
+        //this.setSize(600, 400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout(0, 0));

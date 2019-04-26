@@ -38,7 +38,9 @@ public class Principale {
 				case 1:
 					//Partie window = new Partie();
 					//window.getFrmAwale().setVisible(true);
-					new ChoixJoueur(arbitreAwale);
+					DrawingManager game = new DrawingManager(arbitreAwale);
+					game.go();
+					//new ChoixJoueur(arbitreAwale);
 					//DrawingManager drawer = new DrawingManager();
 					//arbitreAwale.lancerUneNouvellePartieGraphique(drawer.lancerWindow());
 					break;
