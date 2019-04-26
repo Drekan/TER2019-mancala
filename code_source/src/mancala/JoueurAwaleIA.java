@@ -28,6 +28,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	//Pour calculer le nombre de coup joue par minimax au cours d'une partie
 	private int nombreDeCoup = 0;
 	
+	//Pour calculer le nombre d'appel recursif
+	private int nombreAppel = 0;
+	
 	//Pour calculer le nombre total de noeuds parcourus au cours d'une partie
 	private int totalNode = 0;
 	
@@ -76,6 +79,16 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public void setNombreDeCoup(int nombreDeCoup) 
 	{
 		this.nombreDeCoup = nombreDeCoup;
+	}
+	
+	public int getNombreAppel()
+	{
+		return nombreAppel;
+	}
+
+	public void setNombreAppel(int nombreAppel) 
+	{
+		this.nombreAppel = nombreAppel;
 	}
 	
 	public int getTotalNode() 
@@ -598,8 +611,8 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	    else
 	    {
 			numeroJoueur = 2;
-			scoreJoueur = arbitreSimule.getJoueur1().getScore();
-			scoreAdversaire = arbitreSimule.getJoueur2().getScore();
+			scoreJoueur = arbitreSimule.getJoueur2().getScore();
+			scoreAdversaire = arbitreSimule.getJoueur1().getScore();
 	    }
 		
 		valeur = evaluation(numeroJoueur, arbitreSimule.getPartie().getPlateau(), scoreJoueur, scoreAdversaire);
@@ -678,12 +691,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		long time = System.currentTimeMillis();
 		double valeur_optimisee = -10000;
 		double valeur;
-		int nombre_appel = 0;
 		
 		//On simule un GMA pour ne pas modifier le GMA actuel du jeu
 		GameManagerAwale arbitreAwaleSimule;
 		
-		nombre_appel++;
+		setNombreAppel(getNombreAppel() + 1);
 
 		ArrayList coupPossible = new ArrayList<>();
 		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
@@ -709,8 +721,8 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif de minimax
 			System.out.println("Nombre d'appels recursif de minimax : " + getCompteur());
 	
-			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + nombre_appel);
-			System.out.println("Nombre d'appels recursifs total (minimax + jouerMinimax) : " + (nombre_appel + getCompteur()));
+			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + getNombreAppel());
+			System.out.println("Nombre d'appels recursifs total (minimax + jouerMinimax) : " + (getNombreAppel() + getCompteur()));
 	
 			time = System.currentTimeMillis() - time;
 			System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
@@ -718,8 +730,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println();
 			
 			setTotalTime(getTotalTime() + time);
-			setTotalNode(getTotalNode() + nombre_appel + getCompteur());
+			setTotalNode(getTotalNode() + getNombreAppel() + getCompteur());
 			setCompteur(0);
+			setNombreAppel(0);
 		}
 		
 		setNombreDeCoup(getNombreDeCoup() + 1);
@@ -804,12 +817,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		long time = System.currentTimeMillis();
 		double valeur_optimisee = -10000;
 		double valeur;
-		int nombre_appel = 0;
 		
 		//On simule un GMA pour ne pas modifier le GMA actuel du jeu
 		GameManagerAwale arbitreAwaleSimule;
 		
-		nombre_appel++;
+		setNombreAppel(getNombreAppel() + 1);
 
 		ArrayList coupPossible = new ArrayList<>();
 		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
@@ -835,8 +847,8 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			//Une fois tous les appels recursifs pour le choix d'une case effectues, on affiche le nombre d'appels recursif d'alphaBeta
 			System.out.println("Nombre d'appels recursif d'alphaBeta : " + getCompteur());
 	
-			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + nombre_appel);
-			System.out.println("Nombre d'appels recursifs total (alphaBeta + jouerAlphaBeta) : " + (nombre_appel + getCompteur()));
+			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + getNombreAppel());
+			System.out.println("Nombre d'appels recursifs total (alphaBeta + jouerAlphaBeta) : " + (getNombreAppel() + getCompteur()));
 	
 			time = System.currentTimeMillis() - time;
 			System.out.println("Temps d'execution de jouerAlphaBeta : " + time + "ms.");
@@ -844,7 +856,8 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println();
 			
 			setTotalTime(getTotalTime() + time);
-			setTotalNode(getTotalNode() + nombre_appel + getCompteur());
+			setTotalNode(getTotalNode() + getNombreAppel() + getCompteur());
+			setNombreAppel(0);
 			setCompteur(0);
 		}
 		
