@@ -18,7 +18,7 @@ public class ChoixJoueur {
 
     private void initialize() {
         JPanel all = new JPanel(new BorderLayout(0, 0));
-        MainWindow.getInstance().setContentPane(all);
+        DrawingManagerAwale.getInstance().setContentPane(all);
 
         JPanel loadPanel = new JPanel();
         all.add(loadPanel, BorderLayout.NORTH);
@@ -100,11 +100,12 @@ public class ChoixJoueur {
                 else{//0 IA
                     arbitre.setNbrJoueursHumain(2);
                     arbitre.initJoueurs(nomJ1, nomJ2);
-                    DrawingManagerAwale test = new DrawingManagerAwale(nomJ1, nomJ2);
+                    Partie test = new Partie(nomJ1, nomJ2);
                     Thread t = new Thread(new Runnable() {
                         @Override
                         public void run() {
                             arbitre.lancerUneNouvellePartieGraphique(test);
+                            System.out.println("Bahaa was here");
                             arbitre.getGagnant();
                         }
                     });
@@ -113,7 +114,7 @@ public class ChoixJoueur {
             }
         });
         okPanel.add(okSelectionJoueurs);
-        MainWindow.getInstance().setVisible(true);
+        DrawingManagerAwale.getInstance().setVisible(true);
 
     }
 }

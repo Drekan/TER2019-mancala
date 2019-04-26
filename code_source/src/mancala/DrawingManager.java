@@ -1,13 +1,9 @@
 package mancala;
 
 public class DrawingManager {
-    private ChoixJoueur windowJoueur;
-    private ChoixDifficulte windowDifficulte;
-    private DrawingManagerAwale windowAwale;
+    private GameManagerAwale arbitre;
 
-    public DrawingManagerAwale lancerWindow(){
-        windowAwale = new DrawingManagerAwale("", "");
-        windowAwale.getFrmAwale().setVisible(true);
-        return windowAwale;
+    public DrawingManager(){
+        new ChoixJoueur(arbitre);
     }
 }

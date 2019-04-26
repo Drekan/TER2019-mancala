@@ -10,14 +10,6 @@ public class ChoixDifficulte {
     private ArrayList<JCheckBox> boxListJ1;
     private ArrayList<JCheckBox> boxListJ2;
 
-    public ArrayList<JCheckBox> getBoxListJ1() {
-        return boxListJ1;
-    }
-
-    public void setBoxListJ1(ArrayList<JCheckBox> boxListJ1) {
-        this.boxListJ1 = boxListJ1;
-    }
-
     public JCheckBox getBoxJ1(int i) {
         return boxListJ1.get(i);
     }
@@ -55,6 +47,9 @@ public class ChoixDifficulte {
         JButton btnNewButton = new JButton("Suivant");
         JSpinner profondeurJ1 = new JSpinner(spinnerModelJ1);
         JSpinner profondeurJ2 = new JSpinner(spinnerModelJ2);
+
+        profondeurJ1.setEditor(new JSpinner.DefaultEditor(profondeurJ1));
+        profondeurJ2.setEditor(new JSpinner.DefaultEditor(profondeurJ2));
 
         panelJ1.add(choixIAJ1);
         btnPanel.add(btnNewButton);
@@ -111,11 +106,12 @@ public class ChoixDifficulte {
                 profondeur1 = (int) profondeurJ1.getValue();
                 profondeur2 = (int) profondeurJ2.getValue();
                 arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2);
-                DrawingManagerAwale test = new DrawingManagerAwale(nomJ1, nomJ2);
+                Partie test = new Partie(nomJ1, nomJ2);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         arbitre.lancerUneNouvellePartieGraphique(test);
+                        System.out.println("Bahaa was here bis");
                         arbitre.getGagnant();
                     }
                 });
@@ -124,7 +120,7 @@ public class ChoixDifficulte {
         });
 
         //Ajout du panel 'all" et affichage de l'instance
-        MainWindow.getInstance().setContentPane(all);
-        MainWindow.getInstance().setVisible(true);
+        DrawingManagerAwale.getInstance().setContentPane(all);
+        DrawingManagerAwale.getInstance().setVisible(true);
     }
 }

@@ -274,14 +274,14 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		this.commencerPartie(silence);
 	}
 
-	public void lancerUneNouvellePartieGraphique(DrawingManagerAwale window){
+	public void lancerUneNouvellePartieGraphique(Partie window){
 		//initJoueurs("Estelle","Chahinez");
 		this.partie=new Awale("MonAwale","MesRegles");
 		this.getPartie().initialisationJeu();
 		this.commencerPartieGraphique(window);
 	}
 
-	public void commencerPartieGraphique(DrawingManagerAwale window) {
+	public void commencerPartieGraphique(Partie window) {
         window.getNameList().get(0).setText(this.joueur1.getNom());
         window.getNameList().get(1).setText(this.joueur2.getNom());
 		while( !this.finPartie() ) {
@@ -453,6 +453,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		int gagnant = 0;
 		int score1 = getJoueur1().getScore();
 		int score2 = getJoueur2().getScore();
+		System.out.println("blabla");
 		if( score1 == score2 ) {
 			if(vocal)
 				System.out.println(" Score Egaux ! " + score1);
@@ -561,13 +562,13 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		this.partie.initialisationJeu();
 	}
 
-	public void enableAll(DrawingManagerAwale window){
+	public void enableAll(Partie window){
 		for (int i = 0 ; i < 12 ; i++){
 			window.getButtonListGame().get(i).setEnabled(true);
 		}
 	}
 
-	public void disableCaseNonValide(DrawingManagerAwale window){
+	public void disableCaseNonValide(Partie window){
 		for (int i = 0 ; i < 12 ; i++){
 			if (Integer.parseInt(window.getButtonListGame().get(i).getText()) == 0){
 				window.getButtonListGame().get(i).setEnabled(false);
