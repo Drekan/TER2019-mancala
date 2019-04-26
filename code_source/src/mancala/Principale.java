@@ -44,8 +44,8 @@ public class Principale {
 		}
 		else {
 			System.out.println("\n----Choisissez le mode de tournois----");
-			System.out.println("0. Tester un algo précis (choix des heuristiques, poids, etc...)");
-			System.out.println("1. Ligue Heuristique (c'est comme la Ligue Pokémon, mais avec des heuristiques..bref..)");
+			System.out.println("0. Tester un algorithme précis (choix des heuristiques, poids, etc...)");
+			System.out.println("1. Trouver les meilleures heuristiques");
 			do {
 				System.out.print("\nVotre choix >> ");
 				choix = sc.nextInt();
