@@ -9,18 +9,22 @@ import java.awt.event.ActionListener;
 public class ChoixJoueur {
     private JTextField nomJoueur1;
     private JTextField nomJoueur2;
+    private GameManagerAwale arbitre;
 
-    public static void main(String[] args) {
-        new ChoixJoueur();
-    }
-
-    public ChoixJoueur() {
+    public ChoixJoueur(GameManagerAwale arbitre) {
+        this.arbitre = arbitre;
         initialize();
     }
 
     private void initialize() {
         JPanel all = new JPanel(new BorderLayout(0, 0));
-        MainWindow.getInstance().setContentPane(all);
+        DrawingManagerAwale.getInstance().setContentPane(all);
+
+        JPanel loadPanel = new JPanel();
+        all.add(loadPanel, BorderLayout.NORTH);
+        JButton loadBtn = new JButton("Charger une partie");
+        loadPanel.add(loadBtn);
+
         JPanel menu1 = new JPanel();
         all.add(menu1);
         menu1.setLayout(new GridLayout(0, 2, 0, 0));
@@ -86,17 +90,31 @@ public class ChoixJoueur {
                 String nomJ1 = nomJoueur1.getText(), nomJ2 = nomJoueur2.getText();
                 boolean j1IAKHRA = j1IA.isSelected(), j2IAKHRA = j2IA.isSelected();
                 if(j1IAKHRA && j2IAKHRA){//2 IA
-                    new ChoixDifficulte(nomJ1, nomJ2, 2);
+                    arbitre.setNbrJoueursHumain(0);
+                    new ChoixDifficulte(nomJ1, nomJ2, 2, arbitre);
                 }
                 else if(j1IAKHRA || j2IAKHRA){//1 IA
-                    new ChoixDifficulte(nomJ1, nomJ2, 1);
+                    arbitre.setNbrJoueursHumain(1);
+                    new ChoixDifficulte(nomJ1, nomJ2, 1, arbitre);
                 }
                 else{//0 IA
-                    new DrawingManagerAwale(nomJ1, nomJ2);
+                    arbitre.setNbrJoueursHumain(2);
+                    arbitre.initJoueurs(nomJ1, nomJ2);
+                    Partie test = new Partie(nomJ1, nomJ2);
+                    Thread t = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            arbitre.lancerUneNouvellePartieGraphique(test);
+                            System.out.println("Bahaa was here");
+                            arbitre.getGagnant();
+                        }
+                    });
+                    t.start();
                 }
             }
         });
         okPanel.add(okSelectionJoueurs);
-        MainWindow.getInstance().setVisible(true);
+        DrawingManagerAwale.getInstance().setVisible(true);
+
     }
 }
