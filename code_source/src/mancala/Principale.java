@@ -68,8 +68,8 @@ public class Principale {
 					System.out.print("\nVotre choix >> ");
 					choix = sc.nextInt();
 				}while(choix < 0 || choix > 512);
-				System.out.println("---Les parties sont en train d'être générées---\n");
-				System.out.println("Gagnant : "+tournois.meilleureHeuristique(choix,4));
+				
+				System.out.println("Gagnant : "+tournois.testerHeuristiques(choix));
 			}
 				
 		}

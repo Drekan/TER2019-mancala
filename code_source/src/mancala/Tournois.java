@@ -341,14 +341,14 @@ public class Tournois {
 		
 	}
 	
-	public String meilleureHeuristique(int nbHeuristiquesTestees,int profondeur) {
+	public String testerHeuristiques(int nbHeuristiquesTestees) {
 		int champion=1;
 		JoueurAwaleIA gagnant=new JoueurAwaleIA();
 		GameManagerAwale arbitre= new GameManagerAwale(0,0);
 		
-		this.j1.setProfondeurMax(profondeur);
+		this.j1.demanderProfondeur();
 		int nbVictoireJ1=0;
-		this.j2.setProfondeurMax(profondeur);
+		this.j2.demanderProfondeur();
 		int nbVictoireJ2=0;
 		j2.setHeuristique(formatBinary(Integer.toBinaryString(champion)));
 
@@ -357,8 +357,9 @@ public class Tournois {
 			
 		int heuristiqueActuelle=2;
 		int numeroMatch=1;
+		
+		System.out.println("\n---Les parties sont en train d'être générées---\n");
 		while(heuristiqueActuelle<nbHeuristiquesTestees) {
-			
 			j1.setHeuristique(formatBinary(Integer.toBinaryString(heuristiqueActuelle)));
 
 			j1.setNumeroJoueur(1);
@@ -379,7 +380,7 @@ public class Tournois {
 					gagnant=j2;
 					nbVictoireJ2++;
 				}
-				System.out.println("<"+gagnant.getHeuristique()+">");
+				System.out.println((gagnant==j1?"H1":"H2"));
 				
 			}else {
 				System.out.println("NULL");
@@ -397,7 +398,7 @@ public class Tournois {
 			
 			arbitre.commencerPartie(false);
 			
-			System.out.print("("+ numeroMatch + "/"+((nbHeuristiquesTestees*2)-4)+")  H1<"+ j1.getHeuristique()+"> VS H2<"+j2.getHeuristique()+">  --> ");
+			System.out.print("("+ numeroMatch + "/"+((nbHeuristiquesTestees*2)-4)+")  H1<"+ j2.getHeuristique()+"> VS H2<"+j1.getHeuristique()+">  --> ");
 			if(arbitre.getGagnant()!=null) {
 				if(arbitre.getGagnant()==j1) {
 					gagnant=j1;
@@ -406,7 +407,7 @@ public class Tournois {
 					gagnant=j2;
 					nbVictoireJ2++;
 				}
-				System.out.println("<"+gagnant.getHeuristique()+">");
+				System.out.println((gagnant==j2?"H1":"H2"));
 				
 			}else {
 				System.out.println("NULL");
@@ -418,7 +419,7 @@ public class Tournois {
 			
 			//regarder le résultat et changer le champion en fonction
 			if(nbVictoireJ1==2 || (nbVictoireJ1==1 && nbVictoireJ2==0)) {
-				System.out.println("Nouveau champion : <"+j1.getHeuristique()+">"+nbVictoireJ1);
+				System.out.println("Nouveau champion : <"+j1.getHeuristique()+">");
 				champion=Integer.parseInt(j1.getHeuristique(),2);
 				j2.setHeuristique(formatBinary(Integer.toBinaryString(champion)));
 			}

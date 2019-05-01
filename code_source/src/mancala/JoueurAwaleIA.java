@@ -881,8 +881,8 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		}
 		else if(difficulte==1) 
 		{
-			//double[] resultat=testMinMax(arbitreAwale,this.profondeurMax<0?4:profondeurMax,true);
-			//caseJouee=(int)resultat[1];
+//			double[] resultat=testMinMax(arbitreAwale,this.profondeurMax<0?4:profondeurMax,true);
+//			caseJouee=(int)resultat[1];
 
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,this.profondeurMax==-1?4:this.profondeurMax);
@@ -907,27 +907,26 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 */
 	public double[] testMinMax(GameManagerAwale arbitre,int profondeur,boolean max){
 		double[] retour= {0,0};int valeur=0,coup=1;int infini=1000;
+		JoueurAwale joueur,adversaire;
+		if(max) {
+			joueur=arbitre.getJoueur1()==this?arbitre.getJoueur1():arbitre.getJoueur2();
+			adversaire=arbitre.getJoueur1()==this?arbitre.getJoueur2():arbitre.getJoueur1();
+		}else {
+			joueur=arbitre.getJoueur1()==this?arbitre.getJoueur2():arbitre.getJoueur1();
+			adversaire=arbitre.getJoueur1()==this?arbitre.getJoueur1():arbitre.getJoueur2();
+		}
 		
 		//si on est sur une fin de partie (ou profondeur nulle) on renvoie la valeur du plateau
 		if(profondeur==0 || arbitre.finPartie()) {
-			JoueurAwale joueur,adversaire;
-			if(max) {
-				joueur=arbitre.getJoueur1()==this?arbitre.getJoueur1():arbitre.getJoueur2();
-				adversaire=arbitre.getJoueur1()==this?arbitre.getJoueur2():arbitre.getJoueur1();
-			}else {
-				joueur=arbitre.getJoueur1()==this?arbitre.getJoueur2():arbitre.getJoueur1();
-				adversaire=arbitre.getJoueur1()==this?arbitre.getJoueur1():arbitre.getJoueur2();
-			}
 			retour[valeur]=this.evaluation(joueur.numeroJoueur,arbitre.getPlateau(),joueur.score,adversaire.score);
 			retour[coup]=-1;
 		}
 		
 		//on n'est pas sur une fin de partie, on va devoir simuler des coups possibles
 		else {
-			ArrayList<Integer> coupsPossibles=arbitre.determinerCoupPossible(this,arbitre.getPlateau()); //on récupère les coups possibles
+			ArrayList<Integer> coupsPossibles=arbitre.determinerCoupPossible(joueur,arbitre.getPlateau()); //on récupère les coups possibles
 			GameManagerAwale clone;
 			double[] retourMM;
-			
 			
 			if(max) {//le joueur actuel est celui à l'origine de l'appel à minmax, on doit donc maximiser minmax
 				retour[valeur]=-infini;
