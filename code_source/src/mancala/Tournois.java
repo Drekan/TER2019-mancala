@@ -398,7 +398,7 @@ public class Tournois {
 			
 			arbitre.commencerPartie(false);
 			
-			System.out.print("("+ numeroMatch + "/"+((nbHeuristiquesTestees*2)-4)+")  H1<"+ j2.getHeuristique()+"> VS H2<"+j1.getHeuristique()+">  --> ");
+			System.out.print("("+ numeroMatch + "/"+(((nbHeuristiquesTestees+1)*2)-4)+")  H1<"+ j2.getHeuristique()+"> VS H2<"+j1.getHeuristique()+">  --> ");
 			if(arbitre.getGagnant()!=null) {
 				if(arbitre.getGagnant()==j1) {
 					gagnant=j1;
@@ -432,6 +432,89 @@ public class Tournois {
 		
 		saveCSV("heuristique_max.csv",rapportCSV);
 		return j2.getHeuristique();
+	}
+	
+	public int testerProfondeur(int nbHeuristiquesTestees) {
+		JoueurAwaleIA gagnant=new JoueurAwaleIA();
+		GameManagerAwale arbitre= new GameManagerAwale(0,0);
+		
+		this.j1.demanderProfondeur();
+		int nbVictoireP1=0;
+		this.j2.demanderProfondeur();
+		int nbVictoireP2=0;
+		
+
+		ArrayList<String> rapportCSV=new ArrayList<String>();
+		rapportCSV.add("Profondeur 1,Profondeur 2,gagnant,score");
+			
+		int heuristiqueActuelle=1;
+		int numeroMatch=1;
+		
+		System.out.println("\n---Les parties sont en train d'être générées---\n");
+		while(heuristiqueActuelle<nbHeuristiquesTestees) {
+			j1.setHeuristique(formatBinary(Integer.toBinaryString(heuristiqueActuelle)));
+			j2.setHeuristique(formatBinary(Integer.toBinaryString(heuristiqueActuelle)));
+
+			j1.setNumeroJoueur(1);
+			j2.setNumeroJoueur(2);
+			
+			arbitre.loadJoueur1(j1);
+			arbitre.loadJoueur2(j2);
+			
+			arbitre.commencerPartie(false);
+			
+			System.out.print("("+ numeroMatch + "/"+(((nbHeuristiquesTestees+1)*2)-4)+")  P1<"+ j1.getProfondeurMax()+"> VS P2<"+j2.getProfondeurMax()+">  --> ");
+			
+			if(arbitre.getGagnant()!=null) {
+				if(arbitre.getGagnant()==j1) {
+					gagnant=j1;
+					nbVictoireP1++;
+				}else if(arbitre.getGagnant()==j2) {
+					gagnant=j2;
+					nbVictoireP2++;
+				}
+				System.out.println((gagnant==j1?"P1":"P2"));
+				
+			}else {
+				System.out.println("NULL");
+			}
+			rapportCSV.add("/"+j1.getProfondeurMax()+",/"+j2.getProfondeurMax()+",/"+(arbitre.getGagnant()==null?"NULL":gagnant.getProfondeurMax())+",/"+gagnant.getScore());
+			
+			arbitre.resetPartie();
+			numeroMatch++;
+			
+			j2.setNumeroJoueur(1);
+			j1.setNumeroJoueur(2);
+			
+			arbitre.loadJoueur1(j2);
+			arbitre.loadJoueur2(j1);
+			
+			arbitre.commencerPartie(false);
+			System.out.print("("+ numeroMatch + "/"+(((nbHeuristiquesTestees+1)*2)-4)+")  P1<"+ j2.getProfondeurMax()+"> VS P2<"+j1.getProfondeurMax()+">  --> ");
+			if(arbitre.getGagnant()!=null) {
+				if(arbitre.getGagnant()==j1) {
+					gagnant=j1;
+					nbVictoireP1++;
+				}else if(arbitre.getGagnant()==j2) {
+					gagnant=j2;
+					nbVictoireP2++;
+				}
+				System.out.println((gagnant==j2?"P1":"P2"));
+				
+			}else {
+				System.out.println("NULL");
+			}
+			rapportCSV.add("/"+j1.getProfondeurMax()+",/"+j2.getProfondeurMax()+",/"+(arbitre.getGagnant()==null?"NULL":gagnant.getProfondeurMax())+",/"+gagnant.getScore());
+			numeroMatch++;
+			arbitre.resetPartie();
+			
+			heuristiqueActuelle++;
+			System.out.println();
+		}
+		rapportCSV.add("Profondeur "+j1.getProfondeurMax()+",Profondeur "+j2.getProfondeurMax());
+		rapportCSV.add(nbVictoireP1+","+nbVictoireP2);
+		saveCSV("profondeur_max.csv",rapportCSV);
+		return (nbVictoireP1>nbVictoireP2?j1.getProfondeurMax():j2.getProfondeurMax());
 	}
 	
 }
