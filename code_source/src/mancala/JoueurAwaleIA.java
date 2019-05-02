@@ -51,6 +51,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		this.compteur = compteur;
 	}
 	
+	public void incrementCompteur()
+	{
+		this.compteur += 1;
+	}
+	
 	public long getTime() 
 	{
 		return time;
@@ -622,36 +627,61 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public double minimax(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax)
 	{
+		/*********************************************************************************************************
+		******* Variables utilisees dans minimax
+		*********************************************************************************************************/
 		ArrayList coupPossible = new ArrayList<>();
 		ArrayList <int[]> historique = new ArrayList<>();
-		double valeur = -1;
-		int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
 		
-		//On simule un nouveau un GMA, c'est obligatoire, autrement c'est toujours l'arbitreAwaleSimule (le paramètre que l'on donne) qui est modifié et donc la simulation n'est pas correcte
+		JoueurAwale joueurActuel;
+		
+		Awale partie;
+		
+		double valeur = -1;
+		
+		int retourSimulerFinPartie, score, scoreJoueur, scoreAdversaire, numeroJoueur;
+		int[] plateauActuel;
+		
+		/*********************************************************************************************************
+		******* Affectation des variables
+		*********************************************************************************************************/		
+			//On simule un nouveau GMA, c'est obligatoire, autrement c'est toujours l'arbitreAwaleSimule (le parametre que l'on donne) qui est modifie et donc la simulation n'est pas correcte
 		GameManagerAwale arbitreSimuleMinimax = arbitreAwaleSimule.clone();
 		
-		//Compte le nombre d'appels recursifs
-		setCompteur(getCompteur() + 1);
+			//On stocke le joueur actuel dans une variable pour gagner en lisibilite par la suite
+		joueurActuel = arbitreSimuleMinimax.joueurActuel();
 		
-		//On modifie le plateau
-		arbitreSimuleMinimax.getPartie().modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
+			//Compte le nombre d'appels recursifs
+		incrementCompteur();
+			
+			//On stocke la partie dans une variable pour la meme raison que joueurActuel
+		partie = arbitreSimuleMinimax.getPartie();
 		
-		//On rempli l'historique
-		arbitreSimuleMinimax.stockerEtatMouvement(arbitreSimuleMinimax.getPartie().getPlateau());
+			//On modifie le plateau
+		partie.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
 		
-		//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
-		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
+			//Meme chose que partie
+		plateauActuel = partie.getPlateau();
+		
+			//On remplit l'historique
+		arbitreSimuleMinimax.stockerEtatMouvement(plateauActuel);
+		
+			//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
+		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(joueurActuel, plateauActuel);
 		
 		retourSimulerFinPartie = simulerFinPartie(historique, arbitreSimuleMinimax);
 	    
+		/*********************************************************************************************************
+		******* Debut de la methode minimax
+		*********************************************************************************************************/
 		if(retourSimulerFinPartie != -1)
 		{
 			valeur = noeudTerminal(retourSimulerFinPartie, arbitreSimuleMinimax);
 		}
         
-		/*On verifie que la liste des coupPossible est vide
-		Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
-		Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
+			/*On verifie que la liste des coupPossible est vide
+			Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
+			Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
 		if(coupPossible.isEmpty())
 		{
 			valeur = 1000;
@@ -664,8 +694,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 
 		    return valeur;
 		}
-          
-		//Si le joueur est l'IA
+         
+		/*********************************************************************************************************
+		******* Test pour savoir si on est dans le cas ou l'on maximise ou non le score 
+		*********************************************************************************************************/
+			//Si le joueur est celui qui a fait appel a minimax
 		if(joueurMax)
 		{
 		    valeur = -10000;
