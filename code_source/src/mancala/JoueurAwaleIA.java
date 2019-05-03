@@ -85,6 +85,10 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	{
 		this.nombreDeCoup = nombreDeCoup;
 	}
+	public void incrementNombreDeCoup()
+	{
+		this.nombreDeCoup += 1;
+	}
 	
 	public int getNombreAppel()
 	{
@@ -94,6 +98,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	public void setNombreAppel(int nombreAppel) 
 	{
 		this.nombreAppel = nombreAppel;
+	}
+	
+	public void incrementNombreAppel()
+	{
+		this.nombreAppel += 1;
 	}
 	
 	public int getTotalNode() 
