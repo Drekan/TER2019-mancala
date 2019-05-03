@@ -114,6 +114,14 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		this.difficulte=(difficulteValide(dif)?dif:0);
 	}
 	
+	public void reset() {
+		super.reset();
+		this.compteur=0;
+		this.time=0;
+		this.nombreDeCoup=0;
+		this.nombreAppel=0;
+	}
+	
 	public void setNomParDefaut() {
 		switch(this.difficulte) {
 		case 0:

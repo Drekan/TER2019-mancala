@@ -59,13 +59,13 @@ public class Principale {
 			
 			JoueurAwaleIA j1;
 			JoueurAwaleIA j2;
+			j2=new JoueurAwaleIA("IA_TOURNOIS_2",0,2,6,11,24);
 			if(choixTournois<3) {
 				j1=new JoueurAwaleIA("IA_TOURNOIS_1",0,1,0,5,24);
-				j2=new JoueurAwaleIA("IA_TOURNOIS_2",0,2,6,11,24);
+				
 			}
 			else {
 				j1=new JoueurAwaleIA("IA_TOURNOIS_1",0,1,0,5,24,0);
-				j2=new JoueurAwaleIA("IA_TOURNOIS_2",0,2,6,11,24,2);
 			}
 			
 			Tournois tournois=new Tournois(j1,j2);
