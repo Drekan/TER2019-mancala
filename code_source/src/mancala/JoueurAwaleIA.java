@@ -775,36 +775,61 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public double alphaBeta(int caseJouee, GameManagerAwale arbitreAwaleSimule, int profondeurMax, boolean joueurMax, double alpha, double beta)
 	{
+		/*********************************************************************************************************
+		******* Variables utilisees dans alphaBeta
+		*********************************************************************************************************/
 		ArrayList coupPossible = new ArrayList<>();
 		ArrayList <int[]> historique = new ArrayList<>();
-		double alphaBeta = -1;
-		int retourSimulerFinPartie, score;
 		
-		//On simule un nouveau un GMA, c'est obligatoire, autrement c'est toujours l'arbitreAwaleSimule (le parametre que l'on donne) qui est modifie et donc la simulation n'est pas correcte
+		JoueurAwale joueurActuel;
+		
+		Awale partie;
+		
+		double alphaBeta = -1;
+		
+		int retourSimulerFinPartie, score;
+		int[] plateauActuel;
+		
+		/*********************************************************************************************************
+		******* Affectation des variables
+		*********************************************************************************************************/
+			//On simule un nouveau un GMA, c'est obligatoire, autrement c'est toujours l'arbitreAwaleSimule (le parametre que l'on donne) qui est modifie et donc la simulation n'est pas correcte
 		GameManagerAwale arbitreSimuleMinimax = arbitreAwaleSimule.clone();
 		
-		//Compte le nombre d'appels recursifs
-		setCompteur(getCompteur() + 1);
+			//On stocke le joueur actuel dans une variable pour gagner en lisibilite par la suite
+		joueurActuel = arbitreSimuleMinimax.joueurActuel();
+				
+			//Compte le nombre d'appels recursifs
+		incrementCompteur();
+					
+			//On stocke la partie dans une variable pour la meme raison que joueurActuel
+		partie = arbitreSimuleMinimax.getPartie();
+				
+			//On modifie le plateau
+		partie.modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
+				
+			//Meme chose que partie
+		plateauActuel = partie.getPlateau();
 		
-		//On modifie le plateau
-		arbitreSimuleMinimax.getPartie().modifierPlateau(this.simulerUnCoup(caseJouee, arbitreAwaleSimule));
+			//On remplit l'historique
+		arbitreSimuleMinimax.stockerEtatMouvement(plateauActuel);
 		
-		//On rempli l'historique
-		arbitreSimuleMinimax.stockerEtatMouvement(arbitreSimuleMinimax.getPartie().getPlateau());
-		
-		//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
-		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(arbitreSimuleMinimax.joueurActuel(), arbitreSimuleMinimax.getPartie().getPlateau());
+			//On determine la liste des coups possible a partir de la caseJouee donnee en parametre
+		coupPossible = arbitreSimuleMinimax.determinerCoupPossible(joueurActuel, plateauActuel);
 		
 		retourSimulerFinPartie = simulerFinPartie(historique, arbitreSimuleMinimax);
 	    
+		/*********************************************************************************************************
+		******* Debut de la fonction alphaBeta
+		*********************************************************************************************************/
 		if(retourSimulerFinPartie != -1)
 		{
 			alphaBeta = noeudTerminal(retourSimulerFinPartie, arbitreSimuleMinimax);
 		}
         
-		/*On verifie que la liste des coupPossible est vide
-		Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie
-		Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
+			/*On verifie que la liste des coupPossible est vide
+			Si oui, on met une valeur positive quelconque dans la variable valeur et on la renvoie.
+			Permet de jouer l'unique coup possible dans cette situation (sinon, la valeur renvoyee est -1 et du coup la variable coupOptimise de Jouer Minimax vaut -1 aussi => erreur)*/
 		if(coupPossible.isEmpty())
 		{
 			alphaBeta = 1000;
@@ -817,8 +842,11 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 
 		    return alphaBeta;
 		}
-          
-		//Si le joueur est l'IA
+         
+		/*********************************************************************************************************
+		******* Test pour savoir si on est dans le cas ou l'on maximise ou non le score 
+		*********************************************************************************************************/
+			//Si le joueur est celui ayant fait appel a la methode alphaBeta
 		if(joueurMax)
 		{
 		    for(int i = 0; i < coupPossible.size() ; i++)
