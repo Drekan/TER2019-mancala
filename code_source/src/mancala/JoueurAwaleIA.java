@@ -721,22 +721,52 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
   
 	public int jouerMinimax(GameManagerAwale arbitreAwale, int profondeurMax)
 	{
+		/*********************************************************************************************************
+		******* Variables utilisees dans la methode jouerMinimax
+		*********************************************************************************************************/
 		long time = System.currentTimeMillis();
+		
+		GameManagerAwale arbitreAwaleSimule;
+		
+		JoueurAwale joueurActuel;
+		
+		Awale partie;
+		
 		double valeur_optimisee = -10000;
 		double valeur;
 		
-		//On simule un GMA pour ne pas modifier le GMA actuel du jeu
-		GameManagerAwale arbitreAwaleSimule;
+		int coup_optimise = -1;
+		int[] plateauActuel;
 		
-		setNombreAppel(getNombreAppel() + 1);
-
 		ArrayList coupPossible = new ArrayList<>();
-		coupPossible = arbitreAwale.determinerCoupPossible(arbitreAwale.joueurActuel(),arbitreAwale.getPartie().getPlateau());
 		
+		/*********************************************************************************************************
+		******* Affectation des variables
+		*********************************************************************************************************/		
+			//On simule un GMA pour ne pas modifier le GMA actuel du jeu
 		arbitreAwaleSimule = arbitreAwale.clone();
 		
-		int coup_optimise = -1;
-  
+		incrementNombreAppel();
+		
+			//On stocke le joueur actuel dans une variable pour gagner en lisibilite par la suite
+		joueurActuel = arbitreAwale.joueurActuel();
+				
+			//Compte le nombre d'appels recursifs
+		incrementCompteur();
+					
+			//On stocke la partie dans une variable pour la meme raison que joueurActuel
+		partie = arbitreAwale.getPartie();
+				
+			//Meme chose que partie
+		plateauActuel = partie.getPlateau();
+		
+			//On determine la liste des coups possible
+		coupPossible = arbitreAwale.determinerCoupPossible(joueurActuel, plateauActuel);
+		
+		
+		/*********************************************************************************************************
+		******* Debut de la methode jouerMinimax
+		*********************************************************************************************************/	
 		for(int i = 0; i < coupPossible.size(); i++) //Pour chaque coup possible a partir de l'etat courant
 		{
 		    valeur = minimax((int)coupPossible.get(i), arbitreAwaleSimule, profondeurMax, true); 
@@ -747,6 +777,9 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    }
 		}
 	    
+		/*********************************************************************************************************
+		******* Partie concernant l'affichage de divers calculs (temps d'execution, etc)
+		*********************************************************************************************************/
 		if(arbitreAwale.getVocal()) 
 		{
 			System.out.println();
@@ -768,7 +801,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			setNombreAppel(0);
 		}
 		
-		setNombreDeCoup(getNombreDeCoup() + 1);
+		incrementNombreDeCoup();
 		
 		return coup_optimise;
 	}
