@@ -59,5 +59,16 @@ public class Awale extends Jeu implements Cloneable,java.io.Serializable{
 		this.plateau = new int[] {4,4,4,4,4,4,4,4,4,4,4,4};
 		setNbrGraines(48);
 		
-	}	
+	}
+	
+	public void printPlateau() {
+		System.out.print("[");
+		for(int i=0;i<this.plateau.length;i++) {
+			System.out.print(this.plateau[i]+" ");
+			if(i==6) {
+				System.out.print(" | ");
+			}
+		}
+		System.out.print("]");
+	}
 }

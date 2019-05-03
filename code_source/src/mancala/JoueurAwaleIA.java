@@ -281,7 +281,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				nbCasesVulnerables++;
 			}
 		}
-		
+		//System.out.print("(H1 : "+nbCasesVulnerables+" CV )");
 		return 1-((double)(nbCasesVulnerables)*1/6);
 		
 	}
@@ -304,7 +304,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				nombreGraineJoueur+=plateau[i];
 			}
 		}
-		
+		//System.out.print("(H2)");
 		return (nombreGraine==0?0:(double)(nombreGraineJoueur)/(double)(nombreGraine));
 	}
 	
@@ -323,7 +323,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				nbCasesVides++;
 			}
 		}
-		
+		//System.out.print("(H3)");
 		return 1-((double)(nbCasesVides)*1/6);
 		
 	}
@@ -353,7 +353,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				poidsActuel++;
 			}
 		}
-		
+		//System.out.print("(H4)");
 		return valeurH4;
 		
 	}
@@ -364,6 +364,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 * le score de l'adversaire
 	 */
 	private double H5(int scoreJoueur,int scoreAdversaire) {
+		//System.out.print("(H5)");
 		return 1-((double)scoreAdversaire*((double)1/48));
 	}
 	
@@ -378,6 +379,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		for(int i=debut;i<fin;i++) {
 			nombreGrainesJoueur+=plateau[i];
 		}
+		//System.out.print("(H6)");
 		return (double)plateau[debut]/(double)nombreGrainesJoueur;
 	}
 	
@@ -394,6 +396,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				nombreCasesJouables++;
 			}
 		}
+		//System.out.print("(H7)");
 		return (1/6)*(double)nombreCasesJouables;
 	}
 	
@@ -422,7 +425,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 				poidsActuel++;
 			}
 		}
-		
+		//System.out.print("(H8)");
 		return valeurH8;
 		
 	}
@@ -432,6 +435,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	 * le score du joueur
 	 */
 	private double H9(int scoreJoueur,int scoreAdversaire) {
+		//System.out.print("(H9)");
 		return ((double)scoreJoueur*((double)1/48));
 	}
 	
@@ -883,6 +887,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		{
 //			double[] resultat=testMinMax(arbitreAwale,this.profondeurMax<0?4:profondeurMax,true);
 //			caseJouee=(int)resultat[1];
+//
 
 			do {
 				caseJouee = jouerMinimax(arbitreAwale,this.profondeurMax==-1?4:this.profondeurMax);
@@ -915,16 +920,21 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			joueur=arbitre.getJoueur1()==this?arbitre.getJoueur2():arbitre.getJoueur1();
 			adversaire=arbitre.getJoueur1()==this?arbitre.getJoueur1():arbitre.getJoueur2();
 		}
-		
+		//System.out.println("Je suis "+this.getNom()+", valeur Max :"+max+", nom de mon adversaire : "+adversaire.getNom());
 		//si on est sur une fin de partie (ou profondeur nulle) on renvoie la valeur du plateau
 		if(profondeur==0 || arbitre.finPartie()) {
+			
 			retour[valeur]=this.evaluation(joueur.numeroJoueur,arbitre.getPlateau(),joueur.score,adversaire.score);
 			retour[coup]=-1;
+//			System.out.print("l'évaluation du plateau : ");
+//			arbitre.getPartie().printPlateau();
+//			System.out.println(" ---> "+retour[valeur]);
 		}
 		
 		//on n'est pas sur une fin de partie, on va devoir simuler des coups possibles
 		else {
 			ArrayList<Integer> coupsPossibles=arbitre.determinerCoupPossible(joueur,arbitre.getPlateau()); //on récupère les coups possibles
+			//System.out.println("Mes coups possibles : "+coupsPossibles);
 			GameManagerAwale clone;
 			double[] retourMM;
 			
