@@ -78,7 +78,7 @@ public class Partie {
 				{
 					GameManagerAwale.getInstance().sauvegarder(nom);
 				}
-				GameManagerAwale.getInstance().killPartie();
+				GameManagerAwale.getInstance().arreterThread();
 				GameManagerAwale.getInstance().resetPartie();
 				new ChoixJoueur(GameManagerAwale.getInstance());
 			}

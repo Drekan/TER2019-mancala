@@ -316,7 +316,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	public void commencerPartieGraphique(Partie window) {
         window.getNameList().get(0).setText(this.joueur1.getNom());
         window.getNameList().get(1).setText(this.joueur2.getNom());
-		while( !this.finPartie() ) {
+		while( !this.finPartie() && threadGraphique.isAlive() ) {
 		    if(this.joueurActuel() == this.joueur1){
                 window.getNameList().get(0).setForeground(Color.RED);
                 window.getNameList().get(1).setForeground(Color.BLACK);
@@ -709,7 +709,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		});
 		threadGraphique.start();
 	}
-	public void killPartie(){
-		this.getThreadGraphique().stop();
+	public void arreterThread(){
+		this.getThreadGraphique().interrupt();
 	}
 }
