@@ -27,12 +27,16 @@ public class ChoixDifficulte {
         String[] diffIA1 = {"Facile", "Moyen", "Difficile"};
 
         JPanel all = new JPanel(new BorderLayout(0, 0));
-        JPanel panel = new JPanel(new GridLayout(1, 2, 0, 0));
-        JPanel panelJ1 = new JPanel(new GridLayout(3, 1, 0, 0));
-        JPanel panelJ2 = new JPanel(new GridLayout(3, 1, 0, 0));
-        JPanel btnPanel = new JPanel();
-        JPanel heuristiqueJ1 = new JPanel();
-        JPanel heuristiqueJ2 = new JPanel();
+        SPanel panel = new SPanel();
+        SPanel panelJ1 = new SPanel();
+        SPanel panelJ2 = new SPanel();
+        SPanel btnPanel = new SPanel();
+        SPanel heuristiqueJ1 = new SPanel();
+        SPanel heuristiqueJ2 = new SPanel();
+
+        panel.setLayout(new GridLayout(1, 2, 0, 0));
+        panelJ1.setLayout(new GridLayout(3, 1, 0, 0));
+        panelJ2.setLayout(new GridLayout(3, 1, 0, 0));
 
         all.add(panel);
         all.add(btnPanel, BorderLayout.SOUTH);
@@ -44,7 +48,7 @@ public class ChoixDifficulte {
 
         JComboBox<String> choixIAJ1 = new JComboBox<>(diffIA1);
         JComboBox<String> choixIAJ2 = new JComboBox<>(diffIA1);
-        JButton btnNewButton = new JButton("Suivant");
+        JButton btnNewButton = new SButton("Suivant");
         JSpinner profondeurJ1 = new JSpinner(spinnerModelJ1);
         JSpinner profondeurJ2 = new JSpinner(spinnerModelJ2);
 
@@ -54,16 +58,19 @@ public class ChoixDifficulte {
         panelJ1.add(choixIAJ1);
         btnPanel.add(btnNewButton);
 
-        choixIAJ1.setSelectedIndex(0);
-
         if(nbrIA == 2) {
             //J1
+            DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(diffIA);
+            choixIAJ1.setModel(modelJ1);
+            choixIAJ1.setSelectedIndex(-1);
+
             panelJ1.add(profondeurJ1);
             panelJ1.add(heuristiqueJ1);
 
             boxListJ1 = new ArrayList<>();
             for(int i = 0 ; i < 9 ; i++){
                 JCheckBox box = new JCheckBox();
+                box.setBackground(new Color(255, 237, 183));
                 boxListJ1.add(box);
             }
 
@@ -73,21 +80,19 @@ public class ChoixDifficulte {
             }
 
             //J2
-            DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(diffIA);
             DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(diffIA);
-
-            choixIAJ1.setModel(modelJ1);
             choixIAJ2.setModel(modelJ2);
+            choixIAJ2.setSelectedIndex(-1);
 
             panelJ2.add(choixIAJ2);
             panelJ2.add(profondeurJ2);
 
-            choixIAJ2.setSelectedIndex(0);
             panelJ2.add(heuristiqueJ2);
 
             boxListJ2 = new ArrayList<>();
             for(int i = 0 ; i < 9 ; i++){
                 JCheckBox box = new JCheckBox();
+                box.setBackground(new Color(255, 237, 183));
                 boxListJ2.add(box);
             }
 
@@ -101,21 +106,36 @@ public class ChoixDifficulte {
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 int diff1, diff2, profondeur1, profondeur2;
+                StringBuilder heuristique1 = new StringBuilder();
+                StringBuilder heuristique2 = new StringBuilder();
+
                 diff1 = choixIAJ1.getSelectedIndex();
                 diff2 = choixIAJ2.getSelectedIndex();
+
                 profondeur1 = (int) profondeurJ1.getValue();
                 profondeur2 = (int) profondeurJ2.getValue();
+
+                for(JCheckBox box : boxListJ1)
+                {
+                    if(box.isSelected())
+                        heuristique1.append("1");
+                    else
+                        heuristique1.append("0");
+                }
+                for(JCheckBox box : boxListJ2)
+                {
+                    if(box.isSelected())
+                        heuristique2.append("1");
+                    else
+                        heuristique2.append("0");
+                }
+                System.out.println(heuristique1.toString() + " | " + heuristique2.toString());
+
                 arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2);
-                Partie test = new Partie(nomJ1, nomJ2);
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        arbitre.lancerUneNouvellePartieGraphique(test);
-                        System.out.println("Bahaa was here bis");
-                        arbitre.getGagnant();
-                    }
-                });
-                t.start();
+
+                Partie partie = new Partie(nomJ1, nomJ2);
+
+                arbitre.lancerThread(partie);
             }
         });
 

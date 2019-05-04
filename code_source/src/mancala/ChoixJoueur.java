@@ -1,10 +1,11 @@
 package mancala;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 public class ChoixJoueur {
     private JTextField nomJoueur1;
@@ -20,16 +21,16 @@ public class ChoixJoueur {
         JPanel all = new JPanel(new BorderLayout(0, 0));
         DrawingManagerAwale.getInstance().setContentPane(all);
 
-        JPanel loadPanel = new JPanel();
+        SPanel loadPanel = new SPanel();
         all.add(loadPanel, BorderLayout.NORTH);
-        JButton loadBtn = new JButton("Charger une partie");
+        SButton loadBtn = new SButton("Charger une partie");
         loadPanel.add(loadBtn);
 
-        JPanel menu1 = new JPanel();
+        SPanel menu1 = new SPanel();
         all.add(menu1);
         menu1.setLayout(new GridLayout(0, 2, 0, 0));
 
-        JPanel j1 = new JPanel();
+        SPanel j1 = new SPanel();
         menu1.add(j1);
         j1.setLayout(new GridLayout(4, 0, 0, 0));
 
@@ -38,10 +39,12 @@ public class ChoixJoueur {
         j1.add(Joueur1);
 
         JRadioButton j1Humain = new JRadioButton("Humain", true);
+        j1Humain.setBackground(new Color(255, 237, 183));
         j1Humain.setHorizontalAlignment(SwingConstants.CENTER);
         j1.add(j1Humain);
 
         JRadioButton j1IA = new JRadioButton("IA");
+        j1IA.setBackground(new Color(255, 237, 183));
         j1IA.setHorizontalAlignment(SwingConstants.CENTER);
         j1.add(j1IA);
 
@@ -52,10 +55,28 @@ public class ChoixJoueur {
         nomJoueur1 = new JTextField();
         nomJoueur1.setHorizontalAlignment(SwingConstants.CENTER);
         nomJoueur1.setText("Joueur 1");
+        nomJoueur1.setForeground(Color.GRAY);
+        nomJoueur1.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (nomJoueur1.getText().equals("Joueur 1")) {
+                    nomJoueur1.setText("");
+                    nomJoueur1.setForeground(Color.BLACK);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (nomJoueur1.getText().isEmpty()) {
+                    nomJoueur1.setForeground(Color.GRAY);
+                    nomJoueur1.setText("Joueur 1");
+                }
+            }
+        });
+
         j1.add(nomJoueur1);
         nomJoueur1.setColumns(10);
 
-        JPanel j2 = new JPanel();
+        SPanel j2 = new SPanel();
         menu1.add(j2);
         j2.setLayout(new GridLayout(4, 0, 0, 0));
 
@@ -64,10 +85,12 @@ public class ChoixJoueur {
         j2.add(joueur2);
 
         JRadioButton j2Humain = new JRadioButton("Humain", true);
+        j2Humain.setBackground(new Color(255, 237, 183));
         j2Humain.setHorizontalAlignment(SwingConstants.CENTER);
         j2.add(j2Humain);
 
         JRadioButton j2IA = new JRadioButton("IA");
+        j2IA.setBackground(new Color(255, 237, 183));
         j2IA.setHorizontalAlignment(SwingConstants.CENTER);
         j2.add(j2IA);
 
@@ -78,13 +101,31 @@ public class ChoixJoueur {
         nomJoueur2 = new JTextField();
         nomJoueur2.setHorizontalAlignment(SwingConstants.CENTER);
         nomJoueur2.setText("Joueur 2");
+        nomJoueur2.setForeground(Color.GRAY);
+        nomJoueur2.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if (nomJoueur2.getText().equals("Joueur 2")) {
+                    nomJoueur2.setText("");
+                    nomJoueur2.setForeground(Color.BLACK);
+                }
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (nomJoueur2.getText().isEmpty()) {
+                    nomJoueur2.setForeground(Color.GRAY);
+                    nomJoueur2.setText("Joueur 2");
+                }
+            }
+        });
+
         j2.add(nomJoueur2);
         nomJoueur2.setColumns(10);
 
-        JPanel okPanel = new JPanel();
+        SPanel okPanel = new SPanel();
         all.add(okPanel, BorderLayout.SOUTH);
 
-        JButton okSelectionJoueurs = new JButton("Suivant");
+        SButton okSelectionJoueurs = new SButton("Suivant");
         okSelectionJoueurs.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String nomJ1 = nomJoueur1.getText(), nomJ2 = nomJoueur2.getText();
@@ -100,16 +141,8 @@ public class ChoixJoueur {
                 else{//0 IA
                     arbitre.setNbrJoueursHumain(2);
                     arbitre.initJoueurs(nomJ1, nomJ2);
-                    Partie test = new Partie(nomJ1, nomJ2);
-                    Thread t = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            arbitre.lancerUneNouvellePartieGraphique(test);
-                            System.out.println("Bahaa was here");
-                            arbitre.getGagnant();
-                        }
-                    });
-                    t.start();
+                    Partie partie = new Partie(nomJ1, nomJ2);
+                    arbitre.lancerThread(partie);
                 }
             }
         });

@@ -31,6 +31,16 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	
 	private boolean vocal;//true pour parler, sinon chuuut
 
+	private Thread threadGraphique;
+
+	public Thread getThreadGraphique() {
+		return threadGraphique;
+	}
+
+	public void setThreadGraphique(Thread threadGraphique) {
+		this.threadGraphique = threadGraphique;
+	}
+
 	public static GameManagerAwale instance = null;
 
 	public static GameManagerAwale getInstance()
@@ -122,6 +132,15 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5,24);
 		}
 	}
+
+	public void setJoueur1(String nomJoueur,int difficulte, int profondeur) {
+		if(getNbrJoueursHumain() == 0) {
+			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1,0,5,24,difficulte);
+		}
+		else if(getNbrJoueursHumain() >= 1) {
+			this.joueur1 = new JoueurAwaleHumain(nomJoueur, 0, 1,0,5,24);
+		}
+	}
 	
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
 	public void loadJoueur1(JoueurAwale joueur1) {
@@ -141,6 +160,15 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		}
 	}
 	public void setJoueur2(String nomJoueur,int difficulte) {
+		if(getNbrJoueursHumain() <= 1) {
+			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11,24,difficulte);
+		}
+		else if(getNbrJoueursHumain() == 2) {
+			this.joueur2 = new JoueurAwaleHumain(nomJoueur, 0, 2,6,11,24);
+		}
+	}
+
+	public void setJoueur2(String nomJoueur,int difficulte, int profondeur) {
 		if(getNbrJoueursHumain() <= 1) {
 			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2,6,11,24,difficulte);
 		}
@@ -179,9 +207,9 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		setJoueur2(J2,difficulte2);
 	}
 
-	public void initJoueurs(String J1,int difficulte1,String J2,int difficulte2, int profondeur1, int profondeur2) {
-		setJoueur1(J1,difficulte1);
-		setJoueur2(J2,difficulte2);
+	public void initJoueurs(String J1,int difficulte1, String J2, int difficulte2, int profondeur1, int profondeur2) {
+		setJoueur1(J1,difficulte1, profondeur1);
+		setJoueur2(J2,difficulte2, profondeur2);
 	}
 	
 	/* Methode qui produit une replique de la partie en cours
@@ -347,7 +375,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 					window.getButtonListGame().get(i).setEnabled(true);
 				}
 				window.getButtonListGame().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
-				//this.delay(500);
+				this.delay(500);
 				graineRestante--;
 			}
 			for (int i = 0 ; i < coupJoue ; i++) {
@@ -358,7 +386,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 					window.getButtonListGame().get(i).setEnabled(true);
 				}
 				window.getButtonListGame().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
-				//this.delay(500);
+				this.delay(500);
                 graineRestante--;
 			}
 
@@ -669,5 +697,19 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		}
 		
 		return retour;
+	}
+
+	public void lancerThread(Partie partie) {
+		this.threadGraphique = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				lancerUneNouvellePartieGraphique(partie);
+				getGagnant();
+			}
+		});
+		threadGraphique.start();
+	}
+	public void killPartie(){
+		this.getThreadGraphique().stop();
 	}
 }

@@ -73,11 +73,12 @@ public class Partie {
 		getButtonMenu(0).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane save = new JOptionPane();
-				String nom = save.showInputDialog(null, "Save?", "Haha habeltni hambuk ruh", JOptionPane.QUESTION_MESSAGE);
+				String nom = save.showInputDialog(null, "Save?", "new", JOptionPane.QUESTION_MESSAGE);
 				if(nom != null)
 				{
 					GameManagerAwale.getInstance().sauvegarder(nom);
 				}
+				GameManagerAwale.getInstance().killPartie();
 				GameManagerAwale.getInstance().resetPartie();
 				new ChoixJoueur(GameManagerAwale.getInstance());
 			}
@@ -86,7 +87,10 @@ public class Partie {
 		getButtonMenu(1).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane save = new JOptionPane();
-				String nom = save.showInputDialog(null, "Save?", "Haha habeltni hambuk ruh", JOptionPane.QUESTION_MESSAGE);
+				save.setOptions(new Object[] {
+						new JButton("Oui"), new JButton("Non")
+				});
+				String nom = save.showInputDialog(null, "Save?", "save", JOptionPane.YES_NO_OPTION);
 				if(nom != null)
 				{
 					GameManagerAwale.getInstance().sauvegarder(nom);
@@ -97,7 +101,7 @@ public class Partie {
 		getButtonMenu(2).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane save = new JOptionPane();
-				String nom = save.showInputDialog(null, "Save?", "Haha habeltni hambuk ruh", JOptionPane.QUESTION_MESSAGE);
+				String nom = save.showInputDialog(null, "Save?", "Quit", JOptionPane.QUESTION_MESSAGE);
 				if(nom != null)
 				{
 					GameManagerAwale.getInstance().sauvegarder(nom);
