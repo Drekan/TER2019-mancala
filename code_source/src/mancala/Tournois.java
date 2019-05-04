@@ -535,14 +535,16 @@ public class Tournois {
 			for(int i=1;i<=profondeurMax;i++) {
 				arbitre.commencerPartie(false);
 				temps.add((double)j2.getTotalTime()/j2.getNombreDeCoup());
+				System.out.println("Partie "+i+"/"+profondeurMax+" effectuée ("+j2.getTotalTime()+" ms)");
 				j2.setProfondeurMax(i+1);
 				arbitre.resetPartie();
+				
 			}
 			
 			ArrayList<String> csv=new ArrayList<String>();
 			csv.add("algo utilisé : ,"+(j2.getDifficulte()==1?"minmax":"alphabeta"));
 			csv.add("");
-			csv.add("Profondeur,Temps moyen d'un appel");
+			csv.add("Profondeur,Temps moyen d'un appel (ms)");
 			for(int i=0;i<temps.size();i++) {
 				csv.add((i+1)+","+temps.get(i));
 			}

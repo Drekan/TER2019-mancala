@@ -129,6 +129,8 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		this.time=0;
 		this.nombreDeCoup=0;
 		this.nombreAppel=0;
+		this.totalTime=0;
+		this.totalNode=0;
 	}
 	
 	public void setNomParDefaut() {
@@ -801,6 +803,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		/*********************************************************************************************************
 		******* Partie concernant l'affichage de divers calculs (temps d'execution, etc)
 		*********************************************************************************************************/
+		time = System.currentTimeMillis() - time;
 		if(arbitreAwale.getVocal()) 
 		{
 			System.out.println();
@@ -811,16 +814,17 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println("Nombre d'appels recursifs de jouerMinimax : " + getNombreAppel());
 			System.out.println("Nombre d'appels recursifs total (minimax + jouerMinimax) : " + (getNombreAppel() + getCompteur()));
 	
-			time = System.currentTimeMillis() - time;
+			
 			System.out.println("Temps d'execution de jouerMinimax : " + time + "ms.");
 			
 			System.out.println();
 			
-			setTotalTime(getTotalTime() + time);
-			setTotalNode(getTotalNode() + getNombreAppel() + getCompteur());
-			setCompteur(0);
-			setNombreAppel(0);
+			
 		}
+		setTotalTime(getTotalTime() + time);
+		setTotalNode(getTotalNode() + getNombreAppel() + getCompteur());
+		setCompteur(0);
+		setNombreAppel(0);
 		
 		incrementNombreDeCoup();
 		
@@ -955,6 +959,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		    }
 		}
 	    
+		time = System.currentTimeMillis() - time;
 		if(arbitreAwale.getVocal()) 
 		{
 			System.out.println();
@@ -965,16 +970,17 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 			System.out.println("Nombre d'appels recursifs de jouerAlphaBeta : " + getNombreAppel());
 			System.out.println("Nombre d'appels recursifs total (alphaBeta + jouerAlphaBeta) : " + (getNombreAppel() + getCompteur()));
 	
-			time = System.currentTimeMillis() - time;
+			
 			System.out.println("Temps d'execution de jouerAlphaBeta : " + time + "ms.");
 			
 			System.out.println();
 			
-			setTotalTime(getTotalTime() + time);
-			setTotalNode(getTotalNode() + getNombreAppel() + getCompteur());
-			setNombreAppel(0);
-			setCompteur(0);
+			
 		}
+		setTotalTime(getTotalTime() + time);
+		setTotalNode(getTotalNode() + getNombreAppel() + getCompteur());
+		setNombreAppel(0);
+		setCompteur(0);
 		
 		setNombreDeCoup(getNombreDeCoup() + 1);
 		
