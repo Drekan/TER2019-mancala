@@ -52,10 +52,11 @@ public class Principale {
 			System.out.println("1. Tester les heuristiques");
 			System.out.println("2. Tester la profondeur");
 			System.out.println("3. Tester le temps d'exécution par rapport à la profondeur");
+			System.out.println("4. Tester le nombre de noeuds parcourus par rapport à la profondeur");
 			do {
 				System.out.print("\nVotre choix >> ");
 				choixTournois = sc.nextInt();
-			}while(choixTournois < 0 || choixTournois > 3);
+			}while(choixTournois < 0 || choixTournois > 4);
 			
 			JoueurAwaleIA j1;
 			JoueurAwaleIA j2;
@@ -89,13 +90,20 @@ public class Principale {
 				System.out.println("profondeur gagnante : "+tournois.testerProfondeur(choixPrincipal));
 			}
 			
-			if(choixTournois==3) {
+			if(choixTournois==3 || choixTournois==4) {
 				System.out.println("Tester jusqu'à quelle profondeur ?");
 				do {
 					System.out.print("\nVotre choix >> ");
 					choixPrincipal = sc.nextInt();
 				}while(choixPrincipal < 0 || choixPrincipal > 10);
-				tournois.testerProfondeurXTemps(choixPrincipal);
+				
+				if(choixTournois==3) {
+					tournois.testerProfondeurXTemps(choixPrincipal);
+				}
+				
+				if(choixTournois==4) {
+					tournois.testerProfondeurXNombreDeNoeuds(choixPrincipal);
+				}
 			}
 				
 		}

@@ -553,4 +553,36 @@ public class Tournois {
 		}
 	}
 	
+	public void testerProfondeurXNombreDeNoeuds(int profondeurMax) {
+		if(profondeurMax>0) {
+			ArrayList<Double> temps=new ArrayList<Double>();
+			GameManagerAwale arbitre= new GameManagerAwale(0,0);
+			j1.setDifficulte(0);
+			if(j2.getDifficulte()==0) {
+				j2.setDifficulte(2);
+			}
+
+			j2.setProfondeurMax(1);
+			arbitre.loadJoueur1(j1);arbitre.loadJoueur2(j2);
+			for(int i=1;i<=profondeurMax;i++) {
+				arbitre.commencerPartie(false);
+				temps.add((double)j2.getTotalNode()/j2.getNombreDeCoup());
+				System.out.println("Partie "+i+"/"+profondeurMax+" effectuée ("+j2.getTotalTime()+" ms)");
+				j2.setProfondeurMax(i+1);
+				arbitre.resetPartie();
+				
+			}
+			
+			ArrayList<String> csv=new ArrayList<String>();
+			csv.add("algo utilisé : ,"+(j2.getDifficulte()==1?"minmax":"alphabeta"));
+			csv.add("");
+			csv.add("Profondeur,Nombre de noeuds moyen d'un appel");
+			for(int i=0;i<temps.size();i++) {
+				csv.add((i+1)+","+temps.get(i));
+			}
+			
+			saveCSV("nodesXprofondeur.csv",csv);
+		}
+	}
+	
 }
