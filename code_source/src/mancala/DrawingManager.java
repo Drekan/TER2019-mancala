@@ -8,6 +8,6 @@ public class DrawingManager {
     }
 
     public void go(){
-        new ChoixJoueur(arbitre);
+        new ChoixPartie(arbitre);
     }
 }

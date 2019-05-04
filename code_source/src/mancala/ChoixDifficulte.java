@@ -43,14 +43,16 @@ public class ChoixDifficulte {
         panel.add(panelJ1);
         panel.add(panelJ2);
 
-        SpinnerModel spinnerModelJ1 = new SpinnerNumberModel(0, 0, 8, 1);
-        SpinnerModel spinnerModelJ2 = new SpinnerNumberModel(0, 0, 8, 1);
+        SpinnerModel spinnerModelMinimaxJ1 = new SpinnerNumberModel(0, 0, 12, 1);
+        SpinnerModel spinnerModelAlphaBetaJ1 = new SpinnerNumberModel(0, 0, 8, 1);
+        SpinnerModel spinnerModelMinimaxJ2 = new SpinnerNumberModel(0, 0, 12, 1);
+        SpinnerModel spinnerModelAlphaBetaJ2 = new SpinnerNumberModel(0, 0, 8, 1);
 
         JComboBox<String> choixIAJ1 = new JComboBox<>(diffIA1);
         JComboBox<String> choixIAJ2 = new JComboBox<>(diffIA1);
         JButton btnNewButton = new SButton("Suivant");
-        JSpinner profondeurJ1 = new JSpinner(spinnerModelJ1);
-        JSpinner profondeurJ2 = new JSpinner(spinnerModelJ2);
+        JSpinner profondeurJ1 = new JSpinner(spinnerModelAlphaBetaJ1);
+        JSpinner profondeurJ2 = new JSpinner(spinnerModelAlphaBetaJ2);
 
         profondeurJ1.setEditor(new JSpinner.DefaultEditor(profondeurJ1));
         profondeurJ2.setEditor(new JSpinner.DefaultEditor(profondeurJ2));
@@ -60,6 +62,7 @@ public class ChoixDifficulte {
 
         if(nbrIA == 2) {
             //J1
+            profondeurJ1.setValue(4);
             DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(diffIA);
             choixIAJ1.setModel(modelJ1);
             choixIAJ1.setSelectedIndex(-1);
@@ -80,13 +83,13 @@ public class ChoixDifficulte {
             }
 
             //J2
+            profondeurJ2.setValue(4);
             DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(diffIA);
             choixIAJ2.setModel(modelJ2);
             choixIAJ2.setSelectedIndex(-1);
 
             panelJ2.add(choixIAJ2);
             panelJ2.add(profondeurJ2);
-
             panelJ2.add(heuristiqueJ2);
 
             boxListJ2 = new ArrayList<>();
@@ -102,7 +105,58 @@ public class ChoixDifficulte {
             }
         }
 
-        //ActionListener
+        //ActionListener ComboBox
+        choixIAJ1.addActionListener(new ActionListener() {//J1
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (choixIAJ1.getSelectedIndex())
+                {
+                    case 0:
+                        profondeurJ1.setVisible(false);
+                        heuristiqueJ1.setVisible(false);
+                        break;
+                    case 1:
+                        profondeurJ1.setVisible(true);
+                        profondeurJ1.setModel(spinnerModelMinimaxJ1);
+                        profondeurJ1.setValue(4);
+                        heuristiqueJ1.setVisible(true);
+                        break;
+                    case 2:
+                        profondeurJ1.setVisible(true);
+                        profondeurJ1.setModel(spinnerModelAlphaBetaJ1);
+                        profondeurJ1.setValue(4);
+                        heuristiqueJ1.setVisible(true);
+                        break;
+                }
+            }
+        });
+
+        choixIAJ2.addActionListener(new ActionListener() {//J2
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (choixIAJ2.getSelectedIndex())
+                {
+                    case 0:
+                        profondeurJ2.setVisible(false);
+                        heuristiqueJ2.setVisible(false);
+                        break;
+                    case 1:
+                        profondeurJ2.setVisible(true);
+                        profondeurJ2.setModel(spinnerModelMinimaxJ2);
+                        profondeurJ2.setValue(4);
+                        heuristiqueJ2.setVisible(true);
+                        break;
+                    case 2:
+                        profondeurJ2.setVisible(true);
+                        profondeurJ2.setModel(spinnerModelAlphaBetaJ2);
+                        profondeurJ2.setValue(4);
+                        heuristiqueJ2.setVisible(true);
+                        break;
+                }
+            }
+        });
+
+        //ActionListener Button
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 int diff1, diff2, profondeur1, profondeur2;

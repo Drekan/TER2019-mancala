@@ -36,13 +36,8 @@ public class Principale {
 					break;
 				//Partie graphique
 				case 1:
-					//Partie window = new Partie();
-					//window.getFrmAwale().setVisible(true);
 					DrawingManager game = new DrawingManager(arbitreAwale);
 					game.go();
-					//new ChoixJoueur(arbitreAwale);
-					//DrawingManager drawer = new DrawingManager();
-					//arbitreAwale.lancerUneNouvellePartieGraphique(drawer.lancerWindow());
 					break;
 			}
 		}
