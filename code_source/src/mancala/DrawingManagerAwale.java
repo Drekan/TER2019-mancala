@@ -20,7 +20,6 @@ public class DrawingManagerAwale extends JFrame {
 
         this.setTitle("Awale");
         this.setSize(largeur/2, hauteur/2);
-        //this.setSize(600, 400);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.getContentPane().setLayout(new BorderLayout(0, 0));

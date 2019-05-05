@@ -159,37 +159,54 @@ public class ChoixDifficulte {
         //ActionListener Button
         btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                int diff1, diff2, profondeur1, profondeur2;
-                StringBuilder heuristique1 = new StringBuilder();
-                StringBuilder heuristique2 = new StringBuilder();
-
-                diff1 = choixIAJ1.getSelectedIndex();
-                diff2 = choixIAJ2.getSelectedIndex();
-
-                profondeur1 = (int) profondeurJ1.getValue();
-                profondeur2 = (int) profondeurJ2.getValue();
-
-                for(JCheckBox box : boxListJ1)
+                if(choixIAJ1.getSelectedIndex() == -1 || choixIAJ2.getSelectedIndex() == -1)
                 {
-                    if(box.isSelected())
-                        heuristique1.append("1");
-                    else
-                        heuristique1.append("0");
+                    JOptionPane typeIAErreur = new JOptionPane();
+                    typeIAErreur.showMessageDialog(null, "Type IA", "Wait!", JOptionPane.WARNING_MESSAGE);
                 }
-                for(JCheckBox box : boxListJ2)
+                else
                 {
-                    if(box.isSelected())
-                        heuristique2.append("1");
+                    int diff1, diff2, profondeur1, profondeur2;
+                    StringBuilder heuristique1 = new StringBuilder();
+                    StringBuilder heuristique2 = new StringBuilder();
+
+                    diff1 = choixIAJ1.getSelectedIndex();
+                    diff2 = choixIAJ2.getSelectedIndex();
+
+                    profondeur1 = (int) profondeurJ1.getValue();
+                    profondeur2 = (int) profondeurJ2.getValue();
+
+                    for(JCheckBox box : boxListJ1)
+                    {
+                        if(box.isSelected())
+                            heuristique1.append("1");
+                        else
+                            heuristique1.append("0");
+                    }
+                    for(JCheckBox box : boxListJ2)
+                    {
+                        if(box.isSelected())
+                            heuristique2.append("1");
+                        else
+                            heuristique2.append("0");
+                    }
+                    System.out.println(heuristique1.toString() + " | " + heuristique2.toString());
+
+                    if(         (heuristique1.toString().equals("000000000") && choixIAJ1.getSelectedIndex() != 0)
+                            ||  (heuristique2.toString().equals("000000000") && choixIAJ2.getSelectedIndex() != 0) )
+                    {
+                        JOptionPane heuristiqueErreur = new JOptionPane();
+                        heuristiqueErreur.showMessageDialog(null, "Aucune heuristique selectionée", "Wait!", JOptionPane.WARNING_MESSAGE);
+                    }
                     else
-                        heuristique2.append("0");
+                    {
+                        arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2);
+
+                        Partie partie = new Partie(nomJ1, nomJ2);
+
+                        arbitre.lancerThread(partie);
+                    }
                 }
-                System.out.println(heuristique1.toString() + " | " + heuristique2.toString());
-
-                arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2);
-
-                Partie partie = new Partie(nomJ1, nomJ2);
-
-                arbitre.lancerThread(partie);
             }
         });
 

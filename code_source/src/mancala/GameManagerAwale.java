@@ -32,6 +32,15 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	private boolean vocal;//true pour parler, sinon chuuut
 
 	private Thread threadGraphique;
+	private boolean partieArretee = false;
+
+	public boolean isPartieArretee() {
+		return partieArretee;
+	}
+
+	public void setPartieArretee(boolean partieArretee) {
+		this.partieArretee = partieArretee;
+	}
 
 	public Thread getThreadGraphique() {
 		return threadGraphique;
@@ -316,7 +325,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	public void commencerPartieGraphique(Partie window) {
         window.getNameList().get(0).setText(this.joueur1.getNom());
         window.getNameList().get(1).setText(this.joueur2.getNom());
-		while( !this.finPartie() && threadGraphique.isAlive() ) {
+		while( !this.finPartie() && !isPartieArretee() ) {
 		    if(this.joueurActuel() == this.joueur1){
                 window.getNameList().get(0).setForeground(Color.RED);
                 window.getNameList().get(1).setForeground(Color.BLACK);
@@ -577,7 +586,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		try {
 			Thread.sleep(temps);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+
 		}
 	}
 	
@@ -710,6 +719,6 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		threadGraphique.start();
 	}
 	public void arreterThread(){
-		this.getThreadGraphique().interrupt();
+		this.partieArretee = true;
 	}
 }
