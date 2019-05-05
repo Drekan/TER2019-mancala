@@ -49,7 +49,7 @@ public class ChoixJoueur {
 
         nomJoueur1 = new JTextField();
         nomJoueur1.setHorizontalAlignment(SwingConstants.CENTER);
-        nomJoueur1.setText("Joueur 1");
+        nomJoueur1.setText("Nom joueur 1");
         nomJoueur1.setForeground(Color.GRAY);
         nomJoueur1.addFocusListener(new FocusListener() {
             @Override
@@ -95,7 +95,7 @@ public class ChoixJoueur {
 
         nomJoueur2 = new JTextField();
         nomJoueur2.setHorizontalAlignment(SwingConstants.CENTER);
-        nomJoueur2.setText("Joueur 2");
+        nomJoueur2.setText("Nom joueur 2");
         nomJoueur2.setForeground(Color.GRAY);
         nomJoueur2.addFocusListener(new FocusListener() {
             @Override
