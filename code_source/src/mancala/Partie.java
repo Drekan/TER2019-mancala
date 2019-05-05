@@ -115,10 +115,6 @@ public class Partie {
 			menu.add(getButtonMenu(i));
 		}
 
-		//JLabel titre = new JLabel("Bienvenue au jeu d'Awale !");
-		//titre.setForeground(Color.BLACK);
-		//menu.add(titre);
-
 		//Partie panel
 		SPanel game = new SPanel();
 		all.add(game);
@@ -193,12 +189,32 @@ public class Partie {
 			j1_cases.add(getButtonGame(i));
 		}
 
-		j2_info.add(nameList.get(1));
+		SPanel nomJ1Panel = new SPanel();
+		SPanel scoreJ1Panel = new SPanel();
+		SPanel nomJ2Panel = new SPanel();
+		SPanel scoreJ2Panel = new SPanel();
 
-		j2_info.add(scoreList.get(1));
+		JLabel nomJoueur1 = new JLabel("Nom : ");
+		JLabel scoreJoueur1 = new JLabel("Score : ");
+		JLabel nomJoueur2 = new JLabel("Nom : ");
+		JLabel scoreJoueur2 = new JLabel("Score : ");
 
-		j1_info.add(nameList.get(0));
-		j1_info.add(scoreList.get(0));
+		nomJ1Panel.add(nomJoueur1);
+		nomJ1Panel.add(nameList.get(0));
+		scoreJ1Panel.add(scoreJoueur1);
+		scoreJ1Panel.add(scoreList.get(0));
+
+		nomJ2Panel.add(nomJoueur2);
+		nomJ2Panel.add(nameList.get(1));
+		scoreJ2Panel.add(scoreJoueur2);
+		scoreJ2Panel.add(scoreList.get(1));
+
+		j1_info.add(nomJ1Panel);
+		j1_info.add(scoreJ1Panel);
+
+		j2_info.add(nomJ2Panel);
+		j2_info.add(scoreJ2Panel);
+
 		DrawingManagerAwale.getInstance().setVisible(true);
 	}
 }

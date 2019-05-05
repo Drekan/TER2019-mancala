@@ -21,11 +21,6 @@ public class ChoixJoueur {
         JPanel all = new JPanel(new BorderLayout(0, 0));
         DrawingManagerAwale.getInstance().setContentPane(all);
 
-        SPanel loadPanel = new SPanel();
-        all.add(loadPanel, BorderLayout.NORTH);
-        SButton loadBtn = new SButton("Charger une partie");
-        loadPanel.add(loadBtn);
-
         SPanel menu1 = new SPanel();
         all.add(menu1);
         menu1.setLayout(new GridLayout(0, 2, 0, 0));
