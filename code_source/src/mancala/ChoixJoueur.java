@@ -54,7 +54,7 @@ public class ChoixJoueur {
         nomJoueur1.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (nomJoueur1.getText().equals("Joueur 1")) {
+                if (nomJoueur1.getText().equals("Nom joueur 1")) {
                     nomJoueur1.setText("");
                     nomJoueur1.setForeground(Color.BLACK);
                 }
@@ -63,7 +63,7 @@ public class ChoixJoueur {
             public void focusLost(FocusEvent e) {
                 if (nomJoueur1.getText().isEmpty()) {
                     nomJoueur1.setForeground(Color.GRAY);
-                    nomJoueur1.setText("Joueur 1");
+                    nomJoueur1.setText("Nom joueur 1");
                 }
             }
         });
@@ -100,7 +100,7 @@ public class ChoixJoueur {
         nomJoueur2.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (nomJoueur2.getText().equals("Joueur 2")) {
+                if (nomJoueur2.getText().equals("Nom joueur 2")) {
                     nomJoueur2.setText("");
                     nomJoueur2.setForeground(Color.BLACK);
                 }
@@ -109,7 +109,7 @@ public class ChoixJoueur {
             public void focusLost(FocusEvent e) {
                 if (nomJoueur2.getText().isEmpty()) {
                     nomJoueur2.setForeground(Color.GRAY);
-                    nomJoueur2.setText("Joueur 2");
+                    nomJoueur2.setText("Nom joueur 2");
                 }
             }
         });
