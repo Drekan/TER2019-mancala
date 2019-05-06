@@ -355,7 +355,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 						coupJoue = window.getCoupActu();
 						window.setCoupActu(-1);
 						this.delay(1000/60);
-					}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
+					}while( !partieArretee &&( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) ));
 				}
 			}
 			else{
@@ -363,7 +363,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 					coupJoue = window.getCoupActu();
 					window.setCoupActu(-1);
 					this.delay(1000/60);
-				}while( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) );
+				}while( !partieArretee && ( (coupJoue == -1) || (!this.verifierCoupValide(this.joueurActuel(),coupJoue,this.getPartie().getPlateau())) ));
 			}
 
             int graineRestante = this.getPartie().etatActuel()[coupJoue];
@@ -401,6 +401,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 
 			this.setTourActuel(getTourActuel()+1);
 		}
+		System.out.println("The end");
 	}
 
 	public void stockerEtatMouvement(int[] etatActuel) {//Historique
@@ -709,6 +710,7 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 	}
 
 	public void lancerThread(Partie partie) {
+		this.setPartieArretee(false);
 		this.threadGraphique = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -719,6 +721,6 @@ public class GameManagerAwale extends GameManager implements Cloneable,java.io.S
 		threadGraphique.start();
 	}
 	public void arreterThread(){
-		this.partieArretee = true;
+		this.setPartieArretee(true);
 	}
 }
