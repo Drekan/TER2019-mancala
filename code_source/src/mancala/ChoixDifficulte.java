@@ -7,211 +7,218 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class ChoixDifficulte {
-    private ArrayList<JCheckBox> boxListJ1;
-    private ArrayList<JCheckBox> boxListJ2;
+	private ArrayList<JCheckBox> boxListJ1;
+	private ArrayList<JCheckBox> boxListJ2;
 
-    public JCheckBox getBoxJ1(int i) {
-        return boxListJ1.get(i);
-    }
+	public JCheckBox getBoxJ1(int i) {
+		return boxListJ1.get(i);
+	}
 
-    public JCheckBox getBoxJ2(int i) {
-        return boxListJ2.get(i);
-    }
+	public JCheckBox getBoxJ2(int i) {
+		return boxListJ2.get(i);
+	}
 
-    public ChoixDifficulte(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
-        initialize(nomJ1, nomJ2, nbrIA, arbitre);
-    }
+	public ChoixDifficulte(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
+		initialize(nomJ1, nomJ2, nbrIA, arbitre);
+	}
 
-    private void initialize(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
-        String[] diffIA = {"IA naive (random)", "IA minimax", "IA alphaBeta"};
-        String[] diffIA1 = {"Facile", "Moyen", "Difficile"};
+	private void initialize(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
+		//Tableaux de difficulté
+		String[] difficulteHumain = {"IA naive (random)", "IA minimax", "IA alphaBeta"};
+		String[] DifficulteIA = {"Facile", "Moyen", "Difficile"};
 
-        JPanel all = new JPanel(new BorderLayout(0, 0));
-        SPanel panel = new SPanel();
-        SPanel panelJ1 = new SPanel();
-        SPanel panelJ2 = new SPanel();
-        SPanel btnPanel = new SPanel();
-        SPanel heuristiqueJ1 = new SPanel();
-        SPanel heuristiqueJ2 = new SPanel();
+		//Création des panel
+		JPanel all = new JPanel(new BorderLayout(0, 0));
+		SPanel gamePartiePanel = new SPanel();
+		SPanel joueur1Panel = new SPanel();
+		SPanel joueur2Panel = new SPanel();
+		SPanel boutonSuivantPanel = new SPanel();
+		SPanel heuristiqueJoueur1Panel = new SPanel();
+		SPanel heuristiqueJoueur2Panel = new SPanel();
 
-        panel.setLayout(new GridLayout(1, 2, 0, 0));
-        panelJ1.setLayout(new GridLayout(3, 1, 0, 0));
-        panelJ2.setLayout(new GridLayout(3, 1, 0, 0));
+		//Set layout des panel
+		gamePartiePanel.setLayout(new GridLayout(1, 2, 0, 0));
+		joueur1Panel.setLayout(new GridLayout(3, 1, 0, 0));
+		joueur2Panel.setLayout(new GridLayout(3, 1, 0, 0));
 
-        all.add(panel);
-        all.add(btnPanel, BorderLayout.SOUTH);
-        panel.add(panelJ1);
-        panel.add(panelJ2);
+		//Ajout des panel
+		all.add(gamePartiePanel);
+		all.add(boutonSuivantPanel, BorderLayout.SOUTH);
+		gamePartiePanel.add(joueur1Panel);
+		gamePartiePanel.add(joueur2Panel);
 
-        SpinnerModel spinnerModelMinimaxJ1 = new SpinnerNumberModel(0, 0, 12, 1);
-        SpinnerModel spinnerModelAlphaBetaJ1 = new SpinnerNumberModel(0, 0, 8, 1);
-        SpinnerModel spinnerModelMinimaxJ2 = new SpinnerNumberModel(0, 0, 12, 1);
-        SpinnerModel spinnerModelAlphaBetaJ2 = new SpinnerNumberModel(0, 0, 8, 1);
+		//Spinner model
+		SpinnerModel spinnerModelMinimaxJ1 = new SpinnerNumberModel(0, 0, 8, 1);
+		SpinnerModel spinnerModelAlphaBetaJ1 = new SpinnerNumberModel(0, 0, 12, 1);
+		SpinnerModel spinnerModelMinimaxJ2 = new SpinnerNumberModel(0, 0, 8, 1);
+		SpinnerModel spinnerModelAlphaBetaJ2 = new SpinnerNumberModel(0, 0, 12, 1);
 
-        JComboBox<String> choixIAJ1 = new JComboBox<>(diffIA1);
-        JComboBox<String> choixIAJ2 = new JComboBox<>(diffIA1);
-        JButton btnNewButton = new SButton("Suivant");
-        JSpinner profondeurJ1 = new JSpinner(spinnerModelAlphaBetaJ1);
-        JSpinner profondeurJ2 = new JSpinner(spinnerModelAlphaBetaJ2);
+		//Création des élements de la fenêtre
+		JComboBox<String> typeIAJoueur1 = new JComboBox<>(DifficulteIA);
+		JComboBox<String> typeIAJoueur2 = new JComboBox<>(DifficulteIA);
+		JButton suivantButton = new SButton("Suivant");
+		JSpinner profondeurJoueur1 = new JSpinner(spinnerModelAlphaBetaJ1);
+		profondeurJoueur1.setEditor(new JSpinner.DefaultEditor(profondeurJoueur1));
+		JSpinner profondeurJoueur2 = new JSpinner(spinnerModelAlphaBetaJ2);
+		profondeurJoueur2.setEditor(new JSpinner.DefaultEditor(profondeurJoueur2));
 
-        profondeurJ1.setEditor(new JSpinner.DefaultEditor(profondeurJ1));
-        profondeurJ2.setEditor(new JSpinner.DefaultEditor(profondeurJ2));
+		//Ajout des élements dans les panel
+		joueur1Panel.add(typeIAJoueur1);
+		boutonSuivantPanel.add(suivantButton);
 
-        panelJ1.add(choixIAJ1);
-        btnPanel.add(btnNewButton);
+		if (nbrIA == 2) {
+			//J1
+			profondeurJoueur1.setValue(4);
+			DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(difficulteHumain);
+			typeIAJoueur1.setModel(modelJ1);
+			typeIAJoueur1.setSelectedIndex(-1);
 
-        if(nbrIA == 2) {
-            //J1
-            profondeurJ1.setValue(4);
-            DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(diffIA);
-            choixIAJ1.setModel(modelJ1);
-            choixIAJ1.setSelectedIndex(-1);
+			joueur1Panel.add(profondeurJoueur1);
+			joueur1Panel.add(heuristiqueJoueur1Panel);
 
-            panelJ1.add(profondeurJ1);
-            panelJ1.add(heuristiqueJ1);
+			boxListJ1 = new ArrayList<>();
+			for (int i = 0; i < 9; i++) {
+				JCheckBox box = new JCheckBox();
+				box.setBackground(new Color(255, 237, 183));
+				boxListJ1.add(box);
+			}
 
-            boxListJ1 = new ArrayList<>();
-            for(int i = 0 ; i < 9 ; i++){
-                JCheckBox box = new JCheckBox();
-                box.setBackground(new Color(255, 237, 183));
-                boxListJ1.add(box);
-            }
+			for (int i = 0; i < 9; i++) {
+				getBoxJ1(i).setText("H" + (i + 1));
+				heuristiqueJoueur1Panel.add(getBoxJ1(i));
+			}
 
-            for(int i = 0 ; i < 9 ; i++) {
-                getBoxJ1(i).setText("H" + (i+1));
-                heuristiqueJ1.add(getBoxJ1(i));
-            }
+			//J2
+			profondeurJoueur2.setValue(4);
+			DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(difficulteHumain);
+			typeIAJoueur2.setModel(modelJ2);
+			typeIAJoueur2.setSelectedIndex(-1);
 
-            //J2
-            profondeurJ2.setValue(4);
-            DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(diffIA);
-            choixIAJ2.setModel(modelJ2);
-            choixIAJ2.setSelectedIndex(-1);
+			joueur2Panel.add(typeIAJoueur2);
+			joueur2Panel.add(profondeurJoueur2);
+			joueur2Panel.add(heuristiqueJoueur2Panel);
 
-            panelJ2.add(choixIAJ2);
-            panelJ2.add(profondeurJ2);
-            panelJ2.add(heuristiqueJ2);
+			boxListJ2 = new ArrayList<>();
+			for (int i = 0; i < 9; i++) {
+				JCheckBox box = new JCheckBox();
+				box.setBackground(new Color(255, 237, 183));
+				boxListJ2.add(box);
+			}
 
-            boxListJ2 = new ArrayList<>();
-            for(int i = 0 ; i < 9 ; i++){
-                JCheckBox box = new JCheckBox();
-                box.setBackground(new Color(255, 237, 183));
-                boxListJ2.add(box);
-            }
+			for (int i = 0; i < 9; i++) {
+				getBoxJ2(i).setText("H" + (i + 1));
+				heuristiqueJoueur2Panel.add(getBoxJ2(i));
+			}
+		}
 
-            for(int i = 0 ; i < 9 ; i++) {
-                getBoxJ2(i).setText("H" + (i+1));
-                heuristiqueJ2.add(getBoxJ2(i));
-            }
-        }
+		//ActionListener ComboBox
+		typeIAJoueur1.addActionListener(new ActionListener() {//J1
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switch (typeIAJoueur1.getSelectedIndex()) {
+					case 0:
+						profondeurJoueur1.setVisible(false);
+						heuristiqueJoueur1Panel.setVisible(false);
+						break;
+					case 1:
+						profondeurJoueur1.setVisible(true);
+						profondeurJoueur1.setModel(spinnerModelMinimaxJ1);
+						profondeurJoueur1.setValue(4);
+						heuristiqueJoueur1Panel.setVisible(true);
+						break;
+					case 2:
+						profondeurJoueur1.setVisible(true);
+						profondeurJoueur1.setModel(spinnerModelAlphaBetaJ1);
+						profondeurJoueur1.setValue(4);
+						heuristiqueJoueur1Panel.setVisible(true);
+						break;
+				}
+			}
+		});
 
-        //ActionListener ComboBox
-        choixIAJ1.addActionListener(new ActionListener() {//J1
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switch (choixIAJ1.getSelectedIndex())
-                {
-                    case 0:
-                        profondeurJ1.setVisible(false);
-                        heuristiqueJ1.setVisible(false);
-                        break;
-                    case 1:
-                        profondeurJ1.setVisible(true);
-                        profondeurJ1.setModel(spinnerModelMinimaxJ1);
-                        profondeurJ1.setValue(4);
-                        heuristiqueJ1.setVisible(true);
-                        break;
-                    case 2:
-                        profondeurJ1.setVisible(true);
-                        profondeurJ1.setModel(spinnerModelAlphaBetaJ1);
-                        profondeurJ1.setValue(4);
-                        heuristiqueJ1.setVisible(true);
-                        break;
-                }
-            }
-        });
+		typeIAJoueur2.addActionListener(new ActionListener() {//J2
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				switch (typeIAJoueur2.getSelectedIndex()) {
+					case 0:
+						profondeurJoueur2.setVisible(false);
+						heuristiqueJoueur2Panel.setVisible(false);
+						break;
+					case 1:
+						profondeurJoueur2.setVisible(true);
+						profondeurJoueur2.setModel(spinnerModelMinimaxJ2);
+						profondeurJoueur2.setValue(4);
+						heuristiqueJoueur2Panel.setVisible(true);
+						break;
+					case 2:
+						profondeurJoueur2.setVisible(true);
+						profondeurJoueur2.setModel(spinnerModelAlphaBetaJ2);
+						profondeurJoueur2.setValue(4);
+						heuristiqueJoueur2Panel.setVisible(true);
+						break;
+				}
+			}
+		});
 
-        choixIAJ2.addActionListener(new ActionListener() {//J2
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switch (choixIAJ2.getSelectedIndex())
-                {
-                    case 0:
-                        profondeurJ2.setVisible(false);
-                        heuristiqueJ2.setVisible(false);
-                        break;
-                    case 1:
-                        profondeurJ2.setVisible(true);
-                        profondeurJ2.setModel(spinnerModelMinimaxJ2);
-                        profondeurJ2.setValue(4);
-                        heuristiqueJ2.setVisible(true);
-                        break;
-                    case 2:
-                        profondeurJ2.setVisible(true);
-                        profondeurJ2.setModel(spinnerModelAlphaBetaJ2);
-                        profondeurJ2.setValue(4);
-                        heuristiqueJ2.setVisible(true);
-                        break;
-                }
-            }
-        });
+		//ActionListener Button
+		suivantButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (typeIAJoueur1.getSelectedIndex() == -1 || typeIAJoueur2.getSelectedIndex() == -1) {
+					DrawingManager.showDialog("Type IA", "Wait!");
+				} else {
+					int diff1, diff2;
+					int profondeur1 = 4, profondeur2 = 4;
+					StringBuilder heuristique1 = new StringBuilder();
+					StringBuilder heuristique2 = new StringBuilder();
 
-        //ActionListener Button
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                if(choixIAJ1.getSelectedIndex() == -1 || choixIAJ2.getSelectedIndex() == -1)
-                {
-                    JOptionPane typeIAErreur = new JOptionPane();
-                    typeIAErreur.showMessageDialog(null, "Type IA", "Wait!", JOptionPane.WARNING_MESSAGE);
-                }
-                else
-                {
-                    int diff1, diff2, profondeur1, profondeur2;
-                    StringBuilder heuristique1 = new StringBuilder();
-                    StringBuilder heuristique2 = new StringBuilder();
+					diff1 = typeIAJoueur1.getSelectedIndex();
+					diff2 = typeIAJoueur2.getSelectedIndex();
 
-                    diff1 = choixIAJ1.getSelectedIndex();
-                    diff2 = choixIAJ2.getSelectedIndex();
+					if (nbrIA == 2)//2 IA
+					{
+						//Récupération de la profondeur
+						profondeur1 = (int) profondeurJoueur1.getValue();
+						profondeur2 = (int) profondeurJoueur2.getValue();
 
-                    profondeur1 = (int) profondeurJ1.getValue();
-                    profondeur2 = (int) profondeurJ2.getValue();
+						//Création de la chaine des heuristiques en binaire
+						for (JCheckBox box : boxListJ1) {
+							if (box.isSelected())
+								heuristique1.append("1");
+							else
+								heuristique1.append("0");
+						}
+						for (JCheckBox box : boxListJ2) {
+							if (box.isSelected())
+								heuristique2.append("1");
+							else
+								heuristique2.append("0");
+						}
 
-                    for(JCheckBox box : boxListJ1)
-                    {
-                        if(box.isSelected())
-                            heuristique1.append("1");
-                        else
-                            heuristique1.append("0");
-                    }
-                    for(JCheckBox box : boxListJ2)
-                    {
-                        if(box.isSelected())
-                            heuristique2.append("1");
-                        else
-                            heuristique2.append("0");
-                    }
-                    System.out.println(heuristique1.toString() + " | " + heuristique2.toString());
+						//Vérification si y a au moins une heuristique sélectionnée
+						if ((heuristique1.toString().equals("000000000") && typeIAJoueur1.getSelectedIndex() != 0)
+								|| (heuristique2.toString().equals("000000000") && typeIAJoueur2.getSelectedIndex() != 0)) {
+							DrawingManager.showDialog("Aucune heuristique selectionnée", "Wait!");
+						} else {
+							arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2, heuristique1, heuristique2);
 
-                    if(         (heuristique1.toString().equals("000000000") && choixIAJ1.getSelectedIndex() != 0)
-                            ||  (heuristique2.toString().equals("000000000") && choixIAJ2.getSelectedIndex() != 0) )
-                    {
-                        JOptionPane heuristiqueErreur = new JOptionPane();
-                        heuristiqueErreur.showMessageDialog(null, "Aucune heuristique selectionée", "Wait!", JOptionPane.WARNING_MESSAGE);
-                    }
-                    else
-                    {
-                        arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2);
+							Partie partie = new Partie(nomJ1, nomJ2);
 
-                        Partie partie = new Partie(nomJ1, nomJ2);
+							arbitre.lancerThread(partie);
+						}
+					} else//1 IA
+					{
+						arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2, heuristique1, heuristique2);
 
-                        arbitre.lancerThread(partie);
-                    }
-                }
-            }
-        });
+						Partie partie = new Partie(nomJ1, nomJ2);
 
-        //Ajout du panel 'all" et affichage de l'instance
-        DrawingManagerAwale.getInstance().setContentPane(all);
-        DrawingManagerAwale.getInstance().setVisible(true);
-    }
+						arbitre.lancerThread(partie);
+					}
+				}
+			}
+		});
+
+		//Ajout du panel principal et affichage de l'instance (singleton)
+		DrawingManagerAwale.getInstance().setContentPane(all);
+		DrawingManagerAwale.getInstance().setVisible(true);
+	}
 }

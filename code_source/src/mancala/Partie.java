@@ -60,8 +60,7 @@ public class Partie {
 		all.add(menu, BorderLayout.NORTH);
 
 		buttonListMenu = new ArrayList<>();
-		for(int i = 0; i < 3; i++)
-		{
+		for (int i = 0; i < 3; i++) {
 			SButton btn = new SButton("0");
 			buttonListMenu.add(btn);
 		}
@@ -72,28 +71,40 @@ public class Partie {
 
 		getButtonMenu(0).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane save = new JOptionPane();
-				String nom = save.showInputDialog(null, "Save?", "new", JOptionPane.QUESTION_MESSAGE);
-				if(nom != null)
+				if (GameManagerAwale.getInstance().isAnimated())
 				{
-					GameManagerAwale.getInstance().sauvegarder(nom);
+					DrawingManager.showDialog("Attendez la fin du tour", "Wait!");
 				}
-				GameManagerAwale.getInstance().arreterThread();
-				GameManagerAwale.getInstance().resetPartie();
-				new ChoixJoueur(GameManagerAwale.getInstance());
+				else
+				{
+					JOptionPane save = new JOptionPane();
+					String nom = save.showInputDialog(null, "Save?", "new", JOptionPane.QUESTION_MESSAGE);
+					if (nom != null) {
+						GameManagerAwale.getInstance().sauvegarder(nom);
+					}
+					GameManagerAwale.getInstance().arreterThread();
+					GameManagerAwale.getInstance().resetPartie();
+					new ChoixJoueur(GameManagerAwale.getInstance());
+				}
 			}
 		});
 
 		getButtonMenu(1).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane save = new JOptionPane();
-				save.setOptions(new Object[] {
-						new JButton("Oui"), new JButton("Non")
-				});
-				String nom = save.showInputDialog(null, "Save?", "save", JOptionPane.YES_NO_OPTION);
-				if(nom != null)
+				if (GameManagerAwale.getInstance().isAnimated())
 				{
-					GameManagerAwale.getInstance().sauvegarder(nom);
+					DrawingManager.showDialog("Attendez la fin du tour", "Wait!");
+				}
+				else
+				{
+					JOptionPane save = new JOptionPane();
+					save.setOptions(new Object[]{
+							new JButton("Oui"), new JButton("Non")
+					});
+					String nom = save.showInputDialog(null, "Save?", "save", JOptionPane.YES_NO_OPTION);
+					if (nom != null) {
+						GameManagerAwale.getInstance().sauvegarder(nom);
+					}
 				}
 			}
 		});
@@ -102,8 +113,7 @@ public class Partie {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane save = new JOptionPane();
 				String nom = save.showInputDialog(null, "Save?", "Quit", JOptionPane.QUESTION_MESSAGE);
-				if(nom != null)
-				{
+				if (nom != null) {
 					GameManagerAwale.getInstance().sauvegarder(nom);
 				}
 				GameManagerAwale.getInstance().resetPartie();
@@ -111,7 +121,7 @@ public class Partie {
 			}
 		});
 
-		for(int i = 0; i < 3; i++) {
+		for (int i = 0; i < 3; i++) {
 			menu.add(getButtonMenu(i));
 		}
 
@@ -137,8 +147,7 @@ public class Partie {
 		j2_cases.setLayout(new GridLayout(1, 6, 10, 0));
 
 		buttonListGame = new ArrayList<>();
-		for(int i = 0; i < 12; i++)
-		{
+		for (int i = 0; i < 12; i++) {
 			SButton btn = new SButton("4");
 			final int fi = i;
 			btn.addActionListener(new ActionListener() {
@@ -150,15 +159,15 @@ public class Partie {
 		}
 
 		nameList = new ArrayList<>();
-		for(int i = 0; i < 2; i++){
-			JLabel nomJoueur = new JLabel("Joueur " + (i+1));
+		for (int i = 0; i < 2; i++) {
+			JLabel nomJoueur = new JLabel("Joueur " + (i + 1));
 			nameList.add(nomJoueur);
 		}
 		nameList.get(0).setText(nomJ1);
 		nameList.get(1).setText(nomJ2);
 
 		scoreList = new ArrayList<>();
-		for(int i = 0; i < 2; i++){
+		for (int i = 0; i < 2; i++) {
 			JLabel scoreJoueur = new JLabel("0");
 			scoreList.add(scoreJoueur);
 		}
@@ -180,12 +189,12 @@ public class Partie {
 		j1_info.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
 		// Ajouter cases J2
-		for(int i = 11; i > 5; i--) {
+		for (int i = 11; i > 5; i--) {
 			j2_cases.add(getButtonGame(i));
 		}
 
 		// Ajouter cases J1
-		for(int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++) {
 			j1_cases.add(getButtonGame(i));
 		}
 
