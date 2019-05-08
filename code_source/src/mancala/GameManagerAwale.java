@@ -408,7 +408,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 			this.setTourActuel(getTourActuel() + 1);
 		}
-		System.out.println("The end");
 	}
 
 	public void stockerEtatMouvement(int[] etatActuel) {//Historique
@@ -719,7 +718,10 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 				lancerUneNouvellePartieGraphique(partie);
 				JoueurAwale gagnant = getGagnant();
 				if (gagnant != null)
-					DrawingManager.showDialog(gagnant.getNom(), "Bravo!");
+				{
+					String message = "Le joueur : " + gagnant.getNom() + "a gagné avec un score de : " + gagnant.getScore();
+					DrawingManager.showDialog(message, "Bravo!");
+				}
 			}
 		});
 		threadGraphique.start();
