@@ -164,7 +164,7 @@ public class ChoixDifficulte {
 		suivantButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (typeIAJoueur1.getSelectedIndex() == -1 || typeIAJoueur2.getSelectedIndex() == -1) {
-					DrawingManager.showDialog("Type IA", "Wait!");
+					DrawingManager.showDialog("Sélectionner le type de l'IA", "Attention");
 				} else {
 					int diff1, diff2;
 					int profondeur1 = 4, profondeur2 = 4;
@@ -197,7 +197,7 @@ public class ChoixDifficulte {
 						//Vérification si y a au moins une heuristique sélectionnée
 						if ((heuristique1.toString().equals("000000000") && typeIAJoueur1.getSelectedIndex() != 0)
 								|| (heuristique2.toString().equals("000000000") && typeIAJoueur2.getSelectedIndex() != 0)) {
-							DrawingManager.showDialog("Aucune heuristique selectionnée", "Wait!");
+							DrawingManager.showDialog("Aucune heuristique sélectionnée", "Attention");
 						} else {
 							arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2, heuristique1, heuristique2);
 

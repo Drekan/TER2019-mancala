@@ -29,6 +29,12 @@ public class ChoixPartie {
 			}
 		});
 
+		loadBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				//GameManagerAwale.getInstance().chargerPartieGraphique();
+			}
+		});
+
 		DrawingManagerAwale.getInstance().setContentPane(all);
 		DrawingManagerAwale.getInstance().setVisible(true);
 	}
