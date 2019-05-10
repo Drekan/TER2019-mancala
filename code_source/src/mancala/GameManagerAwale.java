@@ -31,7 +31,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 	private boolean vocal;//true pour parler, sinon chuuut
 
-	private Thread threadGraphique;
 	private boolean partieArretee = false;
 	private boolean animated = false;
 
@@ -51,15 +50,11 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		this.partieArretee = partieArretee;
 	}
 
-	public Thread getThreadGraphique() {
-		return threadGraphique;
-	}
-
-	public void setThreadGraphique(Thread threadGraphique) {
-		this.threadGraphique = threadGraphique;
-	}
-
 	public static GameManagerAwale instance = null;
+
+	public static void setInstance(GameManagerAwale instance) {
+		GameManagerAwale.instance = instance;
+	}
 
 	public static GameManagerAwale getInstance() {
 		return instance;
@@ -79,7 +74,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		this.historique = new ArrayList<int[]>();
 		this.partie = new Awale("MonAwale", "MesRegles");
 		this.getPartie().initialisationJeu();
-		instance = this;
 	}
 
 	public GameManagerAwale(int mode) {
@@ -321,10 +315,11 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		this.commencerPartie(silence);
 	}
 
-	public void lancerUneNouvellePartieGraphique(Partie window) {
-		//initJoueurs("Estelle","Chahinez");
-		this.partie = new Awale("MonAwale", "MesRegles");
-		this.getPartie().initialisationJeu();
+	public void lancerUneNouvellePartieGraphique(Partie window, boolean nouvelle) {
+		if (nouvelle){
+			this.partie = new Awale("MonAwale", "MesRegles");
+			this.getPartie().initialisationJeu();
+		}
 		this.commencerPartieGraphique(window);
 	}
 
@@ -349,10 +344,10 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 			int coupJoue;
 
 			if (this.getNbrJoueursHumain() == 0) {
-				coupJoue = this.joueurActuel().choisirUnCoup(this);
+				coupJoue = this.joueurActuel().choisirUnCoup(instance);
 			} else if (this.getNbrJoueursHumain() == 1) {
 				if (this.getTourActuel() % 2 == 0) {
-					coupJoue = this.joueurActuel().choisirUnCoup(this);
+					coupJoue = this.joueurActuel().choisirUnCoup(instance);
 				} else {
 					do {
 						coupJoue = window.getCoupActu();
@@ -372,7 +367,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 			int graineRestante = this.getPartie().etatActuel()[coupJoue];
 
-			this.joueurActuel().jouerUnCoup(coupJoue, this, true);
+			this.joueurActuel().jouerUnCoup(coupJoue, instance, true);
 
 			//TODO
 			for (int i = 0; i < 12; i++) {
@@ -710,15 +705,38 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return retour;
 	}
 
-	public void lancerThread(Partie partie) {
+	public int bla1(JComboBox comboBox) {
+		ArrayList<String> savedGames = getSavedGames();
+		String[] save = new String[savedGames.size()];
+		savedGames.toArray(save);
+		DefaultComboBoxModel modelSave = new DefaultComboBoxModel(save);
+		comboBox.setModel(modelSave);
+		return savedGames.size();
+	}
+
+	public void chargerPartieGraphique(int numSave) {
+		setInstance(loadGame(numSave));
+		this.partie = instance.getPartie();
+	}
+
+	public void ehem(GameManagerAwale hehe) {
+		Partie partie = new Partie(hehe.joueur1.getNom(), hehe.joueur2.getNom());
+		partie.actualiserPartie();
+		this.lancerThread(partie, false);
+	}
+
+	public void lancerThread(Partie partie){
+		this.lancerThread(partie,true);
+	}
+
+	public void lancerThread(Partie partie, boolean nouvelle) {
 		this.setPartieArretee(false);
-		this.threadGraphique = new Thread(new Runnable() {
+		Thread threadGraphique = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				lancerUneNouvellePartieGraphique(partie);
+				lancerUneNouvellePartieGraphique(partie, nouvelle);
 				JoueurAwale gagnant = getGagnant();
-				if (gagnant != null)
-				{
+				if (gagnant != null) {
 					String message = "Le joueur : " + gagnant.getNom() + "a gagné avec un score de : " + gagnant.getScore();
 					DrawingManager.showDialog(message, "Bravo!");
 				}

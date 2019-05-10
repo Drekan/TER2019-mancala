@@ -49,6 +49,16 @@ public class Partie {
 		initialize(nomJ1, nomJ2);
 	}
 
+	public void actualiserPartie(){
+		String[] val = new String[12];
+		int[] valInt = GameManagerAwale.getInstance().getPartie().etatActuel();
+		for (int i = 0 ; i < 12 ; i++)
+		{
+			val[i] = Integer.toString(valInt[i]);
+			getButtonGame(i).setText(val[i]);
+		}
+	}
+
 	private void initialize(String nomJ1, String nomJ2) {
 		//Partie panel
 		JPanel all = new JPanel(new BorderLayout(0, 0));
@@ -110,7 +120,6 @@ public class Partie {
 						GameManagerAwale.getInstance().sauvegarder(nom);
 					}
 				}
-				GameManagerAwale.getInstance().resetPartie();
 				System.exit(0);
 			}
 		});
