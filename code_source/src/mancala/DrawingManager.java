@@ -14,7 +14,6 @@ public class DrawingManager {
 	}
 
 	static public void showDialog(String message, String titre) {
-		JOptionPane optionPane = new JOptionPane();
-		optionPane.showMessageDialog(null, message, titre, JOptionPane.WARNING_MESSAGE);
+		JOptionPane.showMessageDialog(null, message, titre, JOptionPane.WARNING_MESSAGE);
 	}
 }

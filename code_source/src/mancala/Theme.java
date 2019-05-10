@@ -2,8 +2,6 @@ package mancala;
 
 import java.awt.*;
 
-/**
- */
 public class Theme
 {
     // Font
@@ -15,8 +13,9 @@ public class Theme
 
     // Custom Colors
     public static final Color BACKGROUND_COLOR = new Color(187, 245, 255);
-    public static final Color CHIBHBLACK = new Color(33, 33, 33);
-    public static final Color GREEN_EMERALD = new Color(52, 93, 174);
+    public static final Color BLUE_EMERALD = new Color(52, 93, 174);
+    public static final Color RED_EMERALD = new Color(198, 34, 39);
+    public static final Color GREEN_EMERALD =new Color(55, 112, 37);
 
 
     private static final int THEME = 1; // 0 plain, 1 Dracula
@@ -32,14 +31,9 @@ public class Theme
     public static final Color FONT_TYPE_COLOR = (THEME == 1)? FONT_KEYWORD_COLOR : Color.GREEN;
     public static final Color FONT_SYMBOL_COLOR = (THEME == 1)? Color.RED : Color.RED;
 
-    // Layout
-    public static final int WINDOW_WIDTH = 900;
-    public static final int WINDOW_HEIGHT = 700;
-
-
     // Custom Button properties
     public static final Font BTN_DEFAULT_FONT = FONT_DEFAULT;
-    public static final Color BTN_DEFAULT_COLOR = GREEN_EMERALD;
+    public static final Color BTN_DEFAULT_COLOR = BLUE_EMERALD;
     public static final Color BTN_DEFAULT_TEXT_COLOR = FONT_DEFAULT_COLOR;
     public static final int BTN_DEFAULT_HEIGHT = 28;
     public static final int BTN_DEFAULT_WIDTH = 200;
@@ -53,7 +47,4 @@ public class Theme
     // TextInputs
     public static final Font INPUT_TEXT_FONT = FONT_DEFAULT_MEDIUM;
     public static final int LABELED_MARGIN = 2;
-
-
-    // Custom Settings
 }

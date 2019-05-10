@@ -34,12 +34,12 @@ public class ChoixJoueur {
 		j1.add(Joueur1);
 
 		JRadioButton j1Humain = new JRadioButton("Humain", true);
-		j1Humain.setBackground(new Color(255, 237, 183));
+		j1Humain.setBackground(Theme.BACKGROUND_COLOR);
 		j1Humain.setHorizontalAlignment(SwingConstants.CENTER);
 		j1.add(j1Humain);
 
 		JRadioButton j1IA = new JRadioButton("IA");
-		j1IA.setBackground(new Color(255, 237, 183));
+		j1IA.setBackground(Theme.BACKGROUND_COLOR);
 		j1IA.setHorizontalAlignment(SwingConstants.CENTER);
 		j1.add(j1IA);
 
@@ -81,12 +81,12 @@ public class ChoixJoueur {
 		j2.add(joueur2);
 
 		JRadioButton j2Humain = new JRadioButton("Humain", true);
-		j2Humain.setBackground(new Color(255, 237, 183));
+		j2Humain.setBackground(Theme.BACKGROUND_COLOR);
 		j2Humain.setHorizontalAlignment(SwingConstants.CENTER);
 		j2.add(j2Humain);
 
 		JRadioButton j2IA = new JRadioButton("IA");
-		j2IA.setBackground(new Color(255, 237, 183));
+		j2IA.setBackground(Theme.BACKGROUND_COLOR);
 		j2IA.setHorizontalAlignment(SwingConstants.CENTER);
 		j2.add(j2IA);
 

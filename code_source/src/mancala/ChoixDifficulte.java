@@ -79,7 +79,7 @@ public class ChoixDifficulte {
 			boxListJ1 = new ArrayList<>();
 			for (int i = 0; i < 9; i++) {
 				JCheckBox box = new JCheckBox();
-				box.setBackground(new Color(255, 237, 183));
+				box.setBackground(Theme.BACKGROUND_COLOR);
 				boxListJ1.add(box);
 			}
 
@@ -101,7 +101,7 @@ public class ChoixDifficulte {
 			boxListJ2 = new ArrayList<>();
 			for (int i = 0; i < 9; i++) {
 				JCheckBox box = new JCheckBox();
-				box.setBackground(new Color(255, 237, 183));
+				box.setBackground(Theme.BACKGROUND_COLOR);
 				boxListJ2.add(box);
 			}
 

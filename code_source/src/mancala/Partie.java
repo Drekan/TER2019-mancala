@@ -93,6 +93,7 @@ public class Partie {
 					}
 					GameManagerAwale.getInstance().arreterThread();
 					GameManagerAwale.getInstance().resetPartie();
+					GameManagerAwale.getInstance().setPartiePaused(false);
 					new ChoixPartie(GameManagerAwale.getInstance());
 				}
 			}
@@ -227,31 +228,31 @@ public class Partie {
 		j2_info.add(nomJ2Panel);
 		j2_info.add(scoreJ2Panel);
 
-//		SButton btnPause = new SButton("Pause");
-//		SButton btnPlay = new SButton("Play");
-//
-//		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0)
-//		{
-//			menu.add(btnPause);
-//			menu.add(btnPlay);
-//		}
-//
-//		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0 && !GameManagerAwale.getInstance().isPartiePaused())
-//		{
-//			getButtonMenu(2).disable();
-//		}
-//
-//		btnPause.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				GameManagerAwale.getInstance().setPartiePaused(true);
-//			}
-//		});
-//
-//		btnPlay.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				GameManagerAwale.getInstance().setPartiePaused(false);
-//			}
-//		});
+		SButton btnPause = new SButton("Pause");
+		SButton btnPlay = new SButton("Play");
+
+		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0)
+		{
+			menu.add(btnPause);
+			menu.add(btnPlay);
+		}
+
+		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0 && !GameManagerAwale.getInstance().isPartiePaused())
+		{
+			getButtonMenu(2).disable();
+		}
+
+		btnPause.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GameManagerAwale.getInstance().setPartiePaused(true);
+			}
+		});
+
+		btnPlay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				GameManagerAwale.getInstance().setPartiePaused(false);
+			}
+		});
 
 		DrawingManagerAwale.getInstance().setVisible(true);
 	}

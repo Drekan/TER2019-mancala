@@ -1,7 +1,6 @@
 package mancala;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -336,12 +335,14 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		window.getNameList().get(0).setText(this.joueur1.getNom());
 		window.getNameList().get(1).setText(this.joueur2.getNom());
 		while ( !this.finPartie() && !this.isPartieArretee() ) {
+			while (this.isPartiePaused())
+				this.delay(1000/60);
 			if (this.joueurActuel() == this.joueur1) {
-				window.getNameList().get(0).setForeground(new Color(55, 112, 37));
-				window.getNameList().get(1).setForeground(new Color(198, 34, 39));
+				window.getNameList().get(0).setForeground(Theme.GREEN_EMERALD);
+				window.getNameList().get(1).setForeground(Theme.RED_EMERALD);
 			} else {
-				window.getNameList().get(0).setForeground(new Color(198, 34, 39));
-				window.getNameList().get(1).setForeground(new Color(55, 112, 37));
+				window.getNameList().get(0).setForeground(Theme.RED_EMERALD);
+				window.getNameList().get(1).setForeground(Theme.GREEN_EMERALD);
 			}
 
 			window.getScoreList().get(0).setText(String.valueOf(this.joueur1.getScore()));
@@ -381,18 +382,18 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 			//TODO
 			for (int i = 0; i < 12; i++) {
 				//window.getButtonListGame().get(i).setForeground(Color.WHITE);
-				window.getButtonListGame().get(i).setBgColor(new Color(52, 93, 174));
+				window.getButtonListGame().get(i).setBgColor(Theme.BLUE_EMERALD);
 			}
 
 			//window.getButtonListGame().get(coupJoue).setForeground(Color.RED);
-			window.getButtonListGame().get(coupJoue).setBgColor(new Color(55, 112, 37));
+			window.getButtonListGame().get(coupJoue).setBgColor(Theme.GREEN_EMERALD);
 
 			setAnimated(true);
 			for (int i = coupJoue; i < 12; i++) {
 				if (graineRestante >= 0 && i != coupJoue) {
 					//window.getButtonListGame().get(i).setForeground(Color.BLUE);
 					//window.getButtonListGame().get(i).setBackground(Color.GREEN);
-					window.getButtonListGame().get(i).setBgColor(new Color(55, 112, 37));
+					window.getButtonListGame().get(i).setBgColor(Theme.GREEN_EMERALD);
 				}
 				if (this.getPartie().etatActuel()[i] != 0) {
 					window.getButtonListGame().get(i).setEnabled(true);
@@ -404,7 +405,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 			for (int i = 0; i < coupJoue; i++) {
 				if (graineRestante >= 0 && i != coupJoue) {
 					//window.getButtonListGame().get(i).setForeground(Color.BLUE);
-					window.getButtonListGame().get(i).setBgColor(new Color(55, 112, 37));
+					window.getButtonListGame().get(i).setBgColor(Theme.GREEN_EMERALD);
 				}
 				if (this.getPartie().etatActuel()[i] != 0) {
 					window.getButtonListGame().get(i).setEnabled(true);
