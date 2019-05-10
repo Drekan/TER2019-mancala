@@ -75,7 +75,7 @@ public class Partie {
 			buttonListMenu.add(btn);
 		}
 
-		getButtonMenu(0).setText("Nouvelle partie");
+		getButtonMenu(0).setText("Menu");
 		getButtonMenu(1).setText("Sauvegarder partie");
 		getButtonMenu(2).setText("Quitter");
 
@@ -84,16 +84,16 @@ public class Partie {
 				if (GameManagerAwale.getInstance().isAnimated()) {
 					DrawingManager.showDialog("Attendez la fin du tour", "Attention");
 				} else {
-					int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de lancer une nouvelle partie ?", "Nouvelle partie", JOptionPane.YES_NO_OPTION);
+					int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant d'ouvrir le menu ?", "Menu", JOptionPane.YES_NO_OPTION);
 					if (n == 0) {
-						String nom = JOptionPane.showInputDialog(null, "Entrer le nom de votre sauvegarde", "Nouvelle partie", JOptionPane.QUESTION_MESSAGE);
+						String nom = JOptionPane.showInputDialog(null, "Entrer le nom de votre sauvegarde", "Menu", JOptionPane.QUESTION_MESSAGE);
 						if (nom != null){
 							GameManagerAwale.getInstance().sauvegarder(nom);
 						}
 					}
 					GameManagerAwale.getInstance().arreterThread();
 					GameManagerAwale.getInstance().resetPartie();
-					new ChoixJoueur(GameManagerAwale.getInstance());
+					new ChoixPartie(GameManagerAwale.getInstance());
 				}
 			}
 		});
@@ -113,7 +113,7 @@ public class Partie {
 
 		getButtonMenu(2).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de lancer une nouvelle partie ?", "Nouvelle partie", JOptionPane.YES_NO_OPTION);
+				int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de quitter la partie ?", "Quitter partie", JOptionPane.YES_NO_OPTION);
 				if (n == 0){
 					String nom = JOptionPane.showInputDialog(null, "Voulez vous sauvegarder la partie ?", "Quitter partie", JOptionPane.QUESTION_MESSAGE);
 					if (nom != null){
@@ -226,6 +226,32 @@ public class Partie {
 
 		j2_info.add(nomJ2Panel);
 		j2_info.add(scoreJ2Panel);
+
+//		SButton btnPause = new SButton("Pause");
+//		SButton btnPlay = new SButton("Play");
+//
+//		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0)
+//		{
+//			menu.add(btnPause);
+//			menu.add(btnPlay);
+//		}
+//
+//		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0 && !GameManagerAwale.getInstance().isPartiePaused())
+//		{
+//			getButtonMenu(2).disable();
+//		}
+//
+//		btnPause.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				GameManagerAwale.getInstance().setPartiePaused(true);
+//			}
+//		});
+//
+//		btnPlay.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				GameManagerAwale.getInstance().setPartiePaused(false);
+//			}
+//		});
 
 		DrawingManagerAwale.getInstance().setVisible(true);
 	}

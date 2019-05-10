@@ -33,6 +33,15 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 	private boolean partieArretee = false;
 	private boolean animated = false;
+	private boolean partiePaused = false;
+
+	public boolean isPartiePaused() {
+		return partiePaused;
+	}
+
+	public void setPartiePaused(boolean partiePaused) {
+		this.partiePaused = partiePaused;
+	}
 
 	public boolean isAnimated() {
 		return animated;
@@ -326,13 +335,13 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	public void commencerPartieGraphique(Partie window) {
 		window.getNameList().get(0).setText(this.joueur1.getNom());
 		window.getNameList().get(1).setText(this.joueur2.getNom());
-		while (!this.finPartie() && !isPartieArretee()) {
+		while ( !this.finPartie() && !this.isPartieArretee() ) {
 			if (this.joueurActuel() == this.joueur1) {
-				window.getNameList().get(0).setForeground(Color.RED);
-				window.getNameList().get(1).setForeground(Color.BLACK);
+				window.getNameList().get(0).setForeground(new Color(55, 112, 37));
+				window.getNameList().get(1).setForeground(new Color(198, 34, 39));
 			} else {
-				window.getNameList().get(0).setForeground(Color.BLACK);
-				window.getNameList().get(1).setForeground(Color.RED);
+				window.getNameList().get(0).setForeground(new Color(198, 34, 39));
+				window.getNameList().get(1).setForeground(new Color(55, 112, 37));
 			}
 
 			window.getScoreList().get(0).setText(String.valueOf(this.joueur1.getScore()));
@@ -371,31 +380,36 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 			//TODO
 			for (int i = 0; i < 12; i++) {
-				window.getButtonListGame().get(i).setForeground(Color.WHITE);
+				//window.getButtonListGame().get(i).setForeground(Color.WHITE);
+				window.getButtonListGame().get(i).setBgColor(new Color(52, 93, 174));
 			}
 
-			window.getButtonListGame().get(coupJoue).setForeground(Color.RED);
+			//window.getButtonListGame().get(coupJoue).setForeground(Color.RED);
+			window.getButtonListGame().get(coupJoue).setBgColor(new Color(55, 112, 37));
 
 			setAnimated(true);
 			for (int i = coupJoue; i < 12; i++) {
 				if (graineRestante >= 0 && i != coupJoue) {
-					window.getButtonListGame().get(i).setForeground(Color.BLUE);
+					//window.getButtonListGame().get(i).setForeground(Color.BLUE);
+					//window.getButtonListGame().get(i).setBackground(Color.GREEN);
+					window.getButtonListGame().get(i).setBgColor(new Color(55, 112, 37));
 				}
 				if (this.getPartie().etatActuel()[i] != 0) {
 					window.getButtonListGame().get(i).setEnabled(true);
 				}
-				window.getButtonListGame().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
+				window.getButtonListGame().get(i).setText("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
 				graineRestante--;
 			}
 			for (int i = 0; i < coupJoue; i++) {
 				if (graineRestante >= 0 && i != coupJoue) {
-					window.getButtonListGame().get(i).setForeground(Color.BLUE);
+					//window.getButtonListGame().get(i).setForeground(Color.BLUE);
+					window.getButtonListGame().get(i).setBgColor(new Color(55, 112, 37));
 				}
 				if (this.getPartie().etatActuel()[i] != 0) {
 					window.getButtonListGame().get(i).setEnabled(true);
 				}
-				window.getButtonListGame().get(i).setLabel("" + this.getPartie().etatActuel()[i]);
+				window.getButtonListGame().get(i).setText("" + this.getPartie().etatActuel()[i]);
 				this.delay(500);
 				graineRestante--;
 			}
