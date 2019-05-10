@@ -71,16 +71,15 @@ public class Partie {
 
 		getButtonMenu(0).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (GameManagerAwale.getInstance().isAnimated())
-				{
+				if (GameManagerAwale.getInstance().isAnimated()) {
 					DrawingManager.showDialog("Attendez la fin du tour", "Attention");
-				}
-				else
-				{
-					JOptionPane save = new JOptionPane();
-					String nom = save.showInputDialog(null, "Voulez vous sauvegarder la partie en cours ?", "Nouvelle partie", JOptionPane.QUESTION_MESSAGE);
-					if (nom != null) {
-						GameManagerAwale.getInstance().sauvegarder(nom);
+				} else {
+					int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de lancer une nouvelle partie ?", "Nouvelle partie", JOptionPane.YES_NO_OPTION);
+					if (n == 0) {
+						String nom = JOptionPane.showInputDialog(null, "Entrer le nom de votre sauvegarde", "Nouvelle partie", JOptionPane.QUESTION_MESSAGE);
+						if (nom != null){
+							GameManagerAwale.getInstance().sauvegarder(nom);
+						}
 					}
 					GameManagerAwale.getInstance().arreterThread();
 					GameManagerAwale.getInstance().resetPartie();
@@ -91,15 +90,11 @@ public class Partie {
 
 		getButtonMenu(1).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (GameManagerAwale.getInstance().isAnimated())
-				{
+				if (GameManagerAwale.getInstance().isAnimated()) {
 					DrawingManager.showDialog("Attendez la fin du tour", "Attention");
-				}
-				else
-				{
-					JOptionPane save = new JOptionPane();
-					String nom = save.showInputDialog(null, "Entrez le nom de sauvegarde :", "Sauvegarder partie", JOptionPane.QUESTION_MESSAGE);
-					if (nom != null) {
+				} else {
+					String nom = JOptionPane.showInputDialog(null, "Entrez le nom de sauvegarde :", "Sauvegarder partie", JOptionPane.QUESTION_MESSAGE);
+					if (nom != null){
 						GameManagerAwale.getInstance().sauvegarder(nom);
 					}
 				}
@@ -108,10 +103,12 @@ public class Partie {
 
 		getButtonMenu(2).addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane save = new JOptionPane();
-				String nom = save.showInputDialog(null, "Voulez vous sauvegarder la partie ?", "Quitter partie", JOptionPane.QUESTION_MESSAGE);
-				if (nom != null) {
-					GameManagerAwale.getInstance().sauvegarder(nom);
+				int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de lancer une nouvelle partie ?", "Nouvelle partie", JOptionPane.YES_NO_OPTION);
+				if (n == 0){
+					String nom = JOptionPane.showInputDialog(null, "Voulez vous sauvegarder la partie ?", "Quitter partie", JOptionPane.QUESTION_MESSAGE);
+					if (nom != null){
+						GameManagerAwale.getInstance().sauvegarder(nom);
+					}
 				}
 				GameManagerAwale.getInstance().resetPartie();
 				System.exit(0);
