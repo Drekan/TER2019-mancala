@@ -34,37 +34,37 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	private boolean animated = false;
 	private boolean partiePaused = false;
 
-	public boolean isPartiePaused() {
+	private boolean isPartiePaused() {
 		return partiePaused;
 	}
 
-	public void setPartiePaused(boolean partiePaused) {
+	void setPartiePaused(boolean partiePaused) {
 		this.partiePaused = partiePaused;
 	}
 
-	public boolean isAnimated() {
+	boolean isAnimated() {
 		return animated;
 	}
 
-	public void setAnimated(boolean animated) {
+	private void setAnimated(boolean animated) {
 		this.animated = animated;
 	}
 
-	public boolean isPartieArretee() {
+	private boolean isPartieArretee() {
 		return partieArretee;
 	}
 
-	public void setPartieArretee(boolean partieArretee) {
+	private void setPartieArretee(boolean partieArretee) {
 		this.partieArretee = partieArretee;
 	}
 
-	public static GameManagerAwale instance = null;
+	private static GameManagerAwale instance = null;
 
-	public static void setInstance(GameManagerAwale instance) {
+	private static void setInstance(GameManagerAwale instance) {
 		GameManagerAwale.instance = instance;
 	}
 
-	public static GameManagerAwale getInstance() {
+	static GameManagerAwale getInstance() {
 		return instance;
 	}
 
@@ -96,7 +96,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	 *  en parametre est valide ou non. On peut donc gerer
 	 *  toutes les valeurs que l'on accepte, facilement
 	 */
-	public boolean modeDeJeuValide(int modeJeu) {
+	private boolean modeDeJeuValide(int modeJeu) {
 		return !(modeJeu < 0 || modeJeu > 2);
 	}
 
@@ -104,7 +104,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	/* Cette methode affiche les differents modes de jeux jouables,
 	 *  et demande a l'utilisateur d'en choisir un
 	 */
-	public int choisirModeJeu() {
+	private int choisirModeJeu() {
 		int modeDeJeu;
 		Scanner sc = new Scanner(System.in);
 
@@ -122,23 +122,23 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	}
 
 	//getters & setters :
-	public boolean getVocal() {
+	boolean getVocal() {
 		return this.vocal;
 	}
 
-	public int getNbrJoueursHumain() {
+	int getNbrJoueursHumain() {
 		return this.nbrJoueursHumain;
 	}
 
-	public void setNbrJoueursHumain(int nbrJoueursHumain) {
+	void setNbrJoueursHumain(int nbrJoueursHumain) {
 		this.nbrJoueursHumain = nbrJoueursHumain;
 	}
 
-	public JoueurAwale getJoueur1() {
+	JoueurAwale getJoueur1() {
 		return this.joueur1;
 	}
 
-	public void setJoueur1(String nomJoueur) {
+	private void setJoueur1(String nomJoueur) {
 		if (getNbrJoueursHumain() == 0) {
 			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1, 0, 5, 24);
 		} else if (getNbrJoueursHumain() >= 1) {
@@ -146,7 +146,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public void setJoueur1(String nomJoueur, int difficulte) {
+	private void setJoueur1(String nomJoueur, int difficulte) {
 		if (getNbrJoueursHumain() == 0) {
 			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1, 0, 5, 24, difficulte);
 		} else if (getNbrJoueursHumain() >= 1) {
@@ -154,7 +154,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public void setJoueur1(String nomJoueur, int difficulte, int profondeur, StringBuilder heuristique) {
+	private void setJoueur1(String nomJoueur, int difficulte, int profondeur, StringBuilder heuristique) {
 		if (getNbrJoueursHumain() == 0) {
 			this.joueur1 = new JoueurAwaleIA(nomJoueur, 0, 1, 0, 5, 24, difficulte);
 			((JoueurAwaleIA) this.joueur1).setProfondeurMax(profondeur);
@@ -165,15 +165,15 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	}
 
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
-	public void loadJoueur1(JoueurAwale joueur1) {
+	void loadJoueur1(JoueurAwale joueur1) {
 		this.joueur1 = joueur1;
 	}
 
-	public JoueurAwale getJoueur2() {
+	JoueurAwale getJoueur2() {
 		return this.joueur2;
 	}
 
-	public void setJoueur2(String nomJoueur) {
+	private void setJoueur2(String nomJoueur) {
 		if (getNbrJoueursHumain() <= 1) {
 			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2, 6, 11, 24);
 		} else if (getNbrJoueursHumain() == 2) {
@@ -181,7 +181,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public void setJoueur2(String nomJoueur, int difficulte) {
+	private void setJoueur2(String nomJoueur, int difficulte) {
 		if (getNbrJoueursHumain() <= 1) {
 			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2, 6, 11, 24, difficulte);
 		} else if (getNbrJoueursHumain() == 2) {
@@ -189,7 +189,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public void setJoueur2(String nomJoueur, int difficulte, int profondeur, StringBuilder heuristique) {
+	private void setJoueur2(String nomJoueur, int difficulte, int profondeur, StringBuilder heuristique) {
 		if (getNbrJoueursHumain() <= 1) {
 			this.joueur2 = new JoueurAwaleIA(nomJoueur, 0, 2, 6, 11, 24, difficulte);
 			((JoueurAwaleIA) this.joueur2).setProfondeurMax(profondeur);
@@ -200,7 +200,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	}
 
 	//Pour sauvegarder les joueurs dans l'optique d'une sauvegarde de partie
-	public void loadJoueur2(JoueurAwale joueur2) {
+	void loadJoueur2(JoueurAwale joueur2) {
 		this.joueur2 = joueur2;
 	}
 
@@ -208,19 +208,19 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return this.partie;
 	}
 
-	public int getTourActuel() {
+	int getTourActuel() {
 		return this.tourActuel;
 	}
 
-	public void setTourActuel(int tourActuel) {
+	void setTourActuel(int tourActuel) {
 		this.tourActuel = tourActuel;
 	}
 
-	public int[] getPlateau() {
+	int[] getPlateau() {
 		return this.partie.getPlateau();
 	}
 
-	public void initJoueurs(String J1, String J2) {
+	void initJoueurs(String J1, String J2) {
 		setJoueur1(J1);
 		setJoueur2(J2);
 	}
@@ -230,7 +230,8 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		setJoueur2(J2, difficulte2);
 	}
 
-	public void initJoueurs(String J1, int difficulte1, String J2, int difficulte2, int profondeur1, int profondeur2, StringBuilder heuristique1, StringBuilder heuristique2) {
+	void initJoueurs(String J1, int difficulte1, String J2, int difficulte2, int profondeur1, int profondeur2, StringBuilder heuristique1, StringBuilder heuristique2) {
+
 		setJoueur1(J1, difficulte1, profondeur1, heuristique1);
 		setJoueur2(J2, difficulte2, profondeur2, heuristique2);
 	}
@@ -264,7 +265,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return clone;
 	}
 
-	public void affichePlateau() {
+	private void affichePlateau() {
 		//se pencher sur ce bout de code plus tard -Bastien (note a moi meme)--------------
 
 		this.stockerEtatMouvement(this.getPartie().etatActuel());
@@ -290,7 +291,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	 * les coups joues et par qui. Elle ne s'arrete que
 	 * lorsqu'une (au moins) des conditions de fins de partie est remplie
 	 */
-	public void commencerPartie(boolean vocal) {
+	void commencerPartie(boolean vocal) {
 		this.vocal = vocal;
 		Scanner sc = new Scanner(System.in);
 		while (!this.finPartie()) {
@@ -316,27 +317,27 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	/*Methode qui instancie le plateau de jeu et
 	 * demarre la partie avec la difficulte adequate !
 	 */
-	public void lancerUneNouvellePartie(boolean silence) {
+	void lancerUneNouvellePartie(boolean silence) {
 		this.initJoueurs("joueur1", "joueur2");
 		this.partie = new Awale("MonAwale", "MesRegles");
 		this.getPartie().initialisationJeu();
 		this.commencerPartie(silence);
 	}
 
-	public void lancerUneNouvellePartieGraphique(Partie window, boolean nouvelle) {
-		if (nouvelle){
+	private void lancerUneNouvellePartieGraphique(Partie window, boolean nouvelle) {
+		if (nouvelle) {
 			this.partie = new Awale("MonAwale", "MesRegles");
 			this.getPartie().initialisationJeu();
 		}
 		this.commencerPartieGraphique(window);
 	}
 
-	public void commencerPartieGraphique(Partie window) {
+	private void commencerPartieGraphique(Partie window) {
 		window.getNameList().get(0).setText(this.joueur1.getNom());
 		window.getNameList().get(1).setText(this.joueur2.getNom());
-		while ( !this.finPartie() && !this.isPartieArretee() ) {
+		while (!this.finPartie() && !this.isPartieArretee()) {
 			while (this.isPartiePaused())
-				this.delay(1000/60);
+				this.delay(1000 / 60);
 			if (this.joueurActuel() == this.joueur1) {
 				window.getNameList().get(0).setForeground(Theme.GREEN_EMERALD);
 				window.getNameList().get(1).setForeground(Theme.RED_EMERALD);
@@ -420,11 +421,11 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public void stockerEtatMouvement(int[] etatActuel) {//Historique
+	void stockerEtatMouvement(int[] etatActuel) {//Historique
 		this.historique.add(0, etatActuel.clone());
 	}
 
-	public boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
+	boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
 		if (plateau[caseJouee] != 0) {
 			if (caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && interdictionAffamer(caseJouee))
@@ -527,16 +528,15 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return null;
 	}
 
-	public void ajoutGains() {
+	void ajoutGains() {
 		this.joueur2.setScore(this.joueur2.getScore() + this.getJoueur2().getNbrGraineJoueur());
 		this.joueur1.setScore(this.joueur1.getScore() + this.getJoueur1().getNbrGraineJoueur());
 	}
 
 	public void afficheHistorique() {
-		int taille = historique.size();
 		int[] current;
-		for (int i = 0; i < taille; i++) {
-			current = historique.get(i);
+		for (int[] ints : historique) {
+			current = ints;
 			for (int j = 11; j > 5; j--) {
 				System.out.print(current[j] + "|");
 			}
@@ -549,8 +549,8 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public ArrayList<Integer> determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
-		ArrayList<Integer> coupPossible = new ArrayList<Integer>();
+	ArrayList<Integer> determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
+		ArrayList<Integer> coupPossible = new ArrayList<>();
 		for (int i = joueur.getMin(); i <= joueur.getMax(); i++) {
 			if (verifierCoupValide(joueur, i, plateau)) {
 				coupPossible.add(i);
@@ -560,17 +560,16 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return coupPossible;
 	}
 
-	public boolean interdictionAffamer(int caseJouee) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
+	boolean interdictionAffamer(int caseJouee) {//renvoie vrai si on n'affame pas l'adversaire ou faux sinon
 		if ((this.joueurActuel() == this.getJoueur1() && this.getJoueur2().getNbrGraineJoueur() == 0) || (this.joueurActuel() == this.getJoueur2() && this.getJoueur1().getNbrGraineJoueur() == 0)) {
 			int nbrGrainesJouee = this.getPartie().getPlateau()[caseJouee];
 			int resteADeposer = nbrGrainesJouee - (this.joueurActuel().getMax() - caseJouee);
-			if (resteADeposer <= 0)
-				return false;
+			return resteADeposer > 0;
 		}
 		return true;
 	}
 
-	public boolean plateauxEgaux(int[] plateau1, int[] plateau2) {
+	private boolean plateauxEgaux(int[] plateau1, int[] plateau2) {
 		boolean equal = (plateau1.length == plateau2.length);
 		int i = plateau1.length - 1;
 		while (equal && i >= 0) {
@@ -582,7 +581,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return equal;
 	}
 
-	public int nbRedondanceHistorique(int profondeur) {
+	int nbRedondanceHistorique(int profondeur) {
 		int redondances = 0;
 		int profondeurEffective = Math.min(this.historique.size() - 1, profondeur);
 		for (int i = 0; i < profondeurEffective; i++) {
@@ -593,15 +592,15 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return redondances;
 	}
 
-	public void delay(int temps) {
+	private void delay(int temps) {
 		try {
 			Thread.sleep(temps);
-		} catch (InterruptedException e) {
+		} catch (InterruptedException ignored) {
 
 		}
 	}
 
-	public void resetPartie() {
+	void resetPartie() {
 		this.historique = new ArrayList<int[]>();
 		this.joueur1.reset();
 		this.joueur2.reset();
@@ -609,13 +608,13 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		this.partie.initialisationJeu();
 	}
 
-	public void enableAll(Partie window) {
+	private void enableAll(Partie window) {
 		for (int i = 0; i < 12; i++) {
 			window.getButtonListGame().get(i).setEnabled(true);
 		}
 	}
 
-	public void disableCaseNonValide(Partie window) {
+	private void disableCaseNonValide(Partie window) {
 		for (int i = 0; i < 12; i++) {
 			if (Integer.parseInt(window.getButtonListGame().get(i).getText()) == 0) {
 				window.getButtonListGame().get(i).setEnabled(false);
@@ -623,25 +622,21 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public boolean checkDossierSauvegarde() {
-		boolean retour = true;
+	private void checkDossierSauvegarde() {
 		Path sauvegardes = Paths.get("saves");
 		File dossier = new File(sauvegardes.toString());
 		if (!Files.exists(sauvegardes)) {
 			dossier.mkdir();
-			retour = false;
 		}
 
-		return retour;
 	}
 
-	public String getDateStr() {
+	private String getDateStr() {
 		SimpleDateFormat date_format = new SimpleDateFormat("yyyy-dd-MM-HH-mm-ss");
-		String date_string = date_format.format(new Date());
-		return date_string;
+		return date_format.format(new Date());
 	}
 
-	public void sauvegarder(String nom) {
+	void sauvegarder(String nom) {
 		checkDossierSauvegarde();
 		try {
 			String nomSauvegarde = "saves/" + (nom == null ? "sauvegarde" : nom) + "_" + getDateStr() + ".save";
@@ -655,7 +650,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 	}
 
-	public static ArrayList<String> getSavedGames() {
+	private static ArrayList<String> getSavedGames() {
 		ArrayList<String> savedGames = new ArrayList<String>();
 		Path sauvegardes = Paths.get("saves");
 		File dossier = new File(sauvegardes.toString());
@@ -665,16 +660,16 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 
 		String[] fichiers = dossier.list();
-		for (int i = 0; i < fichiers.length; i++) {
-			if (fichiers[i].matches(".*.save")) {
-				savedGames.add(fichiers[i]);
+		for (String fichier : fichiers) {
+			if (fichier.matches(".*.save")) {
+				savedGames.add(fichier);
 			}
 		}
 
 		return savedGames;
 	}
 
-	public static GameManagerAwale loadGame(int saveNumber) {
+	private static GameManagerAwale loadGame(int saveNumber) {
 		GameManagerAwale retour = new GameManagerAwale(0, 0);
 		ArrayList<String> saves = getSavedGames();
 		if (saveNumber > -1 && saveNumber < saves.size()) {
@@ -685,10 +680,8 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 				objetIN.close();
 				fichierIN.close();
 				System.out.println("tour recup : " + retour.getTourActuel());
-			} catch (IOException e) {
+			} catch (IOException | ClassNotFoundException e) {
 				e.printStackTrace();
-			} catch (ClassNotFoundException c) {
-				c.printStackTrace();
 			}
 		} else {
 			System.out.println("ERREUR : ce numéro de sauvegarde n'existe pas");
@@ -720,7 +713,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return retour;
 	}
 
-	public int bla1(JComboBox comboBox) {
+	int bla1(JComboBox comboBox) {
 		ArrayList<String> savedGames = getSavedGames();
 		String[] save = new String[savedGames.size()];
 		savedGames.toArray(save);
@@ -729,22 +722,22 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return savedGames.size();
 	}
 
-	public void chargerPartieGraphique(int numSave) {
+	void chargerPartieGraphique(int numSave) {
 		setInstance(loadGame(numSave));
 		this.partie = instance.getPartie();
 	}
 
-	public void ehem(GameManagerAwale hehe) {
+	void ehem(GameManagerAwale hehe) {
 		Partie partie = new Partie(hehe.joueur1.getNom(), hehe.joueur2.getNom());
 		partie.actualiserPartie();
 		this.lancerThread(partie, false);
 	}
 
-	public void lancerThread(Partie partie){
-		this.lancerThread(partie,true);
+	void lancerThread(Partie partie) {
+		this.lancerThread(partie, true);
 	}
 
-	public void lancerThread(Partie partie, boolean nouvelle) {
+	private void lancerThread(Partie partie, boolean nouvelle) {
 		this.setPartieArretee(false);
 		Thread threadGraphique = new Thread(new Runnable() {
 			@Override
@@ -760,7 +753,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		threadGraphique.start();
 	}
 
-	public void arreterThread() {
+	void arreterThread() {
 		this.setPartieArretee(true);
 	}
 }

@@ -6,54 +6,49 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
-public class Partie {
+class Partie {
 	private int coupActu = -1;
 	private ArrayList<SButton> buttonListGame;
 	private ArrayList<SButton> buttonListMenu;
 	private ArrayList<JLabel> nameList;
 	private ArrayList<JLabel> scoreList;
 
-	public JFrame getFrmAwale() {
-		return DrawingManagerAwale.getInstance();
-	}
-
-	public int getCoupActu() {
+	int getCoupActu() {
 		return coupActu;
 	}
 
-	public void setCoupActu(int coupActu) {
+	void setCoupActu(int coupActu) {
 		this.coupActu = coupActu;
 	}
 
-	public ArrayList<SButton> getButtonListGame() {
+	ArrayList<SButton> getButtonListGame() {
 		return buttonListGame;
 	}
 
-	public ArrayList<JLabel> getNameList() {
+	ArrayList<JLabel> getNameList() {
 		return nameList;
 	}
 
-	public ArrayList<JLabel> getScoreList() {
+	ArrayList<JLabel> getScoreList() {
 		return scoreList;
 	}
 
-	public SButton getButtonGame(int i) {
+	private SButton getButtonGame(int i) {
 		return buttonListGame.get(i);
 	}
 
-	public SButton getButtonMenu(int i) {
+	private SButton getButtonMenu(int i) {
 		return buttonListMenu.get(i);
 	}
 
-	public Partie(String nomJ1, String nomJ2) {
+	Partie(String nomJ1, String nomJ2) {
 		initialize(nomJ1, nomJ2);
 	}
 
-	public void actualiserPartie(){
+	void actualiserPartie() {
 		String[] val = new String[12];
 		int[] valInt = GameManagerAwale.getInstance().getPartie().etatActuel();
-		for (int i = 0 ; i < 12 ; i++)
-		{
+		for (int i = 0; i < 12; i++) {
 			val[i] = Integer.toString(valInt[i]);
 			getButtonGame(i).setText(val[i]);
 		}
@@ -62,7 +57,6 @@ public class Partie {
 	private void initialize(String nomJ1, String nomJ2) {
 		//Partie panel
 		JPanel all = new JPanel(new BorderLayout(0, 0));
-		DrawingManagerAwale.getInstance().setContentPane(all);
 
 		//Menu panel
 		JPanel menu = new SPanel();
@@ -78,52 +72,6 @@ public class Partie {
 		getButtonMenu(0).setText("Menu");
 		getButtonMenu(1).setText("Sauvegarder partie");
 		getButtonMenu(2).setText("Quitter");
-
-		getButtonMenu(0).addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (GameManagerAwale.getInstance().isAnimated()) {
-					DrawingManager.showDialog("Attendez la fin du tour", "Attention");
-				} else {
-					int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant d'ouvrir le menu ?", "Menu", JOptionPane.YES_NO_OPTION);
-					if (n == 0) {
-						String nom = JOptionPane.showInputDialog(null, "Entrer le nom de votre sauvegarde", "Menu", JOptionPane.QUESTION_MESSAGE);
-						if (nom != null){
-							GameManagerAwale.getInstance().sauvegarder(nom);
-						}
-					}
-					GameManagerAwale.getInstance().arreterThread();
-					GameManagerAwale.getInstance().resetPartie();
-					GameManagerAwale.getInstance().setPartiePaused(false);
-					new ChoixPartie(GameManagerAwale.getInstance());
-				}
-			}
-		});
-
-		getButtonMenu(1).addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (GameManagerAwale.getInstance().isAnimated()) {
-					DrawingManager.showDialog("Attendez la fin du tour", "Attention");
-				} else {
-					String nom = JOptionPane.showInputDialog(null, "Entrez le nom de sauvegarde :", "Sauvegarder partie", JOptionPane.QUESTION_MESSAGE);
-					if (nom != null){
-						GameManagerAwale.getInstance().sauvegarder(nom);
-					}
-				}
-			}
-		});
-
-		getButtonMenu(2).addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de quitter la partie ?", "Quitter partie", JOptionPane.YES_NO_OPTION);
-				if (n == 0){
-					String nom = JOptionPane.showInputDialog(null, "Voulez vous sauvegarder la partie ?", "Quitter partie", JOptionPane.QUESTION_MESSAGE);
-					if (nom != null){
-						GameManagerAwale.getInstance().sauvegarder(nom);
-					}
-				}
-				System.exit(0);
-			}
-		});
 
 		for (int i = 0; i < 3; i++) {
 			menu.add(getButtonMenu(i));
@@ -154,11 +102,7 @@ public class Partie {
 		for (int i = 0; i < 12; i++) {
 			SButton btn = new SButton("4");
 			final int fi = i;
-			btn.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					setCoupActu(fi);
-				}
-			});
+			btn.addActionListener(arg0 -> setCoupActu(fi));
 			buttonListGame.add(btn);
 		}
 
@@ -230,30 +174,61 @@ public class Partie {
 
 		SButton btnPause = new SButton("Pause");
 		SButton btnPlay = new SButton("Play");
+		SPanel footer = new SPanel();
+		footer.add(btnPause);
+		footer.add(btnPlay);
 
-		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0)
-		{
-			menu.add(btnPause);
-			menu.add(btnPlay);
+		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0) {
+			all.add(footer, BorderLayout.SOUTH);
 		}
 
-		if (GameManagerAwale.getInstance().getNbrJoueursHumain() == 0 && !GameManagerAwale.getInstance().isPartiePaused())
-		{
-			getButtonMenu(2).disable();
-		}
-
-		btnPause.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				GameManagerAwale.getInstance().setPartiePaused(true);
-			}
-		});
-
-		btnPlay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		//ActionListener Button
+		getButtonMenu(0).addActionListener(arg0 -> {
+			if (GameManagerAwale.getInstance().isAnimated()) {
+				DrawingManager.showDialog("Attendez la fin du tour", "Attention");
+			} else {
+				int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant d'ouvrir le menu ?", "Menu", JOptionPane.YES_NO_OPTION);
+				if (n == 0) {
+					String nom = JOptionPane.showInputDialog(null, "Entrer le nom de votre sauvegarde", "Menu", JOptionPane.QUESTION_MESSAGE);
+					if (nom != null) {
+						GameManagerAwale.getInstance().sauvegarder(nom);
+					}
+				}
+				GameManagerAwale.getInstance().arreterThread();
+				GameManagerAwale.getInstance().resetPartie();
 				GameManagerAwale.getInstance().setPartiePaused(false);
+				new ChoixPartie(GameManagerAwale.getInstance());
 			}
 		});
 
+		getButtonMenu(1).addActionListener(arg0 -> {
+			if (GameManagerAwale.getInstance().isAnimated()) {
+				DrawingManager.showDialog("Attendez la fin du tour", "Attention");
+			} else {
+				String nom = JOptionPane.showInputDialog(null, "Entrez le nom de sauvegarde :", "Sauvegarder partie", JOptionPane.QUESTION_MESSAGE);
+				if (nom != null) {
+					GameManagerAwale.getInstance().sauvegarder(nom);
+				}
+			}
+		});
+
+		getButtonMenu(2).addActionListener(arg0 -> {
+			int n = JOptionPane.showConfirmDialog(null, "Voulez vous sauvegarder avant de quitter la partie ?", "Quitter partie", JOptionPane.YES_NO_OPTION);
+			if (n == 0) {
+				String nom = JOptionPane.showInputDialog(null, "Voulez vous sauvegarder la partie ?", "Quitter partie", JOptionPane.QUESTION_MESSAGE);
+				if (nom != null) {
+					GameManagerAwale.getInstance().sauvegarder(nom);
+				}
+			}
+			System.exit(0);
+		});
+
+		btnPause.addActionListener(arg0 -> GameManagerAwale.getInstance().setPartiePaused(true));
+
+		btnPlay.addActionListener(arg0 -> GameManagerAwale.getInstance().setPartiePaused(false));
+
+		//Ajout du panel principal et affichage de l'instance (singleton)
+		DrawingManagerAwale.getInstance().setContentPane(all);
 		DrawingManagerAwale.getInstance().setVisible(true);
 	}
 }

@@ -7,8 +7,11 @@ public abstract class GameManager {
 
 	//methods :
 	public abstract JoueurAwale joueurActuel();//decide de qui va jouer
+
 	public abstract boolean finPartie();//dire si c'est une fin de partie et arreter le jeu en fonction
+
 	public abstract void gestionTemps();//gere le temps alloue a chaque joueur tour a tour
-	public abstract JoueurAwale getGagnant() ; // annoncer le gagnant
-	
+
+	public abstract JoueurAwale getGagnant(); // annoncer le gagnant
+
 }

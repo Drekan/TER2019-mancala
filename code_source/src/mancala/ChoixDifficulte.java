@@ -6,19 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class ChoixDifficulte {
+class ChoixDifficulte {
 	private ArrayList<JCheckBox> boxListJ1;
 	private ArrayList<JCheckBox> boxListJ2;
 
-	public JCheckBox getBoxJ1(int i) {
+	private JCheckBox getBoxJ1(int i) {
 		return boxListJ1.get(i);
 	}
 
-	public JCheckBox getBoxJ2(int i) {
+	private JCheckBox getBoxJ2(int i) {
 		return boxListJ2.get(i);
 	}
 
-	public ChoixDifficulte(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
+	ChoixDifficulte(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
 		initialize(nomJ1, nomJ2, nbrIA, arbitre);
 	}
 
@@ -112,107 +112,97 @@ public class ChoixDifficulte {
 		}
 
 		//ActionListener ComboBox
-		typeIAJoueur1.addActionListener(new ActionListener() {//J1
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				switch (typeIAJoueur1.getSelectedIndex()) {
-					case 0:
-						profondeurJoueur1.setVisible(false);
-						heuristiqueJoueur1Panel.setVisible(false);
-						break;
-					case 1:
-						profondeurJoueur1.setVisible(true);
-						profondeurJoueur1.setModel(spinnerModelMinimaxJ1);
-						profondeurJoueur1.setValue(4);
-						heuristiqueJoueur1Panel.setVisible(true);
-						break;
-					case 2:
-						profondeurJoueur1.setVisible(true);
-						profondeurJoueur1.setModel(spinnerModelAlphaBetaJ1);
-						profondeurJoueur1.setValue(4);
-						heuristiqueJoueur1Panel.setVisible(true);
-						break;
-				}
+		//J1
+		typeIAJoueur1.addActionListener(e -> {
+			switch (typeIAJoueur1.getSelectedIndex()) {
+				case 0:
+					profondeurJoueur1.setVisible(false);
+					heuristiqueJoueur1Panel.setVisible(false);
+					break;
+				case 1:
+					profondeurJoueur1.setVisible(true);
+					profondeurJoueur1.setModel(spinnerModelMinimaxJ1);
+					profondeurJoueur1.setValue(4);
+					heuristiqueJoueur1Panel.setVisible(true);
+					break;
+				case 2:
+					profondeurJoueur1.setVisible(true);
+					profondeurJoueur1.setModel(spinnerModelAlphaBetaJ1);
+					profondeurJoueur1.setValue(4);
+					heuristiqueJoueur1Panel.setVisible(true);
+					break;
 			}
 		});
 
-		typeIAJoueur2.addActionListener(new ActionListener() {//J2
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				switch (typeIAJoueur2.getSelectedIndex()) {
-					case 0:
-						profondeurJoueur2.setVisible(false);
-						heuristiqueJoueur2Panel.setVisible(false);
-						break;
-					case 1:
-						profondeurJoueur2.setVisible(true);
-						profondeurJoueur2.setModel(spinnerModelMinimaxJ2);
-						profondeurJoueur2.setValue(4);
-						heuristiqueJoueur2Panel.setVisible(true);
-						break;
-					case 2:
-						profondeurJoueur2.setVisible(true);
-						profondeurJoueur2.setModel(spinnerModelAlphaBetaJ2);
-						profondeurJoueur2.setValue(4);
-						heuristiqueJoueur2Panel.setVisible(true);
-						break;
-				}
+		//J2
+		typeIAJoueur2.addActionListener(e -> {
+			switch (typeIAJoueur2.getSelectedIndex()) {
+				case 0:
+					profondeurJoueur2.setVisible(false);
+					heuristiqueJoueur2Panel.setVisible(false);
+					break;
+				case 1:
+					profondeurJoueur2.setVisible(true);
+					profondeurJoueur2.setModel(spinnerModelMinimaxJ2);
+					profondeurJoueur2.setValue(4);
+					heuristiqueJoueur2Panel.setVisible(true);
+					break;
+				case 2:
+					profondeurJoueur2.setVisible(true);
+					profondeurJoueur2.setModel(spinnerModelAlphaBetaJ2);
+					profondeurJoueur2.setValue(4);
+					heuristiqueJoueur2Panel.setVisible(true);
+					break;
 			}
 		});
 
 		//ActionListener Button
-		suivantButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if (typeIAJoueur1.getSelectedIndex() == -1 || typeIAJoueur2.getSelectedIndex() == -1) {
-					DrawingManager.showDialog("Sélectionner le type de l'IA", "Attention");
-				} else {
-					int diff1, diff2;
-					int profondeur1 = 4, profondeur2 = 4;
-					StringBuilder heuristique1 = new StringBuilder();
-					StringBuilder heuristique2 = new StringBuilder();
+		suivantButton.addActionListener(arg0 -> {
+			if (typeIAJoueur1.getSelectedIndex() == -1 || typeIAJoueur2.getSelectedIndex() == -1) {
+				DrawingManager.showDialog("Sélectionner le type de l'IA", "Attention");
+			} else {
+				int diff1, diff2;
+				int profondeur1 = 4, profondeur2 = 4;
+				StringBuilder heuristique1 = new StringBuilder();
+				StringBuilder heuristique2 = new StringBuilder();
 
-					diff1 = typeIAJoueur1.getSelectedIndex();
-					diff2 = typeIAJoueur2.getSelectedIndex();
+				diff1 = typeIAJoueur1.getSelectedIndex();
+				diff2 = typeIAJoueur2.getSelectedIndex();
 
-					if (nbrIA == 2)//2 IA
-					{
-						//Récupération de la profondeur
-						profondeur1 = (int) profondeurJoueur1.getValue();
-						profondeur2 = (int) profondeurJoueur2.getValue();
+				if (nbrIA == 2)//2 IA
+				{
+					//Récupération de la profondeur
+					profondeur1 = (int) profondeurJoueur1.getValue();
+					profondeur2 = (int) profondeurJoueur2.getValue();
 
-						//Création de la chaine des heuristiques en binaire
-						for (JCheckBox box : boxListJ1) {
-							if (box.isSelected())
-								heuristique1.append("1");
-							else
-								heuristique1.append("0");
-						}
-						for (JCheckBox box : boxListJ2) {
-							if (box.isSelected())
-								heuristique2.append("1");
-							else
-								heuristique2.append("0");
-						}
+					//Création de la chaine des heuristiques en binaire
+					for (JCheckBox box : boxListJ1) {
+						if (box.isSelected())
+							heuristique1.append("1");
+						else
+							heuristique1.append("0");
+					}
+					for (JCheckBox box : boxListJ2) {
+						if (box.isSelected())
+							heuristique2.append("1");
+						else
+							heuristique2.append("0");
+					}
 
-						//Vérification si y a au moins une heuristique sélectionnée
-						if ((heuristique1.toString().equals("000000000") && typeIAJoueur1.getSelectedIndex() != 0)
-								|| (heuristique2.toString().equals("000000000") && typeIAJoueur2.getSelectedIndex() != 0)) {
-							DrawingManager.showDialog("Aucune heuristique sélectionnée", "Attention");
-						} else {
-							arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2, heuristique1, heuristique2);
-
-							Partie partie = new Partie(nomJ1, nomJ2);
-
-							arbitre.lancerThread(partie);
-						}
-					} else//1 IA
-					{
+					//Vérification si y a au moins une heuristique sélectionnée
+					if ((heuristique1.toString().equals("000000000") && typeIAJoueur1.getSelectedIndex() != 0)
+							|| (heuristique2.toString().equals("000000000") && typeIAJoueur2.getSelectedIndex() != 0)) {
+						DrawingManager.showDialog("Aucune heuristique sélectionnée", "Attention");
+					} else {
 						arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2, heuristique1, heuristique2);
-
 						Partie partie = new Partie(nomJ1, nomJ2);
-
 						arbitre.lancerThread(partie);
 					}
+				} else//1 IA
+				{
+					arbitre.initJoueurs(nomJ1, diff1, nomJ2, diff2, profondeur1, profondeur2, heuristique1, heuristique2);
+					Partie partie = new Partie(nomJ1, nomJ2);
+					arbitre.lancerThread(partie);
 				}
 			}
 		});
