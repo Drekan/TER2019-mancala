@@ -24,28 +24,28 @@ class ChoixDifficulte {
 
 	private void initialize(String nomJ1, String nomJ2, int nbrIA, GameManagerAwale arbitre) {
 		//Tableaux de difficulté
-		String[] difficulteHumain = {"IA naive (random)", "IA minimax", "IA alphaBeta"};
-		String[] DifficulteIA = {"Facile", "Moyen", "Difficile"};
+		String[] difficulteIA = {"IA naive (random)", "IA minimax", "IA alphaBeta"};
+		String[] difficulteHumain = {"Facile", "Moyen", "Difficile"};
 
 		//Création des panel
 		JPanel all = new JPanel(new BorderLayout(0, 0));
-		SPanel gamePartiePanel = new SPanel();
 		SPanel joueur1Panel = new SPanel();
 		SPanel joueur2Panel = new SPanel();
 		SPanel boutonSuivantPanel = new SPanel();
 		SPanel heuristiqueJoueur1Panel = new SPanel();
 		SPanel heuristiqueJoueur2Panel = new SPanel();
+		SPanel aidePanel = new SPanel();
+		SPanel niveauDifficulte1Panel = new SPanel();
+		SPanel niveauDifficulte2Panel = new SPanel();
 
 		//Set layout des panel
-		gamePartiePanel.setLayout(new GridLayout(1, 2, 0, 0));
 		joueur1Panel.setLayout(new GridLayout(3, 1, 0, 0));
 		joueur2Panel.setLayout(new GridLayout(3, 1, 0, 0));
+		aidePanel.setLayout(new GridLayout(3, 1, 0, 0));
+		niveauDifficulte2Panel.setLayout(new GridLayout(1, 2, 0, 0));
 
 		//Ajout des panel
-		all.add(gamePartiePanel);
 		all.add(boutonSuivantPanel, BorderLayout.SOUTH);
-		gamePartiePanel.add(joueur1Panel);
-		gamePartiePanel.add(joueur2Panel);
 
 		//Spinner model
 		SpinnerModel spinnerModelMinimaxJ1 = new SpinnerNumberModel(0, 0, 8, 1);
@@ -54,25 +54,46 @@ class ChoixDifficulte {
 		SpinnerModel spinnerModelAlphaBetaJ2 = new SpinnerNumberModel(0, 0, 12, 1);
 
 		//Création des élements de la fenêtre
-		JComboBox<String> typeIAJoueur1 = new JComboBox<>(DifficulteIA);
-		JComboBox<String> typeIAJoueur2 = new JComboBox<>(DifficulteIA);
+		JComboBox<String> typeIAJoueur1 = new JComboBox<>(difficulteIA);
+		JComboBox<String> typeIAJoueur2 = new JComboBox<>(difficulteIA);
+		JComboBox<String> typeIA = new JComboBox<>(difficulteHumain);
 		JButton suivantButton = new SButton("Suivant");
 		JSpinner profondeurJoueur1 = new JSpinner(spinnerModelAlphaBetaJ1);
 		profondeurJoueur1.setEditor(new JSpinner.DefaultEditor(profondeurJoueur1));
 		JSpinner profondeurJoueur2 = new JSpinner(spinnerModelAlphaBetaJ2);
 		profondeurJoueur2.setEditor(new JSpinner.DefaultEditor(profondeurJoueur2));
+		JLabel typeIALabel = new JLabel("Type IA :");
+		JLabel profondeurLabel = new JLabel("Profondeur :");
+		JLabel heuristiqueLabel = new JLabel("Heuristique :");
 
 		//Ajout des élements dans les panel
-		joueur1Panel.add(typeIAJoueur1);
 		boutonSuivantPanel.add(suivantButton);
 
-		if (nbrIA == 2) {
+		if(nbrIA == 1)
+		{
+			all.add(niveauDifficulte1Panel, BorderLayout.CENTER);
+			niveauDifficulte1Panel.add(typeIA);
+		}
+
+		if(nbrIA == 2)
+		{
+			all.add(niveauDifficulte2Panel, BorderLayout.CENTER);
+			all.add(aidePanel, BorderLayout.WEST);
+
+			aidePanel.add(typeIALabel);
+			aidePanel.add(profondeurLabel);
+			aidePanel.add(heuristiqueLabel);
+
+			niveauDifficulte2Panel.add(joueur1Panel);
+			niveauDifficulte2Panel.add(joueur2Panel);
+
 			//J1
 			profondeurJoueur1.setValue(4);
-			DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(difficulteHumain);
+			DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(difficulteIA);
 			typeIAJoueur1.setModel(modelJ1);
 			typeIAJoueur1.setSelectedIndex(-1);
 
+			joueur1Panel.add(typeIAJoueur1);
 			joueur1Panel.add(profondeurJoueur1);
 			joueur1Panel.add(heuristiqueJoueur1Panel);
 
@@ -90,7 +111,7 @@ class ChoixDifficulte {
 
 			//J2
 			profondeurJoueur2.setValue(4);
-			DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(difficulteHumain);
+			DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(difficulteIA);
 			typeIAJoueur2.setModel(modelJ2);
 			typeIAJoueur2.setSelectedIndex(-1);
 
