@@ -72,14 +72,14 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	public GameManagerAwale() {
 		this.nbrJoueursHumain = choisirModeJeu();
 		this.tourActuel = 0;
-		this.historique = new ArrayList<int[]>();
+		this.historique = new ArrayList<>();
 		instance = this;
 	}
 
 	public GameManagerAwale(int nbrJoueursHumain, int tourActuel) {
 		this.nbrJoueursHumain = nbrJoueursHumain;
 		this.tourActuel = tourActuel;
-		this.historique = new ArrayList<int[]>();
+		this.historique = new ArrayList<>();
 		this.partie = new Awale("MonAwale", "MesRegles");
 		this.getPartie().initialisationJeu();
 	}
@@ -88,7 +88,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		if (mode == 0)
 			this.nbrJoueursHumain = choisirModeJeu();
 		this.tourActuel = 0;
-		this.historique = new ArrayList<int[]>();
+		this.historique = new ArrayList<>();
 		instance = this;
 	}
 
@@ -225,11 +225,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		setJoueur2(J2);
 	}
 
-	public void initJoueurs(String J1, int difficulte1, String J2, int difficulte2) {
-		setJoueur1(J1, difficulte1);
-		setJoueur2(J2, difficulte2);
-	}
-
 	void initJoueurs(String J1, int difficulte1, String J2, int difficulte2, int profondeur1, int profondeur2, StringBuilder heuristique1, StringBuilder heuristique2) {
 
 		setJoueur1(J1, difficulte1, profondeur1, heuristique1);
@@ -248,18 +243,10 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		//On doit connaitre le type des joueurs 1 et 2 avant de les cloner proprement
 
 		//Joueur 1
-		if (this.joueur1.getClass() == new JoueurAwaleHumain().getClass()) {
-			clone.joueur1 = (JoueurAwaleHumain) this.joueur1.clone();
-		} else {
-			clone.joueur1 = (JoueurAwaleIA) this.joueur1.clone();
-		}
+		clone.joueur1 = this.joueur1.clone();
 
 		//Joueur2
-		if (this.joueur2.getClass() == new JoueurAwaleHumain().getClass()) {
-			clone.joueur2 = (JoueurAwaleHumain) this.joueur2.clone();
-		} else {
-			clone.joueur2 = (JoueurAwaleIA) this.joueur2.clone();
-		}
+		clone.joueur2 = this.joueur2.clone();
 
 
 		return clone;
@@ -293,7 +280,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	 */
 	void commencerPartie(boolean vocal) {
 		this.vocal = vocal;
-		Scanner sc = new Scanner(System.in);
 		while (!this.finPartie()) {
 			this.affichePlateau();
 
@@ -380,7 +366,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 			this.joueurActuel().jouerUnCoup(coupJoue, instance, true);
 
-			//TODO
 			for (int i = 0; i < 12; i++) {
 				//window.getButtonListGame().get(i).setForeground(Color.WHITE);
 				window.getButtonListGame().get(i).setBgColor(Theme.BLUE_EMERALD);
@@ -428,8 +413,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	boolean verifierCoupValide(JoueurAwale joueur, int caseJouee, int[] plateau) {//bonne case avec bonnes regles
 		//case non vide :
 		if (plateau[caseJouee] != 0) {
-			if (caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && interdictionAffamer(caseJouee))
-				return true;
+			return caseJouee >= joueur.getMin() && caseJouee <= joueur.getMax() && interdictionAffamer(caseJouee);
 		}
 		return false;
 	}
@@ -533,22 +517,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		this.joueur1.setScore(this.joueur1.getScore() + this.getJoueur1().getNbrGraineJoueur());
 	}
 
-	public void afficheHistorique() {
-		int[] current;
-		for (int[] ints : historique) {
-			current = ints;
-			for (int j = 11; j > 5; j--) {
-				System.out.print(current[j] + "|");
-			}
-			System.out.println();
-			for (int j = 0; j < 6; j++) {
-				System.out.print(current[j] + "|");
-			}
-			System.out.println();
-			System.out.println();
-		}
-	}
-
 	ArrayList<Integer> determinerCoupPossible(JoueurAwale joueur, int[] plateau) {
 		ArrayList<Integer> coupPossible = new ArrayList<>();
 		for (int i = joueur.getMin(); i <= joueur.getMax(); i++) {
@@ -601,7 +569,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	}
 
 	void resetPartie() {
-		this.historique = new ArrayList<int[]>();
+		this.historique = new ArrayList<>();
 		this.joueur1.reset();
 		this.joueur2.reset();
 		this.tourActuel = 0;
@@ -651,7 +619,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 	}
 
 	private static ArrayList<String> getSavedGames() {
-		ArrayList<String> savedGames = new ArrayList<String>();
+		ArrayList<String> savedGames = new ArrayList<>();
 		Path sauvegardes = Paths.get("saves");
 		File dossier = new File(sauvegardes.toString());
 
@@ -660,6 +628,7 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		}
 
 		String[] fichiers = dossier.list();
+		assert fichiers != null;
 		for (String fichier : fichiers) {
 			if (fichier.matches(".*.save")) {
 				savedGames.add(fichier);
@@ -689,30 +658,6 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 		return retour;
 	}
 
-	//cette méthode ne concerne pas la partie graphique, elle utilise seulement loadGame et getSavedGame pour charger
-	//une partie sauvegardé, en console
-	public static GameManagerAwale chargerPartieConsole() {
-		ArrayList<String> savedGames = getSavedGames();
-		GameManagerAwale retour = new GameManagerAwale();
-		if (savedGames.size() != 0) {
-			for (int i = 0; i < savedGames.size(); i++) {
-				System.out.println("Sauvegarde " + i + " : " + savedGames.get(i));
-			}
-			Scanner sc = new Scanner(System.in);
-			int choix = -1;
-			do {
-				System.out.print("charger quelle partie ? >>");
-				choix = sc.nextInt();
-			} while (choix < 0 || choix >= savedGames.size());
-
-			retour = loadGame(choix);
-		} else {
-			System.out.println("Aucune sauvegarde disponible");
-		}
-
-		return retour;
-	}
-
 	int bla1(JComboBox comboBox) {
 		ArrayList<String> savedGames = getSavedGames();
 		String[] save = new String[savedGames.size()];
@@ -739,15 +684,12 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 	private void lancerThread(Partie partie, boolean nouvelle) {
 		this.setPartieArretee(false);
-		Thread threadGraphique = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				lancerUneNouvellePartieGraphique(partie, nouvelle);
-				JoueurAwale gagnant = getGagnant();
-				if (gagnant != null) {
-					String message = "Le joueur : " + gagnant.getNom() + "a gagné avec un score de : " + gagnant.getScore();
-					DrawingManager.showDialog(message, "Bravo!");
-				}
+		Thread threadGraphique = new Thread(() -> {
+			lancerUneNouvellePartieGraphique(partie, nouvelle);
+			JoueurAwale gagnant = getGagnant();
+			if (gagnant != null) {
+				String message = "Le joueur : " + gagnant.getNom() + "a gagné avec un score de : " + gagnant.getScore();
+				DrawingManager.showDialog(message, "Bravo!");
 			}
 		});
 		threadGraphique.start();
@@ -755,5 +697,51 @@ public class GameManagerAwale extends GameManager implements Cloneable, java.io.
 
 	void arreterThread() {
 		this.setPartieArretee(true);
+	}
+
+	//Unused methods
+	public void initJoueurs(String J1, int difficulte1, String J2, int difficulte2) {
+		setJoueur1(J1, difficulte1);
+		setJoueur2(J2, difficulte2);
+	}
+
+	//cette méthode ne concerne pas la partie graphique, elle utilise seulement loadGame et getSavedGame pour charger
+	//une partie sauvegardé, en console
+	public static GameManagerAwale chargerPartieConsole() {
+		ArrayList<String> savedGames = getSavedGames();
+		GameManagerAwale retour = new GameManagerAwale();
+		if (savedGames.size() != 0) {
+			for (int i = 0; i < savedGames.size(); i++) {
+				System.out.println("Sauvegarde " + i + " : " + savedGames.get(i));
+			}
+			Scanner sc = new Scanner(System.in);
+			int choix;
+			do {
+				System.out.print("charger quelle partie ? >>");
+				choix = sc.nextInt();
+			} while (choix < 0 || choix >= savedGames.size());
+
+			retour = loadGame(choix);
+		} else {
+			System.out.println("Aucune sauvegarde disponible");
+		}
+
+		return retour;
+	}
+
+	public void afficheHistorique() {
+		int[] current;
+		for (int[] ints : historique) {
+			current = ints;
+			for (int j = 11; j > 5; j--) {
+				System.out.print(current[j] + "|");
+			}
+			System.out.println();
+			for (int j = 0; j < 6; j++) {
+				System.out.print(current[j] + "|");
+			}
+			System.out.println();
+			System.out.println();
+		}
 	}
 }

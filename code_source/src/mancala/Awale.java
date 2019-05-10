@@ -1,74 +1,77 @@
 package mancala;
 
 //cette classe reconnait l'etat du jeu : nbr de graines, leur position dans le tableau
-public class Awale extends Jeu implements Cloneable,java.io.Serializable{
+public class Awale extends Jeu implements Cloneable, java.io.Serializable {
 	private int nbrGraines;
-	private int plateau[] ;
-	
-	GameManagerAwale gameManagerAwale;
+	private int[] plateau;
 
-	
+	private GameManagerAwale gameManagerAwale;
+
 	//constructeur :
-	public Awale(String nomJeu, String regles){
-		super(nomJeu,regles);
+	Awale(String nomJeu, String regles) {
+		super(nomJeu, regles);
 	}
+
 	//setters & getters :
-	public int getNbrGraines(){ 
+	int getNbrGraines() {
 		return this.nbrGraines;
 	}
-	
-	public void setNbrGraines(int nbrGrainesEnJeu){ 
+
+	void setNbrGraines(int nbrGrainesEnJeu) {
 		this.nbrGraines = nbrGrainesEnJeu;
 	}
-	
-	public int[] getPlateau(){ 
+
+	int[] getPlateau() {
 		return this.plateau;
 	}
-	
-	public void setPlateau(int nouvelleValeur,int caseModifiee){ 
+
+	void setPlateau(int nouvelleValeur, int caseModifiee) {
 		this.plateau[caseModifiee] = nouvelleValeur;
 	}
-	
-	public void setPlateau(int[] p) {
-		if(p.length==6) {
-			this.plateau=p;
-		}
-	}
-	
-	public void modifierPlateau(int[] plateau) {
+
+	void modifierPlateau(int[] plateau) {
 		this.plateau = plateau;
 	}
-	
+
 	public Awale clone() {
-		Awale clone=new Awale(this.getNomJeu(),this.getRegles());
-		clone.plateau=this.plateau.clone();
+		Awale clone = new Awale(this.getNomJeu(), this.getRegles());
+		clone.plateau = this.plateau.clone();
 		clone.nbrGraines = this.nbrGraines;
 		return clone;
 	}
-	
+
 	//methods :
-	public void stockerJoueur(JoueurAwale joueur1,JoueurAwale joueur2) {// pouvoir reprendre une partie plus tard
-		gameManagerAwale.loadJoueur1(joueur1);
-		gameManagerAwale.loadJoueur2(joueur2);
-	}
-	public int[] etatActuel() {//permet de savoir la disposition du plateau actuel
+	int[] etatActuel() {//permet de savoir la disposition du plateau actuel
 		return this.getPlateau();
 	}
+
 	@Override
 	public void initialisationJeu() {
-		this.plateau = new int[] {4,4,4,4,4,4,4,4,4,4,4,4};
+		this.plateau = new int[]{4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 		setNbrGraines(48);
-		
+
 	}
-	
+
+	//Unused methods
 	public void printPlateau() {
 		System.out.print("[");
-		for(int i=0;i<this.plateau.length;i++) {
-			System.out.print(this.plateau[i]+" ");
-			if(i==6) {
+		for (int i = 0; i < this.plateau.length; i++) {
+			System.out.print(this.plateau[i] + " ");
+			if (i == 6) {
 				System.out.print(" | ");
 			}
 		}
 		System.out.print("]");
+	}
+
+	public void setPlateau(int[] p) {
+		if (p.length == 6) {
+			this.plateau = p;
+		}
+	}
+
+	public void stockerJoueur(JoueurAwale joueur1, JoueurAwale joueur2) {// pouvoir reprendre une partie plus tard
+		gameManagerAwale.loadJoueur1(joueur1);
+		gameManagerAwale.loadJoueur2(joueur2);
 	}
 }
