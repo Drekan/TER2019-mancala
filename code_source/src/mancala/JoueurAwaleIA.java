@@ -154,15 +154,15 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	}
 	
 	//constructeurs :
-	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur) {
+	JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGraineJoueur) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
 		choisirDifficulte();
 	}
-	public JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur,int min,int max, int nbrGraineJoueur,int difficulte) {
+	JoueurAwaleIA(String nomJoueur, int score, int numeroJoueur, int min, int max, int nbrGraineJoueur, int difficulte) {
 		super(nomJoueur, score, numeroJoueur, min, max, nbrGraineJoueur);
 		setDifficulte(difficulte);
 	}
-	public JoueurAwaleIA() {
+	JoueurAwaleIA() {
 		
 	}
 	
@@ -246,9 +246,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 	
 	public int differenceScore(int scoreJoueurA, int scoreJoueurB)
 	{
-		int difference = scoreJoueurA - scoreJoueurB;
-		
-		return difference;
+		return scoreJoueurA - scoreJoueurB;
 	}
 	
 	public int simulerFinPartie(ArrayList<int []> historique, GameManagerAwale arbitreAwaleSimule) 
@@ -625,7 +623,7 @@ public class JoueurAwaleIA extends JoueurAwale implements Cloneable{
 		return valeur;
 	}
 	
-	double profondeurMaxAtteinte(GameManagerAwale arbitreSimule)
+	private double profondeurMaxAtteinte(GameManagerAwale arbitreSimule)
 	{
 		int scoreJoueur, scoreAdversaire, numeroJoueur;
 		double valeur = -1;

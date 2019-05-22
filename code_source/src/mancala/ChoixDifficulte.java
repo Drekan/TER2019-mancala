@@ -2,9 +2,8 @@ package mancala;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class ChoixDifficulte {
 	private ArrayList<JCheckBox> boxListJ1;
@@ -26,6 +25,8 @@ class ChoixDifficulte {
 		//Tableaux de difficulté
 		String[] difficulteIA = {"IA naive (random)", "IA minimax", "IA alphaBeta"};
 		String[] difficulteHumain = {"Facile", "Moyen", "Difficile"};
+		AtomicBoolean labelPaneJ1 = new AtomicBoolean(false);
+		AtomicBoolean labelPaneJ2 = new AtomicBoolean(false);
 
 		//Création des panel
 		JPanel all = new JPanel(new BorderLayout(0, 0));
@@ -69,14 +70,12 @@ class ChoixDifficulte {
 		//Ajout des élements dans les panel
 		boutonSuivantPanel.add(suivantButton);
 
-		if(nbrIA == 1)
-		{
+		if (nbrIA == 1) {
 			all.add(niveauDifficulte1Panel, BorderLayout.CENTER);
 			niveauDifficulte1Panel.add(typeIA);
 		}
 
-		if(nbrIA == 2)
-		{
+		if (nbrIA == 2) {
 			all.add(niveauDifficulte2Panel, BorderLayout.CENTER);
 			all.add(aidePanel, BorderLayout.WEST);
 
@@ -89,8 +88,6 @@ class ChoixDifficulte {
 
 			//J1
 			profondeurJoueur1.setValue(4);
-			DefaultComboBoxModel modelJ1 = new DefaultComboBoxModel(difficulteIA);
-			typeIAJoueur1.setModel(modelJ1);
 			typeIAJoueur1.setSelectedIndex(-1);
 
 			joueur1Panel.add(typeIAJoueur1);
@@ -111,8 +108,6 @@ class ChoixDifficulte {
 
 			//J2
 			profondeurJoueur2.setValue(4);
-			DefaultComboBoxModel modelJ2 = new DefaultComboBoxModel(difficulteIA);
-			typeIAJoueur2.setModel(modelJ2);
 			typeIAJoueur2.setSelectedIndex(-1);
 
 			joueur2Panel.add(typeIAJoueur2);
@@ -139,18 +134,29 @@ class ChoixDifficulte {
 				case 0:
 					profondeurJoueur1.setVisible(false);
 					heuristiqueJoueur1Panel.setVisible(false);
+					labelPaneJ1.set(true);
+					if (labelPaneJ2.get()) {
+						profondeurLabel.setVisible(false);
+						heuristiqueLabel.setVisible(false);
+					}
 					break;
 				case 1:
 					profondeurJoueur1.setVisible(true);
 					profondeurJoueur1.setModel(spinnerModelMinimaxJ1);
 					profondeurJoueur1.setValue(4);
 					heuristiqueJoueur1Panel.setVisible(true);
+					labelPaneJ1.set(false);
+					profondeurLabel.setVisible(true);
+					heuristiqueLabel.setVisible(true);
 					break;
 				case 2:
 					profondeurJoueur1.setVisible(true);
 					profondeurJoueur1.setModel(spinnerModelAlphaBetaJ1);
 					profondeurJoueur1.setValue(4);
 					heuristiqueJoueur1Panel.setVisible(true);
+					labelPaneJ1.set(false);
+					profondeurLabel.setVisible(true);
+					heuristiqueLabel.setVisible(true);
 					break;
 			}
 		});
@@ -161,18 +167,30 @@ class ChoixDifficulte {
 				case 0:
 					profondeurJoueur2.setVisible(false);
 					heuristiqueJoueur2Panel.setVisible(false);
+					labelPaneJ2.set(true);
+					if (labelPaneJ1.get()) {
+						profondeurLabel.setVisible(false);
+						heuristiqueLabel.setVisible(false);
+					}
 					break;
 				case 1:
 					profondeurJoueur2.setVisible(true);
 					profondeurJoueur2.setModel(spinnerModelMinimaxJ2);
 					profondeurJoueur2.setValue(4);
 					heuristiqueJoueur2Panel.setVisible(true);
+					labelPaneJ2.set(false);
+					profondeurLabel.setVisible(true);
+					heuristiqueLabel.setVisible(true);
+
 					break;
 				case 2:
 					profondeurJoueur2.setVisible(true);
 					profondeurJoueur2.setModel(spinnerModelAlphaBetaJ2);
 					profondeurJoueur2.setValue(4);
 					heuristiqueJoueur2Panel.setVisible(true);
+					labelPaneJ2.set(false);
+					profondeurLabel.setVisible(true);
+					heuristiqueLabel.setVisible(true);
 					break;
 			}
 		});

@@ -1,6 +1,5 @@
 package mancala;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Principale {

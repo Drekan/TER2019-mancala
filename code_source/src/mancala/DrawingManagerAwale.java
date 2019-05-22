@@ -14,6 +14,7 @@ class DrawingManagerAwale extends JFrame {
 
 	private DrawingManagerAwale() {
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		ImageIcon image = new ImageIcon("icone.png");
 		int hauteur = (int) tailleEcran.getHeight();
 		int largeur = (int) tailleEcran.getWidth();
 		this.setTitle("Awale");
@@ -21,5 +22,6 @@ class DrawingManagerAwale extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(new BorderLayout(0, 0));
+		this.setIconImage(image.getImage());
 	}
 }
